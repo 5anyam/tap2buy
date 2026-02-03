@@ -24,7 +24,7 @@ export default function Footer() {
                 target="_blank"
                 className="flex items-center gap-2 px-6 py-2.5 bg-white text-black rounded hover:bg-gray-100 transition-colors group"
               >
-                <img src="https://static.vecteezy.com/system/resources/thumbnails/014/018/563/small/amazon-logo-on-transparent-background-free-vector.jpg" className="h-10"/>
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/014/018/563/small/amazon-logo-on-transparent-background-free-vector.jpg" className="h-8"/>
                 <ExternalLink className="w-3 h-3 opacity-50 group-hover:translate-x-0.5 transition-transform" />
               </Link>
               
