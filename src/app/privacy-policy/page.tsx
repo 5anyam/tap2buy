@@ -1,269 +1,302 @@
 'use client';
 
 import React from 'react';
-import { Shield, Lock, Eye, UserCheck, FileText, Mail, MapPin, Crown, Smartphone, Phone } from 'lucide-react';
+import { Shield, Lock, Eye, UserCheck, FileText, Mail, MapPin, Phone, ShoppingBag } from 'lucide-react';
+import Link from 'next/link';
+
+const sections = [
+  {
+    icon: UserCheck,
+    number: '1',
+    title: 'Personal Information We Collect',
+    content: (
+      <ul className="space-y-2 text-sm text-gray-600 leading-relaxed">
+        {[
+          'Name, contact details (email, phone number), shipping & billing address',
+          'Product preferences, purchase history, and wishlist items',
+          'Payment information (securely processed via trusted payment gateways)',
+          'Device information, IP address, cookies, and browsing behavior on our Platform',
+          'Product reviews, ratings, testimonials, and feedback',
+          'Social media interactions and customer support communications',
+        ].map((item, i) => (
+          <li key={i} className="flex items-start gap-2">
+            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            {item}
+          </li>
+        ))}
+      </ul>
+    ),
+  },
+  {
+    icon: Eye,
+    number: '2',
+    title: 'How We Collect Information',
+    content: (
+      <ul className="space-y-2 text-sm text-gray-600 leading-relaxed">
+        {[
+          'When you purchase products or create an account on Tap2Buy',
+          'During newsletter signups, product wishlist additions, or promotional registrations',
+          'Through product reviews, customer surveys, and feedback forms',
+          'Via cookies and analytics tools to enhance your shopping experience',
+          'From trusted partners like payment processors and delivery service providers',
+          'Customer service interactions, return requests, and order support',
+        ].map((item, i) => (
+          <li key={i} className="flex items-start gap-2">
+            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            {item}
+          </li>
+        ))}
+      </ul>
+    ),
+  },
+  {
+    icon: ShoppingBag,
+    number: '3',
+    title: 'Purpose of Use',
+    content: (
+      <ul className="space-y-2 text-sm text-gray-600 leading-relaxed">
+        {[
+          'Process and deliver your orders with secure packaging and real-time tracking',
+          'Provide personalized product recommendations based on your preferences',
+          'Offer exceptional customer support for orders, returns, and refunds',
+          'Send exclusive offers, new product launches, and deal notifications',
+          'Improve our website performance and create a seamless shopping experience',
+          'Prevent fraud and ensure secure transactions on our platform',
+          'Send order updates, shipment notifications, and delivery confirmations',
+        ].map((item, i) => (
+          <li key={i} className="flex items-start gap-2">
+            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            {item}
+          </li>
+        ))}
+      </ul>
+    ),
+  },
+  {
+    icon: Shield,
+    number: '4',
+    title: 'Sharing of Personal Information',
+    content: (
+      <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
+        <p>
+          We may share your data with trusted service providers including payment processors, logistics partners, and analytics platforms. We comply with legal requirements when necessary.
+        </p>
+        <div className="flex items-center gap-2 bg-green-50 border border-green-100 rounded-xl p-3">
+          <Shield className="w-4 h-4 text-green-600 flex-shrink-0" />
+          <p className="text-sm text-green-700 font-medium">
+            We <span className="font-bold">never sell</span> your personal information to third parties. Your privacy is our priority.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    icon: FileText,
+    number: '5',
+    title: 'Cookies and Tracking Technologies',
+    content: (
+      <p className="text-sm text-gray-600 leading-relaxed">
+        We use cookies to remember your preferences, analyze shopping patterns, and provide relevant product recommendations. You can manage cookies through your browser settings, though this may affect certain features like saved carts and wishlists.
+      </p>
+    ),
+  },
+  {
+    icon: Lock,
+    number: '6',
+    title: 'Data Security',
+    content: (
+      <p className="text-sm text-gray-600 leading-relaxed">
+        We implement industry-standard encryption, SSL-certified secure payment gateways, and advanced firewalls to protect your personal and payment information. We regularly update our security protocols to stay ahead of potential threats and ensure your data remains safe at all times.
+      </p>
+    ),
+  },
+  {
+    icon: UserCheck,
+    number: '7',
+    title: 'Your Rights and Choices',
+    content: (
+      <ul className="space-y-2 text-sm text-gray-600 leading-relaxed">
+        {[
+          'Access, update, or correct your personal information anytime from your account',
+          'Unsubscribe from marketing emails and promotional communications',
+          'Request deletion of your account and associated data',
+          'Opt-out of personalized product recommendations',
+          'Download your order history and purchase records',
+          'Manage cookie preferences through your browser settings',
+        ].map((item, i) => (
+          <li key={i} className="flex items-start gap-2">
+            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            {item}
+          </li>
+        ))}
+      </ul>
+    ),
+  },
+  {
+    icon: Shield,
+    number: '8',
+    title: 'Age Restrictions',
+    content: (
+      <p className="text-sm text-gray-600 leading-relaxed">
+        Our products and services are intended for individuals 18 years of age or older. We do not knowingly collect personal information from minors under 18. If you are under 18, please seek parental consent before making purchases or creating an account.
+      </p>
+    ),
+  },
+  {
+    icon: FileText,
+    number: '9',
+    title: 'Policy Updates',
+    content: (
+      <p className="text-sm text-gray-600 leading-relaxed">
+        We may update this Privacy Policy as we introduce new products, features, or expand our offerings. Updates will be reflected with a revised effective date at the top of this page. We will notify you of significant changes through email or prominent notifications on our website.
+      </p>
+    ),
+  },
+];
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-white py-16 px-4 sm:px-6 lg:px-8">
-      {/* Force white background - no dark mode */}
-      <div className="bg-white fixed inset-0 z-[-1]"></div>
-      
-      <div className="max-w-4xl mx-auto bg-white p-6 lg:p-8 rounded-lg shadow-xl border border-gray-200 relative z-10">
-        
-        {/* Header Section */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#9e734d]/10 to-[#8a6342]/10 text-[#9e734d] px-4 py-2 rounded-full text-sm font-medium mb-4 border border-[#9e734d]/20">
-            <Shield className="w-4 h-4" />
-            Your Privacy Matters
+    <main className="min-h-screen bg-gray-50">
+
+      {/* ── HERO ── */}
+      <section className="bg-[#1B2A4A] py-14 px-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
+            <Shield className="w-3.5 h-3.5 text-[#FF6B00]" />
+            <span className="text-xs font-semibold text-orange-200 uppercase tracking-wider">Your Privacy Matters</span>
           </div>
-          <div className="flex items-center justify-center mb-4">
-            <Crown className="w-8 h-8 text-[#9e734d] mr-2" />
-            <h1 className="text-3xl lg:text-4xl font-light text-gray-900 tracking-tight">
-              Privacy Policy
-            </h1>
-          </div>
-          <p className="text-sm text-gray-500 mb-2">Effective Date: November 14, 2025</p>
-          <p className="text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            At Caishen United, we are committed to protecting your personal information with the same care we put into crafting premium phone cases and mobile accessories for your devices.
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">Privacy Policy</h1>
+          <p className="text-blue-200 text-sm mb-1">Effective Date: November 14, 2025</p>
+          <p className="text-blue-200 text-sm leading-relaxed max-w-2xl">
+            At Tap2Buy, we are committed to protecting your personal information and ensuring transparency about how we collect, use, and safeguard your data.
+          </p>
+        </div>
+      </section>
+
+      <div className="max-w-4xl mx-auto px-4 py-12 space-y-6">
+
+        {/* Intro */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <p className="text-sm text-gray-600 leading-relaxed mb-3">
+            <span className="font-semibold text-[#FF6B00]">Tap2Buy</span> (Company, we, our, or us) is committed to protecting your privacy as you shop across our wide range of Electronics, Fashion, Home & Living, Beauty, and more. This Privacy Policy outlines how we collect, use, disclose, and safeguard your Personal Information through our platform at{' '}
+            <a href="https://www.tap2buy.in" className="text-[#FF6B00] font-medium hover:underline">
+              www.tap2buy.in
+            </a>{' '}
+            (the Platform).
+          </p>
+          <p className="text-sm text-gray-600 leading-relaxed">
+            By accessing or using our Platform, purchasing our products, or engaging with our services, you agree to the terms of this Privacy Policy and consent to the practices described herein.
           </p>
         </div>
 
-        <section className="space-y-8 text-sm leading-7 text-gray-700">
-          {/* Introduction */}
-          <div className="bg-gradient-to-r from-[#F5E6D3]/10 to-[#9e734d]/5 p-6 rounded-xl border border-[#9e734d]/20 bg-white">
-            <p className="font-light">
-              Caishen United (Company, we, our, or us) is committed to protecting your privacy as you explore our collection of premium phone cases and mobile accessories. This Privacy Policy (Policy) outlines how we collect, use, disclose, and safeguard your Personal Information through our platform at{' '}
-              <a href="https://www.caishenunited.com" className="text-[#9e734d] hover:text-[#8a6342] font-medium underline">
-                [www.caishenunited.com](https://www.caishenunited.com)
-              </a>{' '}
-              (the Platform).
-            </p>
-          </div>
-
-          <p className="font-light bg-white">
-            We at <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#9e734d] to-[#8a6342]">Caishen United</span> craft premium phone cases and mobile accessories designed for style, protection, and durability. As part of our commitment to delivering quality products, we take your data privacy seriously and handle your information with the highest standards of security.
-          </p>
-
-          <p className="font-light bg-white">
-            By accessing or using our Platform, purchasing our products, or engaging with our services, you agree to the terms of this Privacy Policy and consent to the practices described herein.
-          </p>
-
-          {/* Section 1 */}
-          <div className="border-l-4 border-[#9e734d] pl-6 pt-4 bg-white">
-            <h2 className="text-xl font-light mb-4 text-gray-900 flex items-center gap-2">
-              <UserCheck className="w-5 h-5 text-[#9e734d]" />
-              1. Personal Information We Collect
-            </h2>
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <ul className="list-disc pl-6 space-y-2 text-gray-600 font-light">
-                <li>Name, contact details (email, phone number), shipping & billing address</li>
-                <li>Device model, phone brand, and case preferences (color, design, material)</li>
-                <li>Purchase history, favorite products, and accessory preferences</li>
-                <li>Payment information (securely processed via trusted payment gateways)</li>
-                <li>Device information, IP address, cookies, and browsing behavior</li>
-                <li>Product reviews, ratings, testimonials, and feedback</li>
-                <li>Social media interactions and customer support communications</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Section 2 */}
-          <div className="border-l-4 border-[#8a6342] pl-6 pt-4 bg-white">
-            <h2 className="text-xl font-light mb-4 text-gray-900 flex items-center gap-2">
-              <Eye className="w-5 h-5 text-[#8a6342]" />
-              2. How We Collect Information
-            </h2>
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <ul className="list-disc pl-6 space-y-2 text-gray-600 font-light">
-                <li>When you purchase phone cases, screen protectors, or accessories from our store</li>
-                <li>During account creation, newsletter signups, or product wishlist additions</li>
-                <li>Through product reviews, customer surveys, and feedback forms</li>
-                <li>Via cookies and analytics tools to enhance your shopping experience</li>
-                <li>From trusted partners like payment processors and delivery service providers</li>
-                <li>Social media platforms and marketing collaborations</li>
-                <li>Customer service interactions, warranty claims, and return requests</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Section 3 */}
-          <div className="border-l-4 border-[#9e734d] pl-6 pt-4 bg-white">
-            <h2 className="text-xl font-light mb-4 text-gray-900 flex items-center gap-2">
-              <Smartphone className="w-5 h-5 text-[#9e734d]" />
-              3. Purpose of Use
-            </h2>
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <ul className="list-disc pl-6 space-y-2 text-gray-600 font-light">
-                <li>Process and deliver your orders with secure packaging and tracking</li>
-                <li>Provide personalized product recommendations based on your device model and preferences</li>
-                <li>Offer exceptional customer support for orders, returns, and warranty claims</li>
-                <li>Send exclusive offers, new product launches, and accessory collections</li>
-                <li>Improve our website performance and create a seamless shopping experience</li>
-                <li>Prevent fraud and ensure secure transactions on our platform</li>
-                <li>Analyze shopping trends to bring you better products and designs</li>
-                <li>Send order updates, shipment notifications, and delivery confirmations</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Section 4 */}
-          <div className="border-l-4 border-[#8a6342] pl-6 pt-4 bg-white">
-            <h2 className="text-xl font-light mb-4 text-gray-900 flex items-center gap-2">
-              <Shield className="w-5 h-5 text-[#8a6342]" />
-              4. Sharing of Personal Information
-            </h2>
-            <div className="bg-gradient-to-r from-[#F5E6D3]/10 to-[#9e734d]/5 p-4 rounded-lg border border-[#9e734d]/20 bg-white">
-              <p className="font-light">
-                We may share your data with trusted service providers including payment processors, logistics partners, and analytics platforms. We comply with legal requirements when necessary. We <span className="font-medium text-[#9e734d]">never sell</span> your personal information to third parties. Your privacy is as important to us as the quality of our products.
-              </p>
-            </div>
-          </div>
-
-          {/* Section 5 */}
-          <div className="border-l-4 border-[#9e734d] pl-6 pt-4 bg-white">
-            <h2 className="text-xl font-light mb-4 text-gray-900 flex items-center gap-2">
-              <FileText className="w-5 h-5 text-[#9e734d]" />
-              5. Cookies and Tracking Technologies
-            </h2>
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <p className="font-light text-gray-600">
-                We use cookies to remember your device preferences, analyze shopping patterns, and provide you with relevant product recommendations. You can manage cookies through your browser settings, though this may affect certain features of our platform like saved carts and wishlists.
-              </p>
-            </div>
-          </div>
-
-          {/* Section 6 */}
-          <div className="border-l-4 border-[#8a6342] pl-6 pt-4 bg-white">
-            <h2 className="text-xl font-light mb-4 text-gray-900 flex items-center gap-2">
-              <Lock className="w-5 h-5 text-[#8a6342]" />
-              6. Data Security
-            </h2>
-            <div className="bg-gradient-to-r from-[#F5E6D3]/5 to-[#9e734d]/5 p-4 rounded-lg border border-[#9e734d]/20 bg-white">
-              <p className="font-light text-gray-600">
-                We implement military-grade encryption, secure payment gateways (SSL certified), and advanced firewalls to protect your personal and payment information. Just like our phone cases protect your device, we protect your data with premium security measures. We regularly update our security protocols to stay ahead of potential threats.
-              </p>
-            </div>
-          </div>
-
-          {/* Section 7 */}
-          <div className="border-l-4 border-[#9e734d] pl-6 pt-4 bg-white">
-            <h2 className="text-xl font-light mb-4 text-gray-900 flex items-center gap-2">
-              <UserCheck className="w-5 h-5 text-[#9e734d]" />
-              7. Your Rights and Choices
-            </h2>
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <ul className="list-disc pl-6 space-y-2 text-gray-600 font-light">
-                <li>Access, update, or correct your personal information anytime</li>
-                <li>Unsubscribe from marketing emails and promotional communications</li>
-                <li>Request deletion of your account and associated data</li>
-                <li>Update your device preferences and saved product wishlist</li>
-                <li>Opt-out of personalized product recommendations</li>
-                <li>Download your order history and purchase records</li>
-                <li>Manage cookie preferences through browser settings</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Section 8 */}
-          <div className="border-l-4 border-[#8a6342] pl-6 pt-4 bg-white">
-            <h2 className="text-xl font-light mb-4 text-gray-900 flex items-center gap-2">
-              <Shield className="w-5 h-5 text-[#8a6342]" />
-              8. Age Restrictions
-            </h2>
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <p className="font-light text-gray-600">
-                Our products and services are intended for individuals 18 years of age or older. We do not knowingly collect personal information from minors under 18. If you are under 18, please seek parental consent before making purchases.
-              </p>
-            </div>
-          </div>
-
-          {/* Section 9 */}
-          <div className="border-l-4 border-[#9e734d] pl-6 pt-4 bg-white">
-            <h2 className="text-xl font-light mb-4 text-gray-900 flex items-center gap-2">
-              <FileText className="w-5 h-5 text-[#9e734d]" />
-              9. Policy Updates
-            </h2>
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <p className="font-light text-gray-600">
-                We may update this Privacy Policy as we introduce new products, features, or expand our accessory collections. Updates will be reflected with a revised effective date at the top of this page. We will notify you of significant changes through email or prominent banner notifications on our website.
-              </p>
-            </div>
-          </div>
-
-          {/* Section 10 - Contact */}
-          <div className="border-l-4 border-[#8a6342] pl-6 pt-4 bg-white">
-            <h2 className="text-xl font-light mb-4 text-gray-900 flex items-center gap-2">
-              <Mail className="w-5 h-5 text-[#8a6342]" />
-              10. Contact & Customer Support
-            </h2>
-            <div className="bg-gradient-to-r from-[#F5E6D3]/10 to-[#9e734d]/5 p-6 rounded-lg border border-[#9e734d]/20 bg-white">
-              <p className="font-light text-gray-600 mb-4">
-                For privacy-related questions, data requests, or any concerns about your personal information, please contact our customer support team:
-              </p>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 p-3 bg-[#9e734d]/5 rounded-lg">
-                  <div className="p-2 bg-gradient-to-r from-[#9e734d] to-[#8a6342] rounded-lg text-white">
-                    <UserCheck className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">Privacy Officer:</p>
-                    <p className="text-gray-600">Caishen United Customer Support Team</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 p-3 bg-[#9e734d]/5 rounded-lg">
-                  <div className="p-2 bg-gradient-to-r from-[#9e734d] to-[#8a6342] rounded-lg text-white">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">Email:</p>
-                    <a href="mailto:support@caishenunited.com" className="text-[#9e734d] hover:text-[#8a6342] font-medium">
-                      support@caishenunited.com
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 p-3 bg-[#9e734d]/5 rounded-lg">
-                  <div className="p-2 bg-gradient-to-r from-[#9e734d] to-[#8a6342] rounded-lg text-white">
-                    <Phone className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">Phone:</p>
-                    <a href="tel:+919911636888" className="text-[#9e734d] hover:text-[#8a6342] font-medium">
-                      +91 9911636888
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3 p-3 bg-[#9e734d]/5 rounded-lg">
-                  <div className="p-2 bg-gradient-to-r from-[#9e734d] to-[#8a6342] rounded-lg text-white">
-                    <MapPin className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">Address:</p>
-                    <p className="text-gray-600 leading-relaxed">
-                      Caishen United<br />
-                      Sector 15, Rohini<br />
-                      New Delhi, Delhi 110085<br />
-                      India
-                    </p>
-                  </div>
+        {/* Policy sections */}
+        {sections.map((section, i) => (
+          <div
+            key={i}
+            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+          >
+            <div className="flex items-start gap-4">
+              <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <section.icon className="w-5 h-5 text-[#FF6B00]" />
+              </div>
+              <div className="flex-1">
+                <h2 className="text-base font-bold text-gray-900 mb-3">
+                  {section.number}. {section.title}
+                </h2>
+                <div className="bg-gray-50 rounded-xl border border-gray-100 p-4">
+                  {section.content}
                 </div>
               </div>
             </div>
           </div>
+        ))}
 
-          {/* Closing Statement */}
-          <div className="bg-gradient-to-r from-[#9e734d] to-[#8a6342] p-8 rounded-xl text-center text-white shadow-lg mt-12">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Crown className="w-10 h-10" />
-              <Smartphone className="w-10 h-10" />
+        {/* Contact — Section 10 */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <div className="flex items-start gap-4 mb-5">
+            <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
+              <Mail className="w-5 h-5 text-[#FF6B00]" />
             </div>
-            <h3 className="text-xl font-light mb-2">Premium Protection for Your Devices & Your Data</h3>
-            <p className="text-base opacity-90 max-w-2xl mx-auto leading-relaxed">
-              At Caishen United, just as our phone cases provide military-grade protection for your devices, we safeguard your personal information with the highest standards of privacy and data security. Your trust drives us to deliver excellence in both products and protection.
-            </p>
+            <div>
+              <h2 className="text-base font-bold text-gray-900 mb-1">10. Contact & Customer Support</h2>
+              <p className="text-sm text-gray-500">
+                For privacy-related questions, data requests, or any concerns, reach out to us:
+              </p>
+            </div>
           </div>
-        </section>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              { icon: Mail, label: 'Email', value: 'support@tap2buy.in', href: 'mailto:support@tap2buy.in' },
+              { icon: Phone, label: 'Phone / WhatsApp', value: '+91 9911636888', href: 'tel:+919911636888' },
+            ].map((item, i) => (
+              <a
+                key={i}
+                href={item.href}
+                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#FF6B00]/30 hover:bg-orange-50/30 transition-all duration-200 group"
+              >
+                <div className="w-9 h-9 bg-orange-50 rounded-lg flex items-center justify-center group-hover:bg-[#FF6B00] transition-colors">
+                  <item.icon className="w-4 h-4 text-[#FF6B00] group-hover:text-white transition-colors" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">{item.label}</p>
+                  <p className="text-sm font-semibold text-gray-900">{item.value}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {/* Address */}
+          <div className="mt-4 flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">
+            <div className="w-9 h-9 bg-orange-50 rounded-lg flex items-center justify-center flex-shrink-0">
+              <MapPin className="w-4 h-4 text-[#FF6B00]" />
+            </div>
+            <div>
+              <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Office Address</p>
+              <address className="text-sm text-gray-700 not-italic leading-relaxed">
+                Tap2Buy<br />
+                Sector 15, Rohini<br />
+                New Delhi, Delhi 110089<br />
+                India
+              </address>
+            </div>
+          </div>
+
+          <p className="text-xs text-gray-400 mt-4">
+            Response Time: Within 24 hours &nbsp;·&nbsp; Available: Monday–Saturday, 10 AM–7 PM IST
+          </p>
+        </div>
+
+        {/* CTA footer */}
+        <div className="bg-[#1B2A4A] rounded-2xl p-8 text-white text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10">
+            <div className="w-14 h-14 bg-[#FF6B00] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-orange-500/30">
+              <Lock className="w-7 h-7 text-white" />
+            </div>
+            <h3 className="text-lg font-bold mb-2">Your Data, Protected</h3>
+            <p className="text-sm text-blue-200 max-w-xl mx-auto leading-relaxed mb-5">
+              At Tap2Buy, we safeguard your personal information with the highest standards of security and privacy — so you can shop with complete confidence.
+            </p>
+            <Link
+              href="/shop"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-lg hover:shadow-orange-500/30"
+            >
+              <ShoppingBag className="w-4 h-4" />
+              Shop Now
+            </Link>
+          </div>
+        </div>
+
+        <p className="text-xs text-gray-400 text-center pb-4">
+          © {new Date().getFullYear()} Tap2Buy. All rights reserved. &nbsp;·&nbsp;{' '}
+          <Link href="/disclaimer" className="text-[#FF6B00] hover:underline">Disclaimer</Link>
+          {' '}&nbsp;·&nbsp;{' '}
+          <Link href="/terms-and-conditions" className="text-[#FF6B00] hover:underline">Terms & Conditions</Link>
+        </p>
       </div>
-    </div>
+    </main>
   );
 }

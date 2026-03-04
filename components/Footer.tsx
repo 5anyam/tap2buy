@@ -4,98 +4,92 @@ import { Mail, Phone, MapPin, Shield, ShoppingBag, ExternalLink } from "lucide-r
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-white border-t border-gray-800">
-      
-      {/* --- PRE-FOOTER: MARKETPLACES --- */}
-      <div className="border-b border-gray-800 bg-[#0F0F0F]">
+    <footer className="bg-[#0f172a] text-white border-t border-[#1B2A4A]">
+
+      {/* ── PRE-FOOTER: MARKETPLACES ── */}
+      <div className="border-b border-[#1e3a5f] bg-[#1B2A4A]">
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-3">
-              <ShoppingBag className="w-5 h-5 text-[#9e734d]" />
+              <ShoppingBag className="w-5 h-5 text-[#FF6B00]" />
               <div>
                 <h3 className="text-sm font-bold text-white uppercase tracking-wider">Also Available On</h3>
-                <p className="text-xs text-gray-400 mt-1">Shop our premium collections on your favorite platforms</p>
+                <p className="text-xs text-blue-300 mt-1">Shop Tap2Buy products on your favorite platforms</p>
               </div>
             </div>
-            
             <div className="flex items-center gap-4">
-              <Link 
-                href="https://www.amazon.in/s?k=caishen+united" 
+              <Link
+                href="https://www.amazon.in/s?k=tap2buy"
                 target="_blank"
-                className="flex items-center gap-2 px-6 py-2.5 bg-white text-black rounded hover:bg-gray-100 transition-colors group"
+                className="flex items-center gap-2 px-6 py-2.5 bg-white text-black rounded-xl hover:bg-gray-100 transition-colors group"
               >
-                <img src="https://static.vecteezy.com/system/resources/thumbnails/014/018/563/small/amazon-logo-on-transparent-background-free-vector.jpg" className="h-8"/>
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/014/018/563/small/amazon-logo-on-transparent-background-free-vector.jpg" className="h-8" alt="Amazon" />
                 <ExternalLink className="w-3 h-3 opacity-50 group-hover:translate-x-0.5 transition-transform" />
               </Link>
-              
-              <Link 
-                href="https://www.flipkart.com/search?q=Caishen%20United" 
+              <Link
+                href="https://www.flipkart.com/search?q=tap2buy"
                 target="_blank"
-                className="flex items-center gap-2 px-6 py-2.5 text-white rounded transition-colors group"
+                className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl hover:bg-gray-100 transition-colors group"
               >
-                <img src="https://1000logos.net/wp-content/uploads/2021/02/Flipkart-logo.png" className="h-10"/>
-                <ExternalLink className="w-3 h-3 opacity-50 group-hover:translate-x-0.5 transition-transform" />
+                <img src="https://1000logos.net/wp-content/uploads/2021/02/Flipkart-logo.png" className="h-10" alt="Flipkart" />
+                <ExternalLink className="w-3 h-3 opacity-50 text-gray-700 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
           </div>
         </div>
       </div>
-      {/* --- END PRE-FOOTER --- */}
 
-      <div className="max-w-7xl mx-auto px-4 py-12 sm:py-20">
-        {/* Main Footer Content - 5 Columns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-12 lg:gap-8">
-          
-          {/* Column 1: Brand Section */}
+      {/* ── MAIN FOOTER ── */}
+      <div className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-8">
+
+          {/* Column 1: Brand */}
           <div className="lg:col-span-1">
-            <div className="mb-6">
-              <img className="h-14 sm:h-16 md:h-18" src="/logo.png" alt="Caishen United" />
+            <div className="mb-5">
+              <img className="h-12 sm:h-14" src="/logo.jpg" alt="Tap2Buy" />
             </div>
-            <div className="mb-6">
-              <h3 className="font-bold text-sm text-white mb-3 tracking-[0.12em] uppercase">
-                Caishen United
-              </h3>
-              <p className="text-xs leading-relaxed text-gray-400 font-light mb-6">
-                Premium phone protection crafted for those who demand excellence. Where military grade durability meets timeless design.
+            <div className="mb-5">
+              <h3 className="font-bold text-sm text-white mb-2 tracking-wider uppercase">Tap2Buy</h3>
+              <p className="text-xs leading-relaxed text-gray-400 font-light">
+                Your one-stop online shopping destination in India. Best prices, genuine products, and fast delivery across all categories.
               </p>
             </div>
-            
+
             {/* Trust Badge */}
-            <div className="flex items-center gap-2 mb-6 text-[#9e734d]">
+            <div className="flex items-center gap-2 mb-5 text-[#FF6B00]">
               <Shield className="w-4 h-4" />
-              <span className="text-[14px] uppercase tracking-wider font-bold">Shield Your Device</span>
+              <span className="text-xs uppercase tracking-wider font-bold">100% Authentic</span>
             </div>
-            
-            {/* Social Media Icons */}
+
+            {/* Social Icons */}
             <div className="flex gap-3">
-              <Link 
+              <Link
                 target="_blank"
-                href="https://www.facebook.com/share/17grUhKw4R/?mibextid=wwXIfr" 
-                className="p-2.5 border border-gray-700 hover:border-[#1877F2] hover:bg-[#1877F2] hover:text-white transition-all duration-300 rounded"
+                href="https://www.facebook.com/tap2buyin"
+                className="p-2.5 border border-[#1e3a5f] hover:border-[#1877F2] hover:bg-[#1877F2] hover:text-white transition-all duration-300 rounded-lg"
                 aria-label="Facebook"
               >
                 <FaFacebookF className="text-xs" />
               </Link>
-              <Link 
+              <Link
                 target="_blank"
-                href="https://www.instagram.com/caishencases?igsh=MWk4bTltaHF1NnQyNQ%3D%3D&utm_source=qr" 
-                className="p-2.5 border border-gray-700 hover:border-[#E4405F] hover:bg-gradient-to-br hover:from-[#833AB4] hover:via-[#E4405F] hover:to-[#F77737] hover:text-white transition-all duration-300 rounded"
+                href="https://www.instagram.com/tap2buyin"
+                className="p-2.5 border border-[#1e3a5f] hover:border-[#E4405F] hover:bg-gradient-to-br hover:from-[#833AB4] hover:via-[#E4405F] hover:to-[#F77737] hover:text-white transition-all duration-300 rounded-lg"
                 aria-label="Instagram"
               >
                 <FaInstagram className="text-xs" />
               </Link>
-              <Link 
+              <Link
                 target="_blank"
-                href="https://www.youtube.com/@caishenunited" 
-                className="p-2.5 border border-gray-700 hover:border-[#FF0000] hover:bg-[#FF0000] hover:text-white transition-all duration-300 rounded"
+                href="https://www.youtube.com/@tap2buyin"
+                className="p-2.5 border border-[#1e3a5f] hover:border-[#FF0000] hover:bg-[#FF0000] hover:text-white transition-all duration-300 rounded-lg"
                 aria-label="YouTube"
               >
                 <FaYoutube className="text-xs" />
               </Link>
-              {/* Phone Call Button */}
-              <a 
-                href="tel:+919911636888" 
-                className="p-2.5 border border-gray-700 hover:border-[#9e734d] hover:bg-[#9e734d] hover:text-white transition-all duration-300 rounded"
+              <a
+                href="tel:+919911636888"
+                className="p-2.5 border border-[#1e3a5f] hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:text-white transition-all duration-300 rounded-lg"
                 aria-label="Call us"
               >
                 <Phone className="w-3.5 h-3.5" />
@@ -103,189 +97,206 @@ export default function Footer() {
             </div>
           </div>
 
-
-          {/* Column 2: Shop Links */}
+          {/* Column 2: Shop */}
           <div className="lg:col-span-1">
-            <h4 className="text-[12px] font-bold text-[#9e734d] mb-4 sm:mb-6 uppercase tracking-[0.2em]">
+            <h4 className="text-[11px] font-bold text-[#FF6B00] mb-4 sm:mb-5 uppercase tracking-[0.2em]">
               Shop
             </h4>
-            <ul className="space-y-2 sm:space-y-3">
-              <li>
-                <Link href="/shop/iphone-covers" className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light">
-                  iPhone Covers
-                </Link>
-              </li>
-              <li>
-                <Link href="/shop/samsung-covers" className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light">
-                  Samsung Covers
-                </Link>
-              </li>
-              <li>
-                <Link href="/shop/oneplus-covers" className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light">
-                  OnePlus Covers
-                </Link>
-              </li>
-              <li>
-                <Link href="/shop/other-accessories" className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light">
-                  Accessories
-                </Link>
-              </li>
-              <li>
-                <Link href="/collections" className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light">
-                  Shop Collections
-                </Link>
-              </li>
+            <ul className="space-y-2.5">
+              {[
+                { name: 'Electronics', href: '/shop?category=electronics' },
+                { name: 'Fashion', href: '/shop?category=fashion' },
+                { name: 'Home & Living', href: '/shop?category=home-living' },
+                { name: 'Beauty & Care', href: '/shop?category=beauty' },
+                { name: 'Sports & Fitness', href: '/shop?category=sports' },
+                { name: 'Books & Stationery', href: '/shop?category=books' },
+                { name: 'Toys & Games', href: '/shop?category=toys' },
+                { name: 'Grocery & Food', href: '/shop?category=grocery' },
+                { name: 'All Collections', href: '/collections' },
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link href={item.href} className="text-xs text-gray-400 hover:text-[#FF6B00] transition-colors font-light">
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-
-          {/* Column 3: Customer Service Links */}
+          {/* Column 3: Customer Service */}
           <div className="lg:col-span-1">
-            <h4 className="text-[12px] font-bold text-[#9e734d] mb-4 sm:mb-6 uppercase tracking-[0.2em]">
+            <h4 className="text-[11px] font-bold text-[#FF6B00] mb-4 sm:mb-5 uppercase tracking-[0.2em]">
               Customer Service
             </h4>
-            <ul className="space-y-2 sm:space-y-3">
-              <li>
-                <Link href="/about" className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light">
-                  Contact Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/shipping-policy" className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light">
-                  Shipping Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/returns-and-refunds-policy" className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light">
-                  Returns & Refunds
-                </Link>
-              </li>
-              <li>
-                <Link href="/warranty-replacement-policy" className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light">
-                  Warranty Information
-                </Link>
-              </li>
+            <ul className="space-y-2.5">
+              {[
+                { name: 'About Us', href: '/about' },
+                { name: 'Contact Us', href: '/contact' },
+                { name: 'Track Your Order', href: '/track-order' },
+                { name: 'Shipping Policy', href: '/shipping-policy' },
+                { name: 'Returns & Refunds', href: '/returns-and-refunds-policy' },
+                { name: 'Warranty Policy', href: '/warranty-replacement-policy' },
+                { name: 'FAQs', href: '/faq' },
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link href={item.href} className="text-xs text-gray-400 hover:text-[#FF6B00] transition-colors font-light">
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-
-          {/* Column 4: Policies (Separate Column) */}
+          {/* Column 4: Legal */}
           <div className="lg:col-span-1">
-            <h4 className="text-[12px] font-bold text-[#9e734d] mb-4 sm:mb-6 uppercase tracking-[0.2em]">
+            <h4 className="text-[11px] font-bold text-[#FF6B00] mb-4 sm:mb-5 uppercase tracking-[0.2em]">
               Legal & Policies
             </h4>
-            <ul className="space-y-2 sm:space-y-3">
-              <li>
-                <Link href="/privacy-policy" className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms-and-conditions" className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light">
-                  Terms & Conditions
-                </Link>
-              </li>
-              <li>
-                <Link href="/cancellation-policy" className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light">
-                  Cancellation Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/disclaimer" className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light">
-                  Disclaimer
-                </Link>
-              </li>
+            <ul className="space-y-2.5">
+              {[
+                { name: 'Privacy Policy', href: '/privacy-policy' },
+                { name: 'Terms & Conditions', href: '/terms-and-conditions' },
+                { name: 'Cancellation Policy', href: '/cancellation-policy' },
+                { name: 'Disclaimer', href: '/disclaimer' },
+                { name: 'Cookie Policy', href: '/cookie-policy' },
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link href={item.href} className="text-xs text-gray-400 hover:text-[#FF6B00] transition-colors font-light">
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-
-          {/* Column 5: Contact Section */}
+          {/* Column 5: Contact */}
           <div className="lg:col-span-1">
-            <h4 className="text-[12px] font-bold text-[#9e734d] mb-4 sm:mb-6 uppercase tracking-[0.2em]">
+            <h4 className="text-[11px] font-bold text-[#FF6B00] mb-4 sm:mb-5 uppercase tracking-[0.2em]">
               Get in Touch
             </h4>
-            <ul className="space-y-3 sm:space-y-4">
+            <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <Mail className="w-4 h-4 text-[#9e734d] mt-0.5 flex-shrink-0" />
-                <a 
-                  href="mailto:support@caishenunited.com"
-                  className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light break-all"
+                <div className="w-7 h-7 bg-[#FF6B00]/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Mail className="w-3.5 h-3.5 text-[#FF6B00]" />
+                </div>
+                <a
+                  href="mailto:support@tap2buy.in"
+                  className="text-xs text-gray-400 hover:text-[#FF6B00] transition-colors font-light break-all"
                 >
-                  support@caishenunited.com
+                  support@tap2buy.in
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <Phone className="w-4 h-4 text-[#9e734d] mt-0.5 flex-shrink-0" />
-                <a 
-                  href="tel:+919911636888"
-                  className="text-xs text-gray-400 hover:text-[#9e734d] transition-colors font-light"
-                >
-                  +91 9911636888
-                </a>
+                <div className="w-7 h-7 bg-[#FF6B00]/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Phone className="w-3.5 h-3.5 text-[#FF6B00]" />
+                </div>
+                <div>
+                  <a
+                    href="tel:+919911636888"
+                    className="text-xs text-gray-400 hover:text-[#FF6B00] transition-colors font-light block"
+                  >
+                    +91 9911636888
+                  </a>
+                  <p className="text-[10px] text-gray-600 mt-0.5">Mon–Sat, 10am–6pm</p>
+                </div>
               </li>
               <li className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-[#9e734d] mt-0.5 flex-shrink-0" />
+                <div className="w-7 h-7 bg-[#FF6B00]/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <MapPin className="w-3.5 h-3.5 text-[#FF6B00]" />
+                </div>
                 <span className="text-xs text-gray-400 font-light leading-relaxed">
-                  Caishen United<br />
+                  Tap2Buy<br />
                   Sector 15, Rohini<br />
                   New Delhi, Delhi 110089<br />
                   India
                 </span>
               </li>
             </ul>
+
+            {/* Quick Trust Badges */}
+            <div className="mt-6 space-y-2">
+              {[
+                { emoji: '✅', text: '100% Authentic Products' },
+                { emoji: '🚚', text: 'Pan India Delivery' },
+                { emoji: '↩️', text: '7-Day Easy Returns' },
+              ].map((badge, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <span className="text-sm">{badge.emoji}</span>
+                  <span className="text-[11px] text-gray-400">{badge.text}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-
-        {/* Newsletter Section */}
-        <div className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-gray-800">
+        {/* ── NEWSLETTER ── */}
+        <div className="mt-12 pt-10 border-t border-[#1e3a5f]">
           <div className="max-w-2xl mx-auto text-center">
-            <h4 className="text-sm font-bold text-white mb-3 tracking-wide uppercase">
-              Stay Updated
-            </h4>
+            <div className="inline-flex items-center gap-2 bg-[#FF6B00]/10 border border-[#FF6B00]/20 rounded-full px-4 py-1.5 mb-4">
+              <span className="text-xs font-semibold text-[#FF6B00] uppercase tracking-wider">Newsletter</span>
+            </div>
+            <h4 className="text-lg font-bold text-white mb-2">Get Exclusive Deals in Your Inbox</h4>
             <p className="text-xs text-gray-400 font-light mb-6">
-              Join our community and be the first to know about new launches and exclusive offers.
+              Join 50,000+ smart shoppers. Get early access to sales, new arrivals & coupons.
             </p>
             <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
               <input
                 type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 text-xs border border-gray-700 rounded focus:border-[#9e734d] focus:outline-none transition-colors font-light bg-black text-white placeholder-gray-500"
+                placeholder="Enter your email address"
+                className="flex-1 px-4 py-3 text-xs border border-[#1e3a5f] rounded-xl focus:border-[#FF6B00] focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/10 transition-colors font-light bg-[#1B2A4A] text-white placeholder-gray-500"
                 required
               />
               <button
                 type="submit"
-                className="px-8 py-3 bg-gradient-to-r from-[#9e734d] to-[#8a6342] hover:from-[#8a6342] hover:to-[#9e734d] text-white text-xs uppercase tracking-widest rounded transition-all duration-300 font-medium shadow-md"
+                className="px-7 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white text-xs uppercase tracking-widest rounded-xl transition-all duration-300 font-semibold shadow-lg hover:shadow-orange-500/20 whitespace-nowrap"
               >
                 Subscribe
               </button>
             </form>
+            <p className="text-[10px] text-gray-600 mt-3">No spam, ever. Unsubscribe anytime.</p>
           </div>
         </div>
       </div>
 
+      {/* ── FOOTER BOTTOM ── */}
+      <div className="border-t border-[#1e3a5f] bg-[#0d1f35]">
+  <div className="max-w-7xl mx-auto px-4 py-4 sm:py-5">
+    <div className="flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-gray-500 font-light">
+      <div className="text-center sm:text-left">
+        © {new Date().getFullYear()}{" "}
+        <span className="text-gray-400 font-medium">Tap2Buy</span>. All rights reserved.
+        <span className="mx-2 text-gray-700">|</span>
+        <span className="text-[10px]">Made with ❤️ in India</span>
+      </div>
 
-      {/* Footer Bottom */}
-      <div className="border-t border-gray-800 bg-[#0a0a0a]">
-        <div className="max-w-7xl mx-auto px-4 py-4 sm:py-6">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 text-[14px] text-gray-400 font-light">
-            <div className="text-center sm:text-left">
-              © {new Date().getFullYear()} Caishen United. All rights reserved.
-            </div>
-            <div className="flex items-center gap-4 sm:gap-6">
-              <span className="text-[10px] uppercase tracking-wider">We Accept</span>
-              <div className="flex items-center gap-2 opacity-60">
-                <img className="h-8 sm:h-10 rounded-xl" src="/badges.webp" alt="Payment methods" />
-              </div>
-            </div>
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        {/* Developed By */}
+        <span className="text-[10px] text-gray-600">
+          Developed by{" "}
+          <a
+            href="https://www.proshala.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#FF6B00] hover:text-[#ff8c00] font-semibold transition-colors hover:underline"
+          >
+            Proshala
+          </a>
+        </span>
+
+        <span className="hidden sm:block text-gray-700">|</span>
+
+        {/* Payment Badges */}
+        <div className="flex items-center gap-3">
+          <span className="text-[10px] uppercase tracking-wider text-gray-600">We Accept</span>
+          <div className="flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+            <img className="h-8 sm:h-9 rounded-lg" src="/badges.webp" alt="Payment methods" />
           </div>
         </div>
       </div>
-    </footer>
+    </div>
+  </div>
+</div>
+</footer>
+
   );
 }

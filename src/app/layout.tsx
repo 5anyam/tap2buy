@@ -3,28 +3,26 @@ import ReactQueryProvider from '../../components/ReactQueryProvider';
 import { CartProvider } from '../../lib/cart';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { AuthProvider } from '../../lib/AuthContext'; 
+import { AuthProvider } from '../../lib/AuthContext';
 import Script from 'next/script';
-import Whatsapp from '../../components/Whatsapp';
 import { ThemeProvider } from '../../components/ThemeProvider';
-import Instagram from '../../components/Instagram';
 import Loader from '../../components/Loader';
 
 export const metadata = {
-  title: 'Caishen United - Premium Phone Cases & Accessories | Military-Grade Protection',
-  description: 'Discover Caishen United\'s collection of premium phone cases and accessories. Military-grade protection meets timeless design. Shop iPhone, Samsung, OnePlus cases and more with lifetime warranty.',
-  keywords: 'premium phone cases, luxury phone covers, iPhone cases India, Samsung cases, military grade phone protection, designer phone cases, phone accessories, premium mobile covers, shock proof cases, wireless chargers, screen protectors, Caishen United',
+  title: 'Tap2Buy - Shop Everything You Love | Best Deals Online India',
+  description: 'Tap2Buy is your one-stop online shopping destination in India. Shop electronics, fashion, home essentials, beauty, sports, toys & more at the best prices. 100% authentic products with fast delivery.',
+  keywords: 'online shopping india, buy electronics online, fashion online india, home essentials, beauty products, sports equipment, tap2buy, best deals india, authentic products, fast delivery, tap2buy.in',
   openGraph: {
-    title: 'Caishen United - Premium Phone Cases & Accessories',
-    description: 'Military-grade protection meets timeless design. Premium phone cases and accessories for iPhone, Samsung, OnePlus, and more.',
-    url: 'https://caishenunited.com',
-    siteName: 'Caishen United',
+    title: 'Tap2Buy - Shop Everything You Love',
+    description: 'Your trusted online shopping destination. Best prices on electronics, fashion, home essentials & more with 100% authentic products.',
+    url: 'https://tap2buy.in',
+    siteName: 'Tap2Buy',
     images: [
       {
         url: '/logo.png',
         width: 1200,
         height: 630,
-        alt: 'Caishen United - Premium Phone Protection',
+        alt: 'Tap2Buy - Shop Everything You Love',
       },
     ],
     locale: 'en_IN',
@@ -32,10 +30,10 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Caishen United - Premium Phone Cases & Accessories',
-    description: 'Military-grade protection meets timeless design. Premium phone protection for discerning users.',
+    title: 'Tap2Buy - Shop Everything You Love',
+    description: 'Your trusted online shopping destination in India. Best prices, fast delivery, easy returns.',
     images: ['/logo.png'],
-    creator: '@caishenunited',
+    creator: '@tap2buyin',
   },
   robots: {
     index: true,
@@ -48,13 +46,13 @@ export const metadata = {
     google: 'your-google-verification-code',
   },
   alternates: {
-    canonical: 'https://caishenunited.com',
+    canonical: 'https://tap2buy.in',
   },
-  category: 'phone accessories',
-  classification: 'Electronics & Mobile Accessories',
-  authors: [{ name: 'Caishen United' }],
-  creator: 'Caishen United',
-  publisher: 'Caishen United',
+  category: 'ecommerce',
+  classification: 'Online Shopping & Retail',
+  authors: [{ name: 'Tap2Buy' }],
+  creator: 'Tap2Buy',
+  publisher: 'Tap2Buy',
   formatDetection: {
     email: false,
     address: false,
@@ -74,13 +72,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta name="theme-color" content="#000000" />
-        <meta name="msapplication-TileColor" content="#000000" />
-        
+        <meta name="theme-color" content="#FF6B00" />
+        <meta name="msapplication-TileColor" content="#1B2A4A" />
+
         {/* Preload Critical Assets */}
         <link rel="preload" href="/logo.png" as="image" type="image/png" />
-        <link rel="preload" href="/logo-video.mp4" as="video" type="video/mp4" />
-        
+
         {/* Additional SEO Meta Tags */}
         <meta name="language" content="English" />
         <meta name="revisit-after" content="7 days" />
@@ -91,71 +88,64 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="target" content="all" />
         <meta name="audience" content="all" />
         <meta name="coverage" content="Worldwide" />
-        
-        {/* Structured Data for Premium Phone Accessories Brand */}
+
+        {/* Organization Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              "name": "Caishen United",
-              "description": "Premium phone cases and accessories brand offering military-grade protection with timeless design",
-              "url": "https://caishenunited.com",
-              "logo": "https://caishenunited.com/logo.png",
+              "name": "Tap2Buy",
+              "description": "India's trusted online shopping destination offering electronics, fashion, home essentials, beauty, sports and more at best prices.",
+              "url": "https://tap2buy.in",
+              "logo": "https://tap2buy.in/logo.png",
               "foundingDate": "2024",
               "founders": [
                 {
                   "@type": "Person",
-                  "name": "Caishen United Founder"
+                  "name": "Tap2Buy Founder"
                 }
               ],
               "address": {
                 "@type": "PostalAddress",
-                "addressLocality": "Your City",
-                "addressRegion": "Your State",
-                "postalCode": "XXXXXX",
+                "addressLocality": "Delhi",
+                "addressRegion": "Delhi",
+                "postalCode": "110001",
                 "addressCountry": "IN"
               },
               "contactPoint": {
                 "@type": "ContactPoint",
                 "telephone": "+91-XXXXXXXXXX",
                 "contactType": "customer service",
-                "email": "support@caishenunited.com",
+                "email": "support@tap2buy.in",
                 "availableLanguage": ["English", "Hindi"]
               },
               "sameAs": [
-                "https://www.facebook.com/caishenunited",
-                "https://www.instagram.com/caishenunited",
-                "https://www.youtube.com/@caishenunited"
+                "https://www.facebook.com/tap2buyin",
+                "https://www.instagram.com/tap2buyin",
+                "https://www.youtube.com/@tap2buyin"
               ],
               "brand": {
                 "@type": "Brand",
-                "name": "Caishen United",
-                "logo": "https://caishenunited.com/logo.png",
-                "slogan": "Premium Protection. Timeless Design."
+                "name": "Tap2Buy",
+                "logo": "https://tap2buy.in/logo.png",
+                "slogan": "Shop Everything You Love"
               },
               "makesOffer": {
                 "@type": "Offer",
                 "itemOffered": [
-                  {
-                    "@type": "Product",
-                    "name": "Premium Phone Cases",
-                    "category": "Mobile Phone Accessories",
-                    "brand": "Caishen United"
-                  },
-                  {
-                    "@type": "Product",
-                    "name": "Phone Accessories",
-                    "category": "Mobile Phone Accessories",
-                    "brand": "Caishen United"
-                  }
+                  { "@type": "Product", "name": "Electronics", "category": "Consumer Electronics", "brand": "Tap2Buy" },
+                  { "@type": "Product", "name": "Fashion", "category": "Clothing & Apparel", "brand": "Tap2Buy" },
+                  { "@type": "Product", "name": "Home & Living", "category": "Home Essentials", "brand": "Tap2Buy" },
+                  { "@type": "Product", "name": "Beauty & Personal Care", "category": "Beauty", "brand": "Tap2Buy" },
+                  { "@type": "Product", "name": "Sports & Fitness", "category": "Sports", "brand": "Tap2Buy" }
                 ]
               },
               "aggregateRating": {
                 "@type": "AggregateRating",
                 "ratingValue": "4.8",
-                "reviewCount": "150",
+                "reviewCount": "1200",
                 "bestRating": "5",
                 "worstRating": "1"
               }
@@ -163,47 +153,44 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
 
-        {/* Product Schema for Phone Cases */}
+        {/* WebSite + Sitelinks Searchbox Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Tap2Buy",
+              "url": "https://tap2buy.in",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": {
+                  "@type": "EntryPoint",
+                  "urlTemplate": "https://tap2buy.in/shop?search={search_term_string}"
+                },
+                "query-input": "required name=search_term_string"
+              }
+            })
+          }}
+        />
+
+        {/* Product Categories ItemList Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "ItemList",
+              "name": "Tap2Buy Product Categories",
               "itemListElement": [
-                {
-                  "@type": "Product",
-                  "position": 1,
-                  "name": "Premium iPhone Cases",
-                  "description": "Military-grade protection for iPhone with sophisticated design",
-                  "brand": {
-                    "@type": "Brand",
-                    "name": "Caishen United"
-                  },
-                  "category": "Phone Cases"
-                },
-                {
-                  "@type": "Product",
-                  "position": 2,
-                  "name": "Premium Samsung Cases",
-                  "description": "Luxury phone protection for Samsung devices",
-                  "brand": {
-                    "@type": "Brand",
-                    "name": "Caishen United"
-                  },
-                  "category": "Phone Cases"
-                },
-                {
-                  "@type": "Product",
-                  "position": 3,
-                  "name": "Phone Accessories",
-                  "description": "Premium chargers, cables, and screen protectors",
-                  "brand": {
-                    "@type": "Brand",
-                    "name": "Caishen United"
-                  },
-                  "category": "Mobile Accessories"
-                }
+                { "@type": "ListItem", "position": 1, "name": "Electronics", "url": "https://tap2buy.in/shop?category=electronics" },
+                { "@type": "ListItem", "position": 2, "name": "Fashion", "url": "https://tap2buy.in/shop?category=fashion" },
+                { "@type": "ListItem", "position": 3, "name": "Home & Living", "url": "https://tap2buy.in/shop?category=home-living" },
+                { "@type": "ListItem", "position": 4, "name": "Beauty", "url": "https://tap2buy.in/shop?category=beauty" },
+                { "@type": "ListItem", "position": 5, "name": "Sports", "url": "https://tap2buy.in/shop?category=sports" },
+                { "@type": "ListItem", "position": 6, "name": "Books", "url": "https://tap2buy.in/shop?category=books" },
+                { "@type": "ListItem", "position": 7, "name": "Toys", "url": "https://tap2buy.in/shop?category=toys" },
+                { "@type": "ListItem", "position": 8, "name": "Grocery", "url": "https://tap2buy.in/shop?category=grocery" }
               ]
             })
           }}
@@ -217,30 +204,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "@context": "https://schema.org",
               "@type": "BreadcrumbList",
               "itemListElement": [
-                {
-                  "@type": "ListItem",
-                  "position": 1,
-                  "name": "Home",
-                  "item": "https://caishenunited.com"
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 2,
-                  "name": "Phone Covers",
-                  "item": "https://caishenunited.com/shop/covers"
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 3,
-                  "name": "Accessories",
-                  "item": "https://caishenunited.com/shop/accessories"
-                }
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://tap2buy.in" },
+                { "@type": "ListItem", "position": 2, "name": "Shop", "item": "https://tap2buy.in/shop" },
+                { "@type": "ListItem", "position": 3, "name": "Collections", "item": "https://tap2buy.in/collections" }
               ]
             })
           }}
         />
 
-        {/* Microsoft Clarity Heatmap Script */}
+        {/* Microsoft Clarity */}
         <Script
           id="microsoft-clarity"
           strategy="afterInteractive"
@@ -255,7 +227,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
 
-        {/* Meta Pixel Code */}
+        {/* Meta Pixel */}
         <Script id="facebook-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
@@ -271,7 +243,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `}
         </Script>
 
-        {/* Meta Pixel noscript fallback */}
         <noscript>
           <img
             height="1"
@@ -283,7 +254,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </noscript>
 
         {/* Google Analytics */}
-        <Script 
+        <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${gtagId}`}
           strategy="afterInteractive"
         />
@@ -293,28 +264,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', '${gtagId}', {
-              page_title: 'Caishen United',
+              page_title: 'Tap2Buy',
               page_location: window.location.href,
-              content_group1: 'Premium Phone Accessories',
-              content_group2: 'Electronics & Mobile',
+              content_group1: 'Online Shopping',
+              content_group2: 'Ecommerce India',
               custom_map: {
-                'dimension1': 'premium_brand',
-                'dimension2': 'phone_accessories'
+                'dimension1': 'tap2buy',
+                'dimension2': 'ecommerce'
               }
             });
-            
-            // Enhanced ecommerce tracking
             gtag('config', '${gtagId}', {
-              'custom_map': {'custom_parameter': 'dimension1'},
               'enhanced_ecommerce': true
             });
-            
-            // Track product views
             gtag('event', 'view_item_list', {
               'items': [{
-                'item_name': 'Premium Phone Cases',
-                'item_category': 'Phone Accessories',
-                'item_brand': 'Caishen United'
+                'item_name': 'Featured Products',
+                'item_category': 'All Categories',
+                'item_brand': 'Tap2Buy'
               }]
             });
           `}
@@ -331,35 +297,35 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `}
         </Script>
       </head>
-      <body className="overflow-x-hidden overflow-y-scroll antialiased bg-white dark:bg-black transition-colors duration-300">
-        {/* Google Tag Manager (noscript) */}
+
+      <body className="overflow-x-hidden overflow-y-scroll antialiased bg-white dark:bg-[#0f172a] transition-colors duration-300">
+        {/* GTM noscript */}
         <noscript>
-          <iframe 
+          <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
-            height="0" 
-            width="0" 
+            height="0"
+            width="0"
             style={{ display: 'none', visibility: 'hidden' }}
           ></iframe>
         </noscript>
-        <Loader/>
-        {/* Wrap everything in ThemeProvider */}
+
+        <Loader />
+
         <ThemeProvider>
           <ReactQueryProvider>
             <CartProvider>
               <AuthProvider>
-              <Header />
-              <main role="main" className="min-h-screen">
-                {children}
-              </main>
-              <Footer />
-              <Instagram/>
-              <Whatsapp/>
+                <Header />
+                <main role="main" className="min-h-screen">
+                  {children}
+                </main>
+                <Footer />
               </AuthProvider>
             </CartProvider>
           </ReactQueryProvider>
         </ThemeProvider>
 
-        {/* Customer Chat Plugin */}
+        {/* Facebook Customer Chat */}
         <Script id="facebook-chat" strategy="lazyOnload">
           {`
             var chatbox = document.getElementById('fb-customer-chat');
@@ -367,14 +333,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               chatbox.setAttribute("page_id", "YOUR_PAGE_ID");
               chatbox.setAttribute("attribution", "biz_inbox");
             }
-            
             window.fbAsyncInit = function() {
-              FB.init({
-                xfbml: true,
-                version: 'v18.0'
-              });
+              FB.init({ xfbml: true, version: 'v18.0' });
             };
-            
             (function(d, s, id) {
               var js, fjs = d.getElementsByTagName(s)[0];
               if (d.getElementById(id)) return;
@@ -384,8 +345,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }(document, 'script', 'facebook-jssdk'));
           `}
         </Script>
-        
-        {/* Facebook Customer Chat */}
         <div id="fb-customer-chat" className="fb-customerchat"></div>
       </body>
     </html>

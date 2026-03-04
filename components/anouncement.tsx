@@ -1,57 +1,122 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Tag } from 'lucide-react';
+import {X } from 'lucide-react';
+import Link from 'next/link';
 
-export default function AnnouncementBar() {
+interface AnnouncementBarProps {
+  onClose?: () => void;
+}
+
+export default function AnnouncementBar({ onClose }: AnnouncementBarProps) {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Check if user has already closed the bar
     const isClosed = localStorage.getItem('announcementBarClosed');
-    if (isClosed) {
-      setIsVisible(false);
-    }
+    if (isClosed) setIsVisible(false);
   }, []);
 
-  if (!isVisible) return null;
+  const handleClose = () => {
+    setIsVisible(false);
+    localStorage.setItem('announcementBarClosed', 'true');
+    onClose?.(); // ← Header ko notify karta hai
+  };
 
-  const announcementText = (
-    <span className="inline-flex items-center gap-2 whitespace-nowrap px-4 py-2">
-      <Tag className="w-4 h-4 text-gray-300 flex-shrink-0" />
-      <span className="text-xs sm:text-sm text-white font-light tracking-wide leading-tight">
-      Use discount code <span className="font-semibold tracking-wider text-white/90">NEWBEGIN10</span> {' '}
-        <span className="font-semibold text-white px-2.5 py-1 bg-white/20 rounded-md shadow-sm">
-        Get 10% OFF
+  if (!isVisible) return null;
+  
+
+  const announcements = [
+    {
+      icon: '🎉',
+      text: (
+        <span>
+          Use code{' '}
+          <span className="font-bold tracking-wider text-white bg-white/20 px-2 py-0.5 rounded-md mx-1">
+            NEWBEGIN10
+          </span>
+          {' '}& get <span className="font-bold text-[#FF6B00]">10% OFF</span> on your first order!
         </span>
-        {' '} with more Exciting Offers.{' '}
-        
-      </span>
+      ),
+    },
+    {
+      icon: '🚚',
+      text: (
+        <span>
+          <span className="font-bold text-white">Free Shipping</span> on all orders above{' '}
+          <span className="font-bold text-[#FF6B00]">₹499</span> — Pan India Delivery!
+        </span>
+      ),
+    },
+    {
+      icon: '🔥',
+      text: (
+        <span>
+          <span className="font-bold text-[#FF6B00]">Flash Sale Live!</span>{' '}
+          Up to <span className="font-bold text-white">70% OFF</span> on top categories.{' '}
+          <Link href="/sale" className="underline underline-offset-2 hover:text-[#FF6B00] transition-colors font-semibold">
+            Shop Now →
+          </Link>
+        </span>
+      ),
+    },
+    {
+      icon: '✅',
+      text: (
+        <span>
+          <span className="font-bold text-white">100% Authentic Products</span> — Verified sellers & genuine quality guaranteed!
+        </span>
+      ),
+    },
+  ];
+
+  const announcementContent = (
+    <span className="inline-flex items-center gap-6 whitespace-nowrap">
+      {announcements.map((item, i) => (
+        <span key={i} className="inline-flex items-center gap-2 px-6">
+          <span className="text-sm flex-shrink-0">{item.icon}</span>
+          <span className="text-xs sm:text-[13px] text-gray-200 font-light tracking-wide leading-tight">
+            {item.text}
+          </span>
+          {i < announcements.length - 1 && (
+            <span className="ml-6 text-gray-600 flex-shrink-0">•</span>
+          )}
+        </span>
+      ))}
     </span>
   );
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[999] bg-gradient-to-r from-black via-gray-900 to-black/90 backdrop-blur-xl border-b border-white/10 shadow-2xl">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-center h-12">
-          {/* Marquee Container - No cross button */}
-          <div className="w-full overflow-hidden">
-            <div 
-              className="flex animate-marquee hover:[animation-play-state:paused] h-full items-center"
-              style={{ animationDuration: '25s' }}
-            >
-              {/* Repeat content for seamless loop */}
-              {[...Array(8)].map((_, i) => (
-                <div key={i} className="flex-shrink-0 px-4">
-                  {announcementText}
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          {/* Close Button - Top Right Corner */}
+    <div className="fixed top-0 left-0 right-0 z-[999] bg-[#1B2A4A] border-b border-[#FF6B00]/20 shadow-lg">
+      <div className="relative flex items-center h-10 lg:h-11 overflow-hidden">
 
+        {/* Left gradient fade */}
+        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#1B2A4A] to-transparent z-10 pointer-events-none" />
+
+        {/* Marquee */}
+        <div className="w-full overflow-hidden">
+          <div
+            className="flex animate-marquee hover:[animation-play-state:paused] items-center"
+            style={{ animationDuration: '30s' }}
+          >
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="flex-shrink-0">
+                {announcementContent}
+              </div>
+            ))}
+          </div>
         </div>
+
+        {/* Right gradient fade */}
+        <div className="absolute right-8 top-0 bottom-0 w-16 bg-gradient-to-l from-[#1B2A4A] to-transparent z-10 pointer-events-none" />
+
+        {/* Close Button */}
+        <button
+          onClick={handleClose}
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-1 rounded-full hover:bg-white/10 transition-colors flex-shrink-0"
+          aria-label="Close announcement"
+        >
+          <X className="w-3.5 h-3.5 text-gray-400 hover:text-white transition-colors" />
+        </button>
       </div>
 
       <style jsx>{`
@@ -60,7 +125,7 @@ export default function AnnouncementBar() {
           100% { transform: translateX(-50%); }
         }
         .animate-marquee {
-          animation: marquee 25s linear infinite;
+          animation: marquee 30s linear infinite;
         }
       `}</style>
     </div>

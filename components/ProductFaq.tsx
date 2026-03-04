@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import { Crown, Sparkles, MessageCircle } from 'lucide-react';
+import { Sparkles, HelpCircle, Mail, PhoneCall } from 'lucide-react';
 
 interface FAQ {
   question: string;
@@ -14,83 +14,89 @@ interface ProductFAQProps {
   productName: string;
 }
 
-// FAQ Data for Caishen United phone accessories
+// ── FAQ DATA — General Ecommerce (Tap2Buy) ──
 const faqData: Record<string, FAQ[]> = {
-  'iphone-case': [
+  'electronics': [
     {
-      question: "What makes Caishen United phone cases premium?",
-      answer: "Our cases are crafted with aerospace-grade materials and military-grade protection technology. Each case undergoes rigorous drop testing from 10 feet and features raised bezels to protect your screen and camera. The combination of sophisticated design and uncompromising protection sets us apart."
+      question: "Are all electronics on Tap2Buy genuine and authentic?",
+      answer: "Yes, 100%! All electronics on Tap2Buy are sourced directly from authorized distributors and brand partners. Every product:\n• Comes with official brand warranty\n• Is quality-checked before dispatch\n• Includes all original accessories in-box\n• Can be verified via brand's official warranty registration"
     },
     {
-      question: "Will this case work with wireless charging?",
-      answer: "Absolutely! All Caishen United cases are designed with wireless charging compatibility. They work seamlessly with MagSafe and standard Qi wireless chargers, allowing you to charge your device without removing the case."
+      question: "What warranty do electronics come with?",
+      answer: "Electronics on Tap2Buy come with the manufacturer's official warranty:\n• Smartphones & Laptops: 1 year brand warranty\n• Accessories: 6 months to 1 year\n• Smart devices: 1 year brand warranty\n\nIn addition, Tap2Buy offers a 7-day replacement guarantee for any manufacturing defects found on delivery."
     },
     {
-      question: "How long does the lifetime warranty last?",
-      answer: "Our lifetime warranty covers manufacturing defects and normal wear for as long as you own the product. If your case develops any issues related to materials or craftsmanship, we'll replace it at no cost. This warranty demonstrates our commitment to lasting quality."
+      question: "Can I return electronics if I change my mind?",
+      answer: "Yes! We offer a 7-day easy return policy for electronics. The product must be:\n• Unused and in original condition\n• In original packaging with all accessories\n• Returned with original invoice\n\nNote: Products with physical damage, missing accessories, or tampered seals are not eligible for return."
     },
     {
-      question: "Does the case protect against drops?",
-      answer: "Yes! Each Caishen United case features:\n• Military-grade drop protection (tested from 10+ feet)\n• Reinforced corner technology for shock absorption\n• Raised bezels to protect screen and camera lenses\n• Air-cushion technology that disperses impact force\n• Anti-slip grip for secure handling"
+      question: "Do you offer EMI options for expensive electronics?",
+      answer: "Yes! We offer easy EMI options through:\n• All major credit cards (0% EMI on select products)\n• Buy Now Pay Later (BNPL) via Simpl, LazyPay\n• Bank EMI offers on Bajaj Finserv & HDFC\n\nEMI options are shown at checkout based on your payment method."
     },
     {
-      question: "Will the case yellow over time?",
-      answer: "No. We use advanced anti-yellowing technology in all our clear and light-colored cases. Our materials are UV-resistant and maintain their pristine appearance even after extended use. This is part of our commitment to timeless design."
+      question: "How is the product packaged to avoid damage during shipping?",
+      answer: "All electronics are shipped with extra care:\n• Double-layered bubble wrap padding\n• Rigid outer box for protection\n• Fragile sticker on the package\n• Real-time tracking provided\n\nFor high-value items, we use tamper-proof security seals."
+    },
+  ],
+  'fashion': [
+    {
+      question: "How do I choose the right size?",
+      answer: "Each product page has a detailed size chart with measurements in inches and centimeters. We recommend:\n• Measuring your chest, waist, and hips\n• Comparing with our size chart before ordering\n• When in doubt, go one size up\n\nIf you receive the wrong size, we offer free size exchanges within 7 days."
     },
     {
-      question: "How precise is the fit?",
-      answer: "Each case is custom-designed for specific device models with precision engineering:\n• Perfect cutouts for all ports, buttons, and cameras\n• Tactile button covers that maintain original responsiveness\n• Exact dimensions for secure fit without bulk\n• Easy installation and removal without scratching your device"
+      question: "Are the colors accurate in product photos?",
+      answer: "We strive for accurate color representation. However, slight variations may occur due to:\n• Different screen calibrations\n• Lighting during photography\n\nIf the color is significantly different from what was shown, you are eligible for a full return or exchange."
     },
     {
-      question: "Is the case compatible with screen protectors?",
-      answer: "Yes! Our raised bezels are designed to work with most screen protectors without causing lifting or bubbles. The precise engineering ensures compatibility with both glass and film protectors."
+      question: "Can I return clothing if it doesn't fit?",
+      answer: "Absolutely! We offer 7-day returns for fashion items. Conditions:\n• Item must be unworn and unwashed\n• Tags must be intact\n• Original packaging required\n\nFree size exchanges are available on most clothing items."
     },
     {
-      question: "What is your return policy?",
-      answer: "We offer a 30-day hassle-free return policy. If you're not completely satisfied with your purchase, you can return the product in its original condition for a full refund. Your satisfaction is our priority."
+      question: "Do you sell branded fashion items?",
+      answer: "Yes! Tap2Buy carries both popular brands and quality private-label fashion. All branded items are 100% authentic sourced directly from brand partners or authorized distributors."
     },
-    {
-      question: "How should I clean my case?",
-      answer: "To maintain your case's premium appearance:\n• Use a soft, lint-free cloth with mild soap and water\n• Avoid harsh chemicals or abrasive cleaners\n• Dry thoroughly before reinstalling\n• For stubborn marks, use isopropyl alcohol on a cloth\n• Clean regularly to prevent dirt buildup"
-    },
-    {
-      question: "Are the materials eco-friendly?",
-      answer: "We're committed to sustainability. Our cases use recyclable materials where possible, and we're continuously working to reduce environmental impact while maintaining our premium quality standards."
-    }
   ],
   'default': [
     {
-      question: "What makes Caishen United different from other brands?",
-      answer: "Caishen United combines military-grade protection with timeless design. Inspired by the ancient deity of prosperity, we believe your devices deserve premium protection that doesn't compromise on aesthetics. Every product undergoes rigorous testing and comes with a lifetime warranty."
+      question: "Are products on Tap2Buy 100% authentic?",
+      answer: "Yes, absolutely! Tap2Buy only works with verified sellers and authorized distributors. Every product is:\n• Sourced from genuine suppliers\n• Quality-checked before dispatch\n• Backed by official brand or seller warranty\n• Eligible for return if found inauthentic"
     },
     {
-      question: "What is your warranty policy?",
-      answer: "All Caishen United products come with a lifetime warranty against manufacturing defects. We stand behind our craftsmanship, and if any issues arise from normal use, we'll replace your product at no cost. This demonstrates our commitment to lasting quality."
-    },
-    {
-      question: "Do you offer international shipping?",
-      answer: "Currently, we ship within India with free delivery on orders above ₹999. We're working on expanding to international markets. Subscribe to our newsletter to be notified when we start shipping to your region."
+      question: "What is Tap2Buy's return policy?",
+      answer: "We offer a hassle-free 7-day return policy. To be eligible:\n• Product must be unused and in original condition\n• All original packaging and accessories must be present\n• Return request must be raised within 7 days of delivery\n\nOnce your return is received and inspected, refunds are processed within 5-7 business days."
     },
     {
       question: "How long does delivery take?",
-      answer: "Orders are typically processed within 24 hours and delivered within:\n• Metro cities: 2-3 business days\n• Tier 2 cities: 3-5 business days\n• Remote areas: 5-7 business days\n\nYou'll receive tracking information once your order ships."
+      answer: "We deliver across India with the following timelines:\n• Metro cities (Delhi, Mumbai, Bangalore, etc.): 2-3 business days\n• Tier 2 cities: 3-5 business days\n• Remote or rural areas: 5-7 business days\n\nYou'll receive a tracking link via SMS and email once your order is dispatched."
     },
     {
-      question: "Can I exchange my product for a different model?",
-      answer: "Yes! Within 30 days of delivery, you can exchange your product for a different model or color (subject to availability). The product must be in original condition with all packaging intact. Contact our support team to initiate an exchange."
+      question: "Is free shipping available?",
+      answer: "Yes! Tap2Buy offers free shipping on all orders above ₹499. For orders below ₹499, a flat shipping fee of ₹49 is applicable. We deliver Pan India through our trusted logistics partners."
     },
     {
-      question: "Are your products authentic?",
-      answer: "100% authentic! All Caishen United products are:\n• Manufactured to our exact specifications\n• Quality tested before shipping\n• Come with authenticity certificates\n• Protected by our lifetime warranty\n• Shipped directly from our warehouse"
-    },
-    {
-      question: "Do you offer bulk orders or corporate gifting?",
-      answer: "Yes! We offer special pricing for bulk orders (10+ units) and customization options for corporate gifting. Contact our business team at business@caishenunited.com for personalized quotes and branding opportunities."
+      question: "What payment methods are accepted?",
+      answer: "We accept all major payment methods:\n• UPI (GPay, PhonePe, Paytm, BHIM)\n• Credit & Debit Cards (Visa, Mastercard, RuPay)\n• Net Banking (all major banks)\n• Wallets (Paytm, Amazon Pay)\n• Cash on Delivery (select pincodes)\n• EMI on credit cards\n• Buy Now Pay Later (Simpl, LazyPay)"
     },
     {
       question: "How do I track my order?",
-      answer: "Once your order ships, you'll receive an email with tracking information. You can also track your order by logging into your account or using the tracking link provided in your shipping confirmation email."
-    }
+      answer: "Tracking your order is easy:\n1. You'll receive an SMS and email with a tracking link once shipped\n2. Log in to your Tap2Buy account → 'My Orders'\n3. Click on the order to see real-time tracking\n4. Call our support at +91 9911636888 for help\n\nTracking is available within 24 hours of dispatch."
+    },
+    {
+      question: "Can I cancel my order after placing it?",
+      answer: "Yes, you can cancel your order before it is dispatched. To cancel:\n• Go to My Orders → Select the order → Click 'Cancel'\n• Or call us at +91 9911636888\n\nOnce cancelled, the refund is processed within 5-7 business days to your original payment method. COD orders are cancelled without any charge."
+    },
+    {
+      question: "Is Cash on Delivery (COD) available?",
+      answer: "Yes! COD is available on most products and pincodes across India. A small COD handling fee may apply on some orders. COD availability is shown at checkout based on your delivery address."
+    },
+    {
+      question: "How do I contact Tap2Buy customer support?",
+      answer: "We're here to help! Reach us through:\n• 📞 Call/WhatsApp: +91 9911636888 (Mon–Sat, 10am–6pm)\n• 📧 Email: support@tap2buy.in\n• 💬 Live Chat: Available on our website\n\nWe typically respond within a few hours on business days."
+    },
+    {
+      question: "Do you offer bulk orders or corporate gifting?",
+      answer: "Yes! We offer special pricing for bulk orders (10+ units) and customization options for corporate gifting. Contact us at support@tap2buy.in with your requirements for a personalized quote."
+    },
   ]
 };
 
@@ -100,172 +106,134 @@ const ProductFAQ: React.FC<ProductFAQProps> = ({ productSlug, productName }) => 
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const getFAQs = (): FAQ[] => {
-    if (faqData[productSlug]) {
-      return faqData[productSlug];
-    }
-
-    const slugKey = Object.keys(faqData).find(key => 
-      productSlug.includes(key) || key.includes(productSlug.split('-')[0])
+    if (faqData[productSlug]) return faqData[productSlug];
+    const slugKey = Object.keys(faqData).find(
+      (key) => productSlug.includes(key) || key.includes(productSlug.split('-')[0])
     );
-
-    if (slugKey) {
-      return faqData[slugKey];
-    }
-
-    return defaultFAQs;
+    return slugKey ? faqData[slugKey] : defaultFAQs;
   };
 
   const faqs = getFAQs();
-
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
+  const toggleFAQ = (index: number) => setOpenIndex(openIndex === index ? null : index);
 
   return (
-    <div className="bg-gradient-to-b from-white to-gray-50 border-t border-gray-100">
-      {/* Premium Header with gold accents */}
-      <div className="py-16 text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-[#F5E6D3]/10 via-transparent to-transparent" />
-        
-        <div className="relative z-10">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-8 h-px bg-gradient-to-r from-transparent to-[#D4AF37]" />
-            <Sparkles className="w-5 h-5 text-[#D4AF37]" />
-            <div className="w-8 h-px bg-gradient-to-l from-transparent to-[#D4AF37]" />
-          </div>
-          
-          <h2 className="text-3xl lg:text-4xl font-light text-gray-900 mb-4 tracking-tight">
-            Frequently Asked Questions
-          </h2>
-          
-          <div className="relative w-20 h-px mx-auto mb-6">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
-          </div>
-          
-          <p className="text-gray-600 text-sm font-light max-w-2xl mx-auto">
-            Everything you need to know about <span className="text-[#D4AF37] font-medium">{productName}</span>
-          </p>
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+
+      {/* ── HEADER ── */}
+      <div className="px-6 md:px-10 pt-10 pb-8 border-b border-gray-100">
+        <div className="flex items-center gap-2 mb-1">
+          <HelpCircle className="w-5 h-5 text-[#FF6B00]" />
+          <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
         </div>
+        <p className="text-sm text-gray-500 mt-1">
+          Common questions about{' '}
+          <span className="text-[#FF6B00] font-medium">{productName}</span>
+        </p>
       </div>
 
-      {/* Premium FAQ Items */}
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <div 
-              key={index} 
-              className="group bg-white border border-gray-100 hover:border-[#D4AF37]/30 transition-all duration-500 overflow-hidden relative"
+      {/* ── FAQ ITEMS ── */}
+      <div className="px-6 md:px-10 py-6 space-y-3">
+        {faqs.map((faq, index) => (
+          <div
+            key={index}
+            className={`border rounded-xl overflow-hidden transition-all duration-300 ${
+              openIndex === index
+                ? 'border-[#FF6B00]/30 shadow-sm shadow-orange-50'
+                : 'border-gray-100 hover:border-[#FF6B00]/20'
+            }`}
+          >
+            <button
+              className="w-full px-5 py-4 text-left focus:outline-none bg-white hover:bg-orange-50/30 transition-colors duration-200"
+              onClick={() => toggleFAQ(index)}
             >
-              {/* Gold gradient overlay on hover */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#F5E6D3]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <button
-                className="relative w-full px-6 lg:px-8 py-6 text-left focus:outline-none"
-                onClick={() => toggleFAQ(index)}
-              >
-                <div className="flex justify-between items-start gap-6">
-                  <div className="flex items-start gap-3 flex-1">
-                    <div className={`flex-shrink-0 mt-1 transition-colors duration-300 ${
-                      openIndex === index ? 'text-[#D4AF37]' : 'text-gray-400 group-hover:text-[#D4AF37]'
-                    }`}>
-                      <Crown className="w-4 h-4" />
-                    </div>
-                    <h3 className={`font-light text-sm lg:text-base leading-relaxed flex-1 text-left transition-colors duration-300 ${
-                      openIndex === index ? 'text-black font-medium' : 'text-gray-900'
-                    }`}>
-                      {faq.question}
-                    </h3>
-                  </div>
-                  <div className="flex-shrink-0 mt-1">
-                    <div className={`transition-all duration-500 ${
-                      openIndex === index ? 'text-[#D4AF37] rotate-180' : 'text-gray-400 group-hover:text-gray-600'
-                    }`}>
-                      <ChevronDownIcon className="h-5 w-5" />
-                    </div>
-                  </div>
+              <div className="flex justify-between items-start gap-4">
+                <div className="flex items-start gap-3 flex-1">
+                  {/* Question number badge */}
+                  <span className={`flex-shrink-0 w-6 h-6 rounded-full text-[10px] font-bold flex items-center justify-center mt-0.5 transition-all duration-300 ${
+                    openIndex === index
+                      ? 'bg-[#FF6B00] text-white'
+                      : 'bg-gray-100 text-gray-500'
+                  }`}>
+                    {index + 1}
+                  </span>
+                  <h3 className={`text-sm font-semibold leading-relaxed flex-1 text-left transition-colors duration-200 ${
+                    openIndex === index ? 'text-[#FF6B00]' : 'text-gray-800'
+                  }`}>
+                    {faq.question}
+                  </h3>
                 </div>
-              </button>
-              
-              {/* Premium Answer with animation */}
-              <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                openIndex === index 
-                  ? 'max-h-[1200px] opacity-100' 
-                  : 'max-h-0 opacity-0'
-              }`}>
-                <div className="px-6 lg:px-8 pb-8 pt-2">
-                  <div className="ml-7 pl-6 border-l-2 border-[#D4AF37] bg-gradient-to-r from-[#F5E6D3]/10 to-transparent p-6">
-                    <p className="text-gray-700 text-sm lg:text-base leading-relaxed whitespace-pre-line font-light">
-                      {faq.answer}
-                    </p>
-                  </div>
+                <ChevronDownIcon
+                  className={`h-4 w-4 flex-shrink-0 mt-1 transition-all duration-300 ${
+                    openIndex === index ? 'rotate-180 text-[#FF6B00]' : 'text-gray-400'
+                  }`}
+                />
+              </div>
+            </button>
+
+            {/* Answer */}
+            <div className={`overflow-hidden transition-all duration-400 ease-in-out ${
+              openIndex === index ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
+            }`}>
+              <div className="px-5 pb-5 pt-1">
+                <div className="ml-9 pl-4 border-l-2 border-[#FF6B00]/30 bg-orange-50/30 rounded-r-xl p-4">
+                  <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">
+                    {faq.answer}
+                  </p>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
 
-      {/* Premium Footer with gold accents */}
-      <div className="py-20 text-center border-t border-gray-100 mt-16 bg-gradient-to-b from-white to-[#F5E6D3]/10 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,_var(--tw-gradient-stops))] from-[#D4AF37]/5 via-transparent to-transparent" />
-        
-        <div className="relative z-10 max-w-2xl mx-auto px-4">
-          <div className="inline-flex items-center justify-center w-16 h-16 border-2 border-[#D4AF37]/30 mb-6 group hover:border-[#D4AF37] transition-colors duration-500">
-            <MessageCircle className="w-7 h-7 text-[#D4AF37] group-hover:scale-110 transition-transform duration-500" />
-          </div>
-          
-          <h3 className="text-2xl lg:text-3xl font-light text-gray-900 mb-4 tracking-tight">
-            Still Have Questions?
-          </h3>
-          
-          <p className="text-gray-600 text-sm mb-10 font-light leading-relaxed">
-            Our premium support team is here to assist you with any inquiries about 
-            <span className="text-[#D4AF37]"> Caishen United products</span>
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="mailto:support@caishenunited.com"
-              className="group relative inline-block px-10 py-4 text-xs text-black border-2 border-gray-200 hover:border-[#D4AF37] transition-all duration-500 tracking-widest uppercase font-medium overflow-hidden"
-            >
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                <Sparkles className="w-3 h-3" />
-                Email Support
+      {/* ── FOOTER CTA ── */}
+      <div className="mx-6 md:mx-10 mb-8 mt-4 bg-gradient-to-br from-[#1B2A4A] to-[#243560] rounded-2xl p-6 md:p-8 text-white relative overflow-hidden">
+        {/* Decorative bg blob */}
+        <div className="absolute top-0 right-0 w-40 h-40 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full blur-2xl pointer-events-none" />
+
+        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="text-center md:text-left">
+            <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-3 py-1 mb-3">
+              <Sparkles className="w-3 h-3 text-[#FF6B00]" />
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-orange-200">
+                We are here to help
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#F5E6D3]/20 to-transparent translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500" />
+            </div>
+            <h3 className="text-lg md:text-xl font-bold mb-1">Still Have Questions?</h3>
+            <p className="text-sm text-blue-200 font-light">
+              Our support team is available Mon–Sat, 10am–6pm
+            </p>
+
+            {/* Trust dots */}
+            <div className="flex items-center justify-center md:justify-start gap-5 mt-4">
+              {['Fast Response', '24hr Support', 'Expert Help'].map((t, i) => (
+                <div key={i} className="flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]" />
+                  <span className="text-[11px] text-blue-200">{t}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
+            <a
+              href="mailto:support@tap2buy.in"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold rounded-xl transition-all duration-200 whitespace-nowrap"
+            >
+              <Mail className="w-4 h-4" />
+              Email Us
             </a>
-            
-            <a 
-              href="https://wa.me/919XXXXXXXXX"
+            <a
+              href="https://wa.me/919911636888"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-block px-10 py-4 text-xs text-black bg-gradient-to-r from-[#D4AF37] to-[#C5A028] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all duration-500 tracking-widest uppercase font-bold overflow-hidden"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white text-sm font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-orange-500/30 whitespace-nowrap"
             >
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                <Crown className="w-3 h-3" />
-                WhatsApp Us
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#F5E6D3] to-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+              <PhoneCall className="w-4 h-4" />
+              WhatsApp Us
             </a>
-          </div>
-          
-          {/* Trust badges */}
-          <div className="mt-12 pt-8 border-t border-gray-100">
-            <div className="flex items-center justify-center gap-8 text-xs text-gray-500 font-light">
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-                <span>24/7 Support</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-                <span>Expert Assistance</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-                <span>Quick Response</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>

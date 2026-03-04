@@ -1,335 +1,325 @@
 'use client';
-import { Shield, RefreshCw, CheckCircle, Clock, Package, AlertCircle, Mail, ChevronRight, Award } from 'lucide-react';
+
+import {
+  Shield, RefreshCw, CheckCircle, Clock,
+  Package, AlertCircle, Mail, ChevronRight, Award, Phone, LucideIcon
+} from 'lucide-react';
 import Link from 'next/link';
+
+interface WarrantySection {
+  icon: LucideIcon;
+  title: string;
+  content: React.ReactNode;
+}
+
+interface PolicyLink {
+  title: string;
+  description: string;
+  link: string;
+  icon: LucideIcon;
+}
+
+const replacementSteps = [
+  { step: '01', title: 'Contact Support', desc: 'Reach out via email, call, or WhatsApp with your order number and details of the issue.' },
+  { step: '02', title: 'Provide Evidence', desc: 'Send clear photos or a short video showing the defect or issue with your product.' },
+  { step: '03', title: 'Approval Review', desc: 'Our quality team will review your claim within 24–48 business hours.' },
+  { step: '04', title: 'Receive Replacement', desc: 'Once approved, we ship your replacement immediately at no additional cost.' },
+];
+
+const warrantySections: WarrantySection[] = [
+  {
+    icon: Award,
+    title: 'Warranty Coverage',
+    content: (
+      <div className="space-y-3">
+        <p className="text-sm text-gray-600 leading-relaxed">
+          All Tap2Buy products come with a warranty covering manufacturing defects and material failures under normal use conditions.
+        </p>
+        <ul className="space-y-2">
+          {[
+            '30-day warranty on all products sold on Tap2Buy',
+            'Coverage for manufacturing defects, material flaws, and workmanship issues',
+            'Free replacement for defective products within warranty period',
+            'Extended warranty available on select premium products',
+          ].map((item, i) => (
+            <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+              <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ),
+  },
+  {
+    icon: CheckCircle,
+    title: 'What is Covered',
+    content: (
+      <ul className="space-y-2">
+        {[
+          'Manufacturing defects in materials or workmanship',
+          'Premature wear or degradation under normal use',
+          'Defective buttons, ports, or cutouts affecting functionality',
+          'Discoloration or yellowing within warranty period (for clear cases)',
+          'Adhesive failure or detachment of product components',
+        ].map((item, i) => (
+          <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+            <span className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0 mt-2" />
+            {item}
+          </li>
+        ))}
+      </ul>
+    ),
+  },
+  {
+    icon: AlertCircle,
+    title: 'What is Not Covered',
+    content: (
+      <ul className="space-y-2">
+        {[
+          'Damage from accidents, drops, impacts, or misuse',
+          'Normal wear and tear from extended daily use',
+          'Damage from improper cleaning or use of harsh chemicals',
+          'Modifications or alterations to the original product',
+          'Cosmetic issues like scratches or scuffs from normal use',
+          'Products purchased from unauthorized retailers',
+        ].map((item, i) => (
+          <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+            <span className="w-1.5 h-1.5 bg-red-400 rounded-full flex-shrink-0 mt-2" />
+            {item}
+          </li>
+        ))}
+      </ul>
+    ),
+  },
+  {
+    icon: RefreshCw,
+    title: 'Replacement Process',
+    content: (
+      <div className="space-y-3">
+        <p className="text-sm text-gray-600 leading-relaxed">
+          Our hassle-free replacement process is designed to get you back to full protection quickly:
+        </p>
+        <ol className="space-y-3">
+          {replacementSteps.map((item, i) => (
+            <li key={i} className="flex gap-4 items-start">
+              <div className="flex-shrink-0 w-9 h-9 bg-[#FF6B00] rounded-xl flex items-center justify-center text-xs font-bold text-white">
+                {item.step}
+              </div>
+              <div>
+                <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wide mb-0.5">
+                  {item.title}
+                </h3>
+                <p className="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    ),
+  },
+  {
+    icon: Clock,
+    title: 'Processing Timeline',
+    content: (
+      <div className="grid sm:grid-cols-3 gap-3">
+        {[
+          { label: 'Claim Review', value: '24–48 Hours' },
+          { label: 'Replacement Dispatch', value: '1–2 Business Days' },
+          { label: 'Delivery', value: '3–7 Business Days' },
+        ].map((row, i) => (
+          <div key={i} className="text-center p-3 bg-gray-50 rounded-xl border border-gray-100">
+            <p className="text-xs text-gray-500 mb-1">{row.label}</p>
+            <p className="text-sm font-bold text-[#FF6B00]">{row.value}</p>
+          </div>
+        ))}
+      </div>
+    ),
+  },
+  {
+    icon: Package,
+    title: 'Important Notes',
+    content: (
+      <ul className="space-y-2">
+        {[
+          'Keep your original purchase receipt or order confirmation for warranty claims',
+          'Defective products may need to be returned before replacement is dispatched',
+          'Warranty is non-transferable and applies only to the original purchaser',
+          'Final decision on warranty claims rests with the Tap2Buy quality team',
+        ].map((item, i) => (
+          <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            {item}
+          </li>
+        ))}
+      </ul>
+    ),
+  },
+];
+
+const relatedPolicies: PolicyLink[] = [
+  {
+    title: 'Return & Refund Policy',
+    description: 'Learn about our hassle-free return process and refund guidelines.',
+    link: '/returns-and-refunds-policy',
+    icon: RefreshCw,
+  },
+  {
+    title: 'Shipping Policy',
+    description: 'Understand our delivery timelines and shipping procedures.',
+    link: '/shipping-policy',
+    icon: Package,
+  },
+  {
+    title: 'Cancellation Policy',
+    description: 'Learn when and how you can cancel an order on Tap2Buy.',
+    link: '/cancellation-policy',
+    icon: Shield,
+  },
+  {
+    title: 'Terms & Conditions',
+    description: 'Read the full legal terms governing your use of Tap2Buy.',
+    link: '/terms-and-conditions',
+    icon: CheckCircle,
+  },
+];
 
 export default function WarrantyPolicy() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
-      {/* Force white background - no dark mode */}
-      <div className="bg-white fixed inset-0 z-[-1]"></div>
-      
-      {/* Hero Section */}
-      <section className="relative py-20 px-4 bg-gradient-to-b from-gray-50 to-white border-b border-gray-100">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, #9e734d 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
-          }} />
-        </div>
+    <main className="min-h-screen bg-gray-50">
 
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 border border-gray-200 rounded-sm mb-6">
-            <Shield className="w-4 h-4 text-gray-700" />
-            <span className="text-sm text-gray-700 font-medium">Protection Guarantee</span>
+      {/* ── HERO ── */}
+      <section className="bg-[#1B2A4A] py-14 px-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
+            <Shield className="w-3.5 h-3.5 text-[#FF6B00]" />
+            <span className="text-xs font-semibold text-orange-200 uppercase tracking-wider">Protection Guarantee</span>
           </div>
-          
-          <h1 className="text-4xl md:text-6xl font-light text-gray-900 mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
             Warranty & Replacement Policy
           </h1>
-          
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="text-blue-200 text-sm leading-relaxed max-w-2xl">
             We stand behind the quality of every product with comprehensive warranty coverage and hassle-free replacement service.
           </p>
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="py-16 px-4 relative z-10">
-        <div className="max-w-4xl mx-auto">
-          {/* Introduction */}
-          <div className="bg-gray-50 border border-gray-100 p-8 md:p-12 mb-12">
-            <p className="text-gray-700 leading-relaxed text-lg">
-              At <span className="text-gray-900 font-semibold">Caishen United</span>, we believe in the quality and durability of our products. Our warranty and replacement policy ensures that you receive the protection and support you deserve, backed by our commitment to customer satisfaction.
-            </p>
-          </div>
+      <div className="max-w-4xl mx-auto px-4 py-12 space-y-6">
 
-          {/* Warranty Coverage */}
-          <div className="space-y-8 mb-12">
-            <div className="bg-white border border-gray-100 p-8 hover:border-gray-300 transition-all">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-gray-100 border border-gray-200 flex items-center justify-center">
-                  <Award className="w-6 h-6 text-gray-700" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-2xl font-light text-gray-900 mb-4 tracking-tight">Warranty Coverage</h2>
-                  <p className="text-gray-600 leading-relaxed mb-4">
-                    All Caishen United products come with a comprehensive warranty that covers manufacturing defects and material failures under normal use conditions.
-                  </p>
-                  <ul className="space-y-2 text-gray-600">
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>30-day warranty on all phone cases and accessories</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Coverage for manufacturing defects, material flaws, and workmanship issues</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Free replacement for defective products within warranty period</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Extended warranty available on select premium products</span>
-                    </li>
-                  </ul>
-                </div>
+        {/* Intro */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <p className="text-sm text-gray-600 leading-relaxed">
+            At <span className="font-semibold text-[#FF6B00]">Tap2Buy</span>, we believe in the quality and durability of every product on our platform. Our warranty and replacement policy ensures you receive the protection and support you deserve, backed by our commitment to customer satisfaction.
+          </p>
+        </div>
+
+        {/* Warranty Sections */}
+        {warrantySections.map((section, index) => (
+          <div
+            key={index}
+            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+          >
+            <div className="flex items-start gap-4">
+              <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <section.icon className="w-5 h-5 text-[#FF6B00]" />
               </div>
-            </div>
-
-            {/* What's Covered */}
-            <div className="bg-white border border-gray-100 p-8 hover:border-gray-300 transition-all">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-gray-100 border border-gray-200 flex items-center justify-center">
-                  <CheckCircle className="w-6 h-6 text-gray-700" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-2xl font-light text-gray-900 mb-4 tracking-tight">What is Covered</h2>
-                  <ul className="space-y-2 text-gray-600">
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Manufacturing defects in materials or workmanship</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Premature wear or degradation under normal use</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Defective buttons, ports, or cutouts affecting functionality</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Discoloration or yellowing within warranty period (for clear cases)</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Adhesive failure or detachment of case components</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* What's Not Covered */}
-            <div className="bg-white border border-gray-100 p-8 hover:border-gray-300 transition-all">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-gray-100 border border-gray-200 flex items-center justify-center">
-                  <AlertCircle className="w-6 h-6 text-gray-700" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-2xl font-light text-gray-900 mb-4 tracking-tight">What is Not Covered</h2>
-                  <ul className="space-y-2 text-gray-600">
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Damage from accidents, drops, impacts, or misuse</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Normal wear and tear from extended daily use</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Damage from improper cleaning or use of harsh chemicals</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Modifications or alterations to the original product</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Cosmetic issues like scratches or scuffs from normal use</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Products purchased from unauthorized retailers</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* Replacement Process */}
-            <div className="bg-white border border-gray-100 p-8 hover:border-gray-300 transition-all">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-gray-100 border border-gray-200 flex items-center justify-center">
-                  <RefreshCw className="w-6 h-6 text-gray-700" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-2xl font-light text-gray-900 mb-4 tracking-tight">Replacement Process</h2>
-                  <p className="text-gray-600 leading-relaxed mb-4">
-                    Our hassle-free replacement process is designed to get you back to full protection quickly:
-                  </p>
-                  <ol className="space-y-4">
-                    {[
-                      { step: "01", title: "Contact Support", desc: "Reach out to our customer care team via email or phone with your order number and details of the issue" },
-                      { step: "02", title: "Provide Evidence", desc: "Send clear photos or videos showing the defect or issue with your product" },
-                      { step: "03", title: "Approval Review", desc: "Our quality team will review your case within 24-48 hours" },
-                      { step: "04", title: "Receive Replacement", desc: "Once approved, we'll ship your replacement product immediately at no additional cost" }
-                    ].map((item, i) => (
-                      <li key={i} className="flex gap-4 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 border border-gray-200 flex items-center justify-center text-xs font-medium text-gray-700">
-                          {item.step}
-                        </div>
-                        <div>
-                          <h3 className="font-medium text-sm text-gray-900 mb-1 tracking-wide uppercase">
-                            {item.title}
-                          </h3>
-                          <p className="text-xs text-gray-600 leading-relaxed">
-                            {item.desc}
-                          </p>
-                        </div>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              </div>
-            </div>
-
-            {/* Timeline */}
-            <div className="bg-white border border-gray-100 p-8 hover:border-gray-300 transition-all">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-gray-100 border border-gray-200 flex items-center justify-center">
-                  <Clock className="w-6 h-6 text-gray-700" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-2xl font-light text-gray-900 mb-4 tracking-tight">Processing Timeline</h2>
-                  <ul className="space-y-2 text-gray-600">
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Warranty claim review: 24-48 business hours</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Replacement dispatch: Within 1-2 business days after approval</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Delivery: 3-7 business days based on location</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* Return Requirements */}
-            <div className="bg-white border border-gray-100 p-8 hover:border-gray-300 transition-all">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-gray-100 border border-gray-200 flex items-center justify-center">
-                  <Package className="w-6 h-6 text-gray-700" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-2xl font-light text-gray-900 mb-4 tracking-tight">Important Notes</h2>
-                  <ul className="space-y-2 text-gray-600">
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Keep your original purchase receipt or order confirmation for warranty claims</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Defective products may need to be returned before replacement is sent</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Warranty is non-transferable and applies only to the original purchaser</span>
-                    </li>
-                    <li className="flex gap-3">
-                      <ChevronRight className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                      <span>Final decision on warranty claims rests with Caishen United quality team</span>
-                    </li>
-                  </ul>
+              <div className="flex-1">
+                <h2 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wide">
+                  {section.title}
+                </h2>
+                <div className="bg-gray-50 rounded-xl border border-gray-100 p-4">
+                  {section.content}
                 </div>
               </div>
             </div>
           </div>
+        ))}
 
-          {/* Closing Statement */}
-          <div className="relative overflow-hidden bg-gray-50 border border-gray-200 p-8 md:p-12 mb-12">
-            <div className="relative z-10">
-              <Package className="w-12 h-12 text-gray-700 mb-4" />
-              <p className="text-gray-700 leading-relaxed text-lg italic">
-                At <span className="text-gray-900 font-semibold not-italic">Caishen United</span>, we are committed to providing not just products, but peace of mind. Our warranty and replacement policy reflects our confidence in the quality we deliver and our dedication to your satisfaction.
-              </p>
-            </div>
-          </div>
-
-          {/* Contact CTA */}
-          <div className="text-center relative z-10">
-            <h3 className="text-2xl font-light text-gray-900 mb-6">
-              Need Warranty Support?
-            </h3>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white hover:bg-gray-800 transition-all"
-              >
-                <Mail className="w-5 h-5" />
-                Contact Support
-                <ChevronRight className="w-5 h-5" />
-              </Link>
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 px-8 py-4 border-2 border-gray-300 text-gray-900 hover:border-gray-900 transition-all"
-              >
-                Back to Home
-              </Link>
-            </div>
+        {/* Contact Support */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <h3 className="text-base font-bold text-gray-900 mb-1">Need Warranty Support?</h3>
+          <p className="text-sm text-gray-500 mb-5">
+            Our team is available Mon–Sat, 10 AM–7 PM IST to help with your warranty claim.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <a
+              href="mailto:support@tap2buy.in"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+            >
+              <Mail className="w-4 h-4" />
+              Email Support
+            </a>
+            <a
+              href="https://wa.me/919911636888"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+            >
+              💬 WhatsApp Us
+            </a>
+            <a
+              href="tel:+919911636888"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+            >
+              <Phone className="w-4 h-4" />
+              Call Us
+            </a>
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+            >
+              Back to Home
+            </Link>
           </div>
         </div>
-      </section>
 
-      {/* Related Policies */}
-      <section className="py-16 px-4 bg-gray-50 border-t border-gray-100 relative z-10">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-light text-center text-gray-900 mb-12">
-            Related Policies
-          </h2>
-          
-          <div className="grid md:grid-cols-2 gap-6">
-            {[
-              {
-                title: "Return & Refund Policy",
-                description: "Learn about our hassle-free return process and refund guidelines",
-                link: "/return-policy",
-                icon: RefreshCw
-              },
-              {
-                title: "Shipping Policy",
-                description: "Understand our delivery timelines and shipping procedures",
-                link: "/shipping-policy",
-                icon: Package
-              }
-            ].map((policy, index) => {
-              const Icon = policy.icon;
-              return (
-                <Link
-                  key={index}
-                  href={policy.link}
-                  className="group p-6 bg-white border border-gray-100 hover:border-gray-900 transition-all"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-gray-100 border border-gray-200 flex items-center justify-center group-hover:bg-gray-900 transition-colors">
-                      <Icon className="w-6 h-6 text-gray-700 group-hover:text-white transition-colors" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-light text-gray-900 mb-2 group-hover:text-gray-900 transition-colors">
-                        {policy.title}
-                      </h3>
-                      <p className="text-sm text-gray-600 mb-3">
-                        {policy.description}
-                      </p>
-                      <div className="flex items-center gap-2 text-gray-700 text-sm font-medium">
-                        Read More
-                        <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </div>
+        {/* Closing quote */}
+        <div className="bg-[#1B2A4A] rounded-2xl p-7 text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+          <p className="relative z-10 text-sm text-blue-200 leading-relaxed italic max-w-2xl mx-auto">
+            At <span className="text-[#FF6B00] font-semibold not-italic">Tap2Buy</span>, we are committed to providing not just products, but peace of mind. Our warranty policy reflects our confidence in the quality we deliver and our dedication to your satisfaction.
+          </p>
+        </div>
+
+        {/* Related Policies */}
+        <div className="space-y-4">
+          <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider px-1">Related Policies</h2>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {relatedPolicies.map((policy, index) => (
+              <Link
+                key={index}
+                href={policy.link}
+                className="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#FF6B00] transition-colors duration-300">
+                    <policy.icon className="w-5 h-5 text-[#FF6B00] group-hover:text-white transition-colors duration-300" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-[#FF6B00] transition-colors">
+                      {policy.title}
+                    </h3>
+                    <p className="text-xs text-gray-500 leading-relaxed mb-2">{policy.description}</p>
+                    <div className="flex items-center gap-1 text-[#FF6B00] text-xs font-semibold">
+                      Read More
+                      <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
-                </Link>
-              );
-            })}
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
-      </section>
-    </div>
+
+        <p className="text-xs text-gray-400 text-center pb-4">
+          © {new Date().getFullYear()} Tap2Buy. All rights reserved. &nbsp;·&nbsp;{' '}
+          <Link href="/terms-and-conditions" className="text-[#FF6B00] hover:underline">Terms & Conditions</Link>
+          {' '}&nbsp;·&nbsp;{' '}
+          <Link href="/privacy-policy" className="text-[#FF6B00] hover:underline">Privacy Policy</Link>
+        </p>
+      </div>
+    </main>
   );
 }

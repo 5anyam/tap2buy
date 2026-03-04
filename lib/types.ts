@@ -18,7 +18,7 @@ export interface ImageData {
   category?: string;
   average_rating?: string; // WooCommerce gives rating as string
   rating_count?: number;
-  badge?: "New" | "Sale";
+  badge?: "New" | "Sale" | "Hot";
   }
   
   // Add this to your types file

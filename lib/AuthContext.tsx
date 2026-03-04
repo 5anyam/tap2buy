@@ -51,7 +51,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (username: string, password: string) => {
     try {
       // Direct fetch to our new Custom Plugin
-      const response = await fetch('https://cms.caishenunited.com/wp-json/custom-api/v1/login', {
+      const response = await fetch('https://cms.tap2buy.in/wp-json/custom-api/v1/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,242 +1,276 @@
 'use client';
-import { Truck, Clock, MapPin, Bell, Shield, Package, ChevronRight, Mail, CheckCircle } from 'lucide-react';
+
+import { Truck, Clock, MapPin, Bell, Shield, Package, ChevronRight, Mail, CheckCircle, Phone, LucideIcon } from 'lucide-react';
 import Link from 'next/link';
+
+interface ShippingItem {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  highlight: string;
+}
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface BadgeItem {
+  icon: LucideIcon;
+  text: string;
+}
+
+const shippingItems: ShippingItem[] = [
+  {
+    icon: Clock,
+    title: 'Order Processing',
+    description: 'All confirmed orders are prepared for dispatch within 24–48 business hours. You will receive a dispatch confirmation via SMS and email.',
+    highlight: '24–48 Hours',
+  },
+  {
+    icon: Truck,
+    title: 'Trusted Courier Partners',
+    description: 'We collaborate with trusted national courier partners — Delhivery, BlueDart, Ekart, and more — to ensure quick and safe delivery to your doorstep.',
+    highlight: 'Reliable Delivery',
+  },
+  {
+    icon: MapPin,
+    title: 'Delivery Timeline',
+    description: 'Metro cities: 2–3 days. Tier 2 cities: 3–5 days. Remote or rural areas: 5–7 business days, depending on your location and courier availability.',
+    highlight: '2–7 Days',
+  },
+  {
+    icon: Bell,
+    title: 'Live Order Tracking',
+    description: 'Once your package is dispatched, you will receive an SMS and email with a live tracking link so you can follow every stage of its journey.',
+    highlight: 'Real-Time Updates',
+  },
+  {
+    icon: Shield,
+    title: 'Customer Support',
+    description: 'In the unlikely event of a delay or delivery concern, our customer care team will step in immediately to provide updates and prompt solutions.',
+    highlight: 'Mon–Sat Support',
+  },
+  {
+    icon: Package,
+    title: 'Secure Packaging',
+    description: 'Every order is carefully packed with protective materials to ensure it arrives in perfect condition. High-value items are shipped with tamper-proof seals.',
+    highlight: 'Safe Delivery',
+  },
+];
+
+const faqItems: FAQItem[] = [
+  {
+    question: 'When will my order be shipped?',
+    answer: 'All confirmed orders are processed and shipped within 24–48 business hours. You will receive a confirmation SMS and email once your order is dispatched.',
+  },
+  {
+    question: 'How can I track my order?',
+    answer: 'Once shipped, you will receive an SMS and email with your tracking number and a direct link to track your package in real-time on the courier\'s website. You can also track from My Orders in your account.',
+  },
+  {
+    question: 'Do you ship to remote locations?',
+    answer: 'Yes! We ship Pan India, including remote and rural areas. Delivery may take 5–7 business days for such locations.',
+  },
+  {
+    question: 'What if my order is delayed?',
+    answer: 'Our team monitors all shipments. In case of any delay, we will proactively contact you with updates and work with the courier to resolve the issue as quickly as possible.',
+  },
+  {
+    question: 'Are there any shipping charges?',
+    answer: 'Free shipping is available on all orders above ₹499. For orders below ₹499, a flat shipping fee of ₹49 is applicable. COD orders may have an additional handling charge.',
+  },
+  {
+    question: 'Can I change my delivery address after placing an order?',
+    answer: 'Please contact our support team immediately if you need to change your delivery address. We can accommodate changes only if the order has not been dispatched yet.',
+  },
+];
+
+const badges: BadgeItem[] = [
+  { icon: CheckCircle, text: 'Secure Packaging' },
+  { icon: Truck, text: 'Trusted Couriers' },
+  { icon: Shield, text: 'Safe Delivery' },
+  { icon: Bell, text: 'Real-Time Tracking' },
+];
 
 export default function ShippingPolicy() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
-      {/* Hero Section */}
-      <section className="relative py-20 px-4 bg-gradient-to-b from-[#fdf6e9] to-white border-b border-[#9e734d]/20">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, #9e734d 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
-          }} />
-        </div>
+    <main className="min-h-screen bg-gray-50">
 
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#9e734d]/10 border border-[#9e734d]/30 rounded-full mb-6">
-            <Truck className="w-4 h-4 text-[#9e734d]" />
-            <span className="text-sm text-[#6b5742] font-medium">Fast & Secure Delivery</span>
+      {/* ── HERO ── */}
+      <section className="bg-[#1B2A4A] py-14 px-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
+            <Truck className="w-3.5 h-3.5 text-[#FF6B00]" />
+            <span className="text-xs font-semibold text-orange-200 uppercase tracking-wider">Fast & Secure Delivery</span>
           </div>
-          
-          <h1 className="text-4xl md:text-6xl font-light text-[#2d2416] mb-6">
-            Shipping Policy
-          </h1>
-          
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Timely, secure, and transparent delivery every step of the way.
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">Shipping Policy</h1>
+          <p className="text-blue-200 text-sm leading-relaxed max-w-2xl">
+            Timely, secure, and transparent delivery — every step of the way, across all of India.
           </p>
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="py-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          {/* Introduction */}
-          <div className="bg-gradient-to-br from-[#fdf6e9] to-[#fefbf3] border border-[#9e734d]/20 rounded-2xl p-8 md:p-12 mb-12 shadow-sm">
-            <p className="text-gray-700 leading-relaxed text-lg mb-4">
-              At <span className="text-[#9e734d] font-semibold">Caishen United</span>, we understand that a seamless shopping experience extends beyond your purchase—it is about timely, secure, and transparent delivery every step of the way.
-            </p>
-            <p className="text-gray-700 leading-relaxed text-lg">
-              Every order we ship reflects our commitment to precision, responsibility, and reliability. Shipping is not the end of the sale—it is the beginning of confidence delivered.
-            </p>
-          </div>
+      <div className="max-w-4xl mx-auto px-4 py-12 space-y-6">
 
-          {/* Shipping Process */}
-          <div className="space-y-6 mb-12">
+        {/* Intro */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <p className="text-sm text-gray-600 leading-relaxed mb-3">
+            At <span className="font-semibold text-[#FF6B00]">Tap2Buy</span>, we understand that a seamless shopping experience extends beyond your purchase — it is about timely, secure, and transparent delivery every step of the way.
+          </p>
+          <p className="text-sm text-gray-600 leading-relaxed">
+            Every order we ship reflects our commitment to precision, responsibility, and reliability. Shipping is not the end of the sale — it is the beginning of confidence delivered.
+          </p>
+        </div>
+
+        {/* Shipping Items */}
+        <div className="space-y-4">
+          {shippingItems.map((item, index) => (
+            <div
+              key={index}
+              className="group bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+            >
+              <div className="flex items-start gap-4">
+                <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#FF6B00] transition-colors duration-300">
+                  <item.icon className="w-5 h-5 text-[#FF6B00] group-hover:text-white transition-colors duration-300" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-start justify-between gap-2 mb-1.5">
+                    <h3 className="text-sm font-bold text-gray-900">{item.title}</h3>
+                    <span className="text-[10px] font-bold text-[#FF6B00] bg-orange-50 px-2.5 py-1 rounded-full flex-shrink-0 border border-[#FF6B00]/20">
+                      {item.highlight}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed">{item.description}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Delivery Coverage */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-5">Pan-India Delivery Coverage</h3>
+          <div className="grid sm:grid-cols-3 gap-4">
             {[
-              {
-                icon: Clock,
-                title: "Order Processing",
-                description: "All confirmed orders are prepared for dispatch within 24–48 business hours.",
-                highlight: "24-48 Hours"
-              },
-              {
-                icon: Truck,
-                title: "Trusted Courier Partners",
-                description: "We collaborate exclusively with trusted national and regional couriers to ensure quick and safe delivery to your doorstep.",
-                highlight: "Reliable Delivery"
-              },
-              {
-                icon: MapPin,
-                title: "Delivery Timeline",
-                description: "Estimated transit times typically range between 3–7 business days, depending on your location and courier availability.",
-                highlight: "3-7 Days"
-              },
-              {
-                icon: Bell,
-                title: "Live Tracking",
-                description: "Once your package is on its way, you'll receive an email or SMS with live tracking details so you can follow every stage of its journey.",
-                highlight: "Real-Time Updates"
-              },
-              {
-                icon: Shield,
-                title: "Customer Support",
-                description: "In the unlikely event of a delay or delivery concern, our customer care team will step in immediately to provide updates and prompt solutions.",
-                highlight: "24/7 Support"
-              }
-            ].map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={index}
-                  className="group flex gap-6 p-6 bg-white border border-[#9e734d]/20 rounded-xl hover:border-[#9e734d]/50 hover:shadow-md transition-all duration-300"
-                >
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-[#9e734d]/10 rounded-full flex items-center justify-center group-hover:bg-[#9e734d]/20 transition-colors">
-                      <Icon className="w-6 h-6 text-[#9e734d]" />
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="text-xl font-semibold text-[#2d2416]">
-                        {item.title}
-                      </h3>
-                      <span className="text-xs font-bold text-[#9e734d] bg-[#9e734d]/10 px-3 py-1 rounded-full">
-                        {item.highlight}
-                      </span>
-                    </div>
-                    <p className="text-gray-600 leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Closing Statement */}
-          <div className="relative overflow-hidden bg-gradient-to-br from-[#9e734d]/10 to-[#9e734d]/5 border border-[#9e734d]/30 rounded-2xl p-8 md:p-12 mb-12">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#9e734d]/10 rounded-full blur-3xl" />
-            <div className="relative z-10">
-              <Package className="w-12 h-12 text-[#9e734d] mb-4" />
-              <p className="text-gray-700 leading-relaxed text-lg italic">
-                At <span className="text-[#9e734d] font-semibold not-italic">Caishen United</span>, every shipment is more than a parcel—it is a promise delivered with care.
-              </p>
-            </div>
-          </div>
-
-          {/* Shipping Coverage Map */}
-          <div className="bg-[#fdf6e9] border border-[#9e734d]/20 rounded-2xl p-8 mb-12">
-            <h3 className="text-2xl font-light text-[#2d2416] mb-6 text-center">
-              Nationwide Coverage
-            </h3>
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                { region: "Metro Cities", time: "3-4 Days", icon: "🏙️" },
-                { region: "Tier 2 Cities", time: "4-6 Days", icon: "🌆" },
-                { region: "Remote Areas", time: "5-7 Days", icon: "🏞️" }
-              ].map((area, index) => (
-                <div
-                  key={index}
-                  className="text-center p-6 bg-white rounded-xl border border-[#9e734d]/20 hover:border-[#9e734d]/40 hover:shadow-md transition-all"
-                >
-                  <div className="text-4xl mb-3">{area.icon}</div>
-                  <h4 className="text-[#2d2416] font-medium mb-2">{area.region}</h4>
-                  <p className="text-sm text-[#9e734d] font-semibold">{area.time}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Contact CTA */}
-          <div className="text-center">
-            <h3 className="text-2xl font-light text-[#2d2416] mb-6">
-              Have Questions About Your Delivery?
-            </h3>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#9e734d] to-[#b8834f] text-white rounded-full font-semibold hover:shadow-lg hover:shadow-[#9e734d]/30 transition-all hover:scale-105"
+              { region: 'Metro Cities', time: '2–3 Business Days', icon: '🏙️', examples: 'Delhi, Mumbai, Bangalore, Chennai' },
+              { region: 'Tier 2 Cities', time: '3–5 Business Days', icon: '🌆', examples: 'Jaipur, Lucknow, Bhopal, Surat' },
+              { region: 'Remote Areas', time: '5–7 Business Days', icon: '🏞️', examples: 'Northeast, J&K, Andaman' },
+            ].map((area, index) => (
+              <div
+                key={index}
+                className="text-center p-5 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#FF6B00]/20 hover:shadow-sm transition-all"
               >
-                <Mail className="w-5 h-5" />
-                Contact Support
-                <ChevronRight className="w-5 h-5" />
-              </Link>
-              <Link
-                href="/return-policy"
-                className="inline-flex items-center gap-2 px-8 py-4 border-2 border-[#9e734d] text-[#2d2416] rounded-full hover:bg-[#9e734d]/10 transition-all"
-              >
-                View Return Policy
-              </Link>
-            </div>
+                <div className="text-3xl mb-2">{area.icon}</div>
+                <h4 className="text-sm font-bold text-gray-900 mb-1">{area.region}</h4>
+                <p className="text-xs text-[#FF6B00] font-semibold mb-2">{area.time}</p>
+                <p className="text-[11px] text-gray-400">{area.examples}</p>
+              </div>
+            ))}
+          </div>
+          {/* Free shipping note */}
+          <div className="mt-4 flex items-center gap-2 bg-green-50 border border-green-100 rounded-xl p-3">
+            <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
+            <p className="text-xs text-green-700 font-medium">
+              Free shipping on all orders above <span className="font-bold">₹499</span>. Flat ₹49 below that.
+            </p>
           </div>
         </div>
-      </section>
 
-      {/* FAQ Section */}
-      <section className="py-16 px-4 bg-[#fdf6e9] border-t border-[#9e734d]/20">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-light text-center text-[#2d2416] mb-12">
-            Shipping FAQs
-          </h2>
-          
-          <div className="space-y-4">
-            {[
-              {
-                question: "When will my order be shipped?",
-                answer: "All confirmed orders are processed and shipped within 24-48 business hours. You'll receive a confirmation email once your order has been dispatched."
-              },
-              {
-                question: "How can I track my order?",
-                answer: "Once shipped, you'll receive an email or SMS with your tracking number and a link to track your package in real-time on the courier's website."
-              },
-              {
-                question: "Do you ship to remote locations?",
-                answer: "Yes! We ship across India, including remote areas. Delivery times may vary from 5-7 business days for such locations."
-              },
-              {
-                question: "What if my order is delayed?",
-                answer: "Our customer care team monitors all shipments. In case of any delay, we'll proactively contact you with updates and work with the courier to resolve the issue promptly."
-              },
-              {
-                question: "Are there any shipping charges?",
-                answer: "Shipping charges may vary based on your location and order value. Free shipping is often available for orders above a certain amount. Check your cart for exact details."
-              },
-              {
-                question: "Can I change my delivery address after placing an order?",
-                answer: "Please contact our support team immediately if you need to change your delivery address. We can accommodate changes if the order hasn't been dispatched yet."
-              }
-            ].map((faq, index) => (
+        {/* Closing quote */}
+        <div className="bg-[#1B2A4A] rounded-2xl p-6 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-40 h-40 bg-[#FF6B00]/10 rounded-full blur-2xl pointer-events-none" />
+          <p className="relative z-10 text-sm text-blue-200 leading-relaxed italic text-center max-w-2xl mx-auto">
+            At <span className="text-[#FF6B00] font-semibold not-italic">Tap2Buy</span>, every shipment is more than a parcel — it is a promise delivered with care, speed, and reliability.
+          </p>
+        </div>
+
+        {/* FAQ */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 md:p-8">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="w-8 h-8 bg-orange-50 rounded-lg flex items-center justify-center">
+              <Truck className="w-4 h-4 text-[#FF6B00]" />
+            </div>
+            <h2 className="text-base font-bold text-gray-900">Shipping FAQs</h2>
+          </div>
+          <div className="space-y-3">
+            {faqItems.map((faq, index) => (
               <details
                 key={index}
-                className="group bg-white border border-[#9e734d]/20 rounded-xl overflow-hidden hover:border-[#9e734d]/50 hover:shadow-md transition-all"
+                className="group border border-gray-100 rounded-xl overflow-hidden hover:border-[#FF6B00]/20 transition-all"
               >
-                <summary className="px-6 py-4 cursor-pointer flex items-center justify-between text-[#2d2416] font-medium">
+                <summary className="px-5 py-4 cursor-pointer flex items-center justify-between text-sm font-semibold text-gray-900 bg-gray-50 hover:bg-orange-50/30 transition-colors list-none">
                   <span>{faq.question}</span>
-                  <ChevronRight className="w-5 h-5 text-[#9e734d] transform group-open:rotate-90 transition-transform" />
+                  <ChevronRight className="w-4 h-4 text-[#FF6B00] flex-shrink-0 group-open:rotate-90 transition-transform duration-200" />
                 </summary>
-                <div className="px-6 pb-4 text-gray-600">
+                <div className="px-5 py-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100">
                   {faq.answer}
                 </div>
               </details>
             ))}
           </div>
         </div>
-      </section>
 
-      {/* Trust Badge Section */}
-      <section className="py-12 px-4 bg-white border-t border-[#9e734d]/20">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex flex-wrap justify-center items-center gap-8">
-            {[
-              { icon: CheckCircle, text: "Secure Packaging" },
-              { icon: Truck, text: "Trusted Couriers" },
-              { icon: Shield, text: "Insured Shipping" },
-              { icon: Bell, text: "Real-Time Updates" }
-            ].map((badge, i) => {
-              const Icon = badge.icon;
-              return (
-                <div key={i} className="flex items-center gap-2">
-                  <Icon className="w-5 h-5 text-[#9e734d]" />
-                  <span className="text-sm text-gray-600">{badge.text}</span>
-                </div>
-              );
-            })}
+        {/* Contact CTA */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <h3 className="text-base font-bold text-gray-900 mb-1">Questions About Your Delivery?</h3>
+          <p className="text-sm text-gray-500 mb-5">Our support team is ready to help — Mon–Sat, 10 AM–7 PM IST.</p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <a
+              href="mailto:support@tap2buy.in"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-orange-200"
+            >
+              <Mail className="w-4 h-4" />
+              Email Support
+            </a>
+            <a
+              href="https://wa.me/919911636888"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+            >
+              💬 WhatsApp Us
+            </a>
+            <a
+              href="tel:+919911636888"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+            >
+              <Phone className="w-4 h-4" />
+              Call Us
+            </a>
+            <Link
+              href="/returns-and-refunds-policy"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+            >
+              Return Policy
+              <ChevronRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
-      </section>
-    </div>
+
+        {/* Trust badges */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <div className="flex flex-wrap justify-center items-center gap-6">
+            {badges.map((badge, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <div className="w-7 h-7 bg-orange-50 rounded-lg flex items-center justify-center">
+                  <badge.icon className="w-4 h-4 text-[#FF6B00]" />
+                </div>
+                <span className="text-xs font-medium text-gray-600">{badge.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p className="text-xs text-gray-400 text-center pb-4">
+          © {new Date().getFullYear()} Tap2Buy. All rights reserved. &nbsp;·&nbsp;{' '}
+          <Link href="/returns-and-refunds-policy" className="text-[#FF6B00] hover:underline">Return Policy</Link>
+          {' '}&nbsp;·&nbsp;{' '}
+          <Link href="/cancellation-policy" className="text-[#FF6B00] hover:underline">Cancellation Policy</Link>
+        </p>
+      </div>
+    </main>
   );
 }

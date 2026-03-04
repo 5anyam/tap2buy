@@ -1,10 +1,11 @@
 'use client';
+
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import ProductCard from '../../../../components/ProductCard';
 import { fetchProducts } from '../../../../lib/woocommerceApi';
-import { useState } from 'react';
-import { Filter, Grid, List, ChevronDown, Search } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Grid, List, ChevronDown, Search, ShoppingBag, X, AlertCircle } from 'lucide-react';
 
 interface Product {
   id: number;
@@ -16,14 +17,22 @@ interface Product {
   categories?: { id: number; name: string; slug: string }[];
 }
 
+type SortOption = 'default' | 'price-low' | 'price-high' | 'name';
+
+function toTitleCase(slug: string): string {
+  return slug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
 export default function CategoryPage() {
   const params = useParams();
   const slug = params.slug as string;
-  const [sortBy, setSortBy] = useState('default');
+  const categoryName = toTitleCase(slug);
+
+  const [sortBy, setSortBy] = useState<SortOption>('default');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const { data, isLoading, isError } = useQuery<Product[]>({
+  const { data, isLoading, isError, refetch } = useQuery<Product[]>({
     queryKey: ['category-products', slug],
     queryFn: async () => {
       const result = await fetchProducts();
@@ -31,194 +40,210 @@ export default function CategoryPage() {
     },
   });
 
-  // Filter products by category slug
-  const filteredProducts = data?.filter((product) =>
-    product.categories?.some((cat) => cat.slug === slug)
-  ) || [];
+  const sortedProducts = useMemo(() => {
+    const byCategory = data?.filter((p) =>
+      p.categories?.some((c) => c.slug === slug)
+    ) ?? [];
 
-  // Search filter
-  const searchedProducts = searchQuery.trim()
-    ? filteredProducts.filter((product) =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : filteredProducts;
+    const bySearch = searchQuery.trim()
+      ? byCategory.filter((p) =>
+          p.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : byCategory;
 
-  // Sort products
-  const sortedProducts = [...searchedProducts].sort((a, b) => {
-    switch (sortBy) {
-      case 'price-low':
-        return parseFloat(a.price) - parseFloat(b.price);
-      case 'price-high':
-        return parseFloat(b.price) - parseFloat(a.price);
-      case 'name':
-        return a.name.localeCompare(b.name);
-      default:
-        return 0;
-    }
-  });
-
-  // Get category name from slug
-  const categoryName = slug
-    .split('-')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    return [...bySearch].sort((a, b) => {
+      switch (sortBy) {
+        case 'price-low': return parseFloat(a.price) - parseFloat(b.price);
+        case 'price-high': return parseFloat(b.price) - parseFloat(a.price);
+        case 'name': return a.name.localeCompare(b.name);
+        default: return 0;
+      }
+    });
+  }, [data, slug, searchQuery, sortBy]);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-gray-50 to-white border-b border-gray-100 py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-4 font-medium">
-              Browse Collection
-            </p>
-            <h1 className="text-4xl md:text-5xl font-light text-gray-900 mb-4 tracking-tight">
+    <main className="min-h-screen bg-gray-50">
+
+      {/* ── HERO ── */}
+      <div className="bg-[#1B2A4A] relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-blue-300 mb-3 font-semibold">
+            Browse Collection
+          </p>
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-9 h-9 bg-[#FF6B00] rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-orange-500/30">
+              <ShoppingBag className="w-4 h-4 text-white" />
+            </div>
+            <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
               {categoryName}
             </h1>
-            <div className="w-20 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent mx-auto mb-6"></div>
-            <p className="text-sm text-gray-600 max-w-2xl mx-auto">
-              Discover our premium selection of {categoryName.toLowerCase()} designed for style and protection
-            </p>
           </div>
+          <p className="text-sm text-blue-200 max-w-lg pl-12 leading-relaxed">
+            Discover our premium selection of{' '}
+            <span className="text-white font-medium">{categoryName.toLowerCase()}</span>{' '}
+            designed for style and protection.
+          </p>
         </div>
-      </section>
+      </div>
 
-      {/* Filters & Sort */}
-      <section className="border-b border-gray-100 py-6 sticky top-20 bg-white z-30 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+      {/* ── STICKY FILTER BAR ── */}
+      <div className="sticky top-0 z-30 bg-white border-b border-gray-100 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex flex-col sm:flex-row items-center gap-3">
+
             {/* Search */}
-            <div className="relative w-full md:w-96">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <div className="relative w-full sm:w-80">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search products..."
+                placeholder="Search in this category..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 bg-white text-gray-900 focus:outline-none focus:border-gray-900 transition-colors"
+                className="w-full pl-10 pr-9 py-2.5 border-2 border-gray-100 rounded-xl bg-gray-50 text-sm text-gray-900 focus:outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10 focus:bg-white transition-all placeholder:text-gray-400"
               />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#FF6B00] transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
 
-            <div className="flex items-center gap-4 w-full md:w-auto">
-              {/* Results Count */}
-              <span className="text-xs text-gray-500">
-                {sortedProducts.length} Products
-              </span>
+            <div className="flex items-center gap-3 w-full sm:w-auto ml-auto">
+              {/* Count */}
+              {!isLoading && (
+                <span className="text-xs font-semibold text-gray-500 whitespace-nowrap">
+                  {sortedProducts.length} product{sortedProducts.length !== 1 ? 's' : ''}
+                </span>
+              )}
 
-              {/* Sort Dropdown */}
+              {/* Sort */}
               <div className="relative">
                 <select
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="appearance-none pl-4 pr-10 py-2 text-xs border border-gray-200 bg-white text-gray-900 focus:outline-none focus:border-gray-900 cursor-pointer"
+                  onChange={(e) => setSortBy(e.target.value as SortOption)}
+                  className="appearance-none pl-3 pr-8 py-2.5 border-2 border-gray-100 rounded-xl bg-gray-50 text-xs font-semibold text-gray-700 focus:outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10 cursor-pointer transition-all"
                 >
                   <option value="default">Sort By</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="name">Name: A to Z</option>
+                  <option value="price-low">Price: Low → High</option>
+                  <option value="price-high">Price: High → Low</option>
+                  <option value="name">Name: A → Z</option>
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
               </div>
 
-              {/* View Mode Toggle */}
-              <div className="flex items-center border border-gray-200">
+              {/* View Toggle */}
+              <div className="flex items-center border-2 border-gray-100 rounded-xl overflow-hidden bg-gray-50">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 ${
-                    viewMode === 'grid'
-                      ? 'bg-gray-900 text-white'
-                      : 'text-gray-400 hover:text-gray-900'
-                  } transition-colors`}
+                  className={`p-2.5 transition-colors ${
+                    viewMode === 'grid' ? 'bg-[#FF6B00] text-white' : 'text-gray-400 hover:text-[#FF6B00]'
+                  }`}
+                  aria-label="Grid view"
                 >
-                  <Grid className="w-4 h-4" />
+                  <Grid className="w-3.5 h-3.5" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-2 ${
-                    viewMode === 'list'
-                      ? 'bg-gray-900 text-white'
-                      : 'text-gray-400 hover:text-gray-900'
-                  } transition-colors`}
+                  className={`p-2.5 transition-colors ${
+                    viewMode === 'list' ? 'bg-[#FF6B00] text-white' : 'text-gray-400 hover:text-[#FF6B00]'
+                  }`}
+                  aria-label="List view"
                 >
-                  <List className="w-4 h-4" />
+                  <List className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Products Grid */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          {isLoading ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {[...Array(8)].map((_, i) => (
-                <div
-                  key={i}
-                  className="aspect-square bg-gray-100 animate-pulse rounded-sm"
-                />
-              ))}
-            </div>
-          ) : isError ? (
-            <div className="text-center py-20">
-              <p className="text-gray-500 mb-4">
-                Failed to load products
-              </p>
-              <button
-                onClick={() => window.location.reload()}
-                className="px-6 py-2 bg-gray-900 text-white text-sm hover:bg-gray-800 transition-colors"
-              >
-                Retry
-              </button>
-            </div>
-          ) : sortedProducts.length === 0 ? (
-            <div className="text-center py-20">
-              <Filter className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-              <p className="text-gray-500 mb-2">
-                No products found
-              </p>
-              <p className="text-sm text-gray-400">
-                Try adjusting your search or filters
-              </p>
-            </div>
-          ) : (
-            <div
-              className={
-                viewMode === 'grid'
-                  ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'
-                  : 'flex flex-col gap-6'
-              }
-            >
-              {sortedProducts.map((product, index) => (
-                <div
-                  key={product.id}
-                  className="animate-fade-in-up"
-                  style={{ animationDelay: `${index * 50}ms` }}
-                >
-                  <ProductCard product={product} />
+      {/* ── CONTENT ── */}
+      <section className="max-w-7xl mx-auto px-4 py-8">
+
+        {/* Loading skeletons */}
+        {isLoading && (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+                <div className="aspect-square bg-gray-100 animate-pulse" />
+                <div className="p-4 space-y-2">
+                  <div className="h-3 bg-gray-100 rounded-full animate-pulse w-3/4" />
+                  <div className="h-3 bg-gray-100 rounded-full animate-pulse w-1/2" />
                 </div>
-              ))}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Error state */}
+        {isError && (
+          <div className="text-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm">
+            <div className="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <AlertCircle className="w-6 h-6 text-red-400" />
             </div>
-          )}
-        </div>
+            <h3 className="text-base font-bold text-gray-900 mb-2">Failed to Load Products</h3>
+            <p className="text-sm text-gray-400 mb-6">Something went wrong. Please try again.</p>
+            <button
+              onClick={() => void refetch()}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
+        {/* Empty state */}
+        {!isLoading && !isError && sortedProducts.length === 0 && (
+          <div className="text-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm">
+            <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <Search className="w-6 h-6 text-gray-300" />
+            </div>
+            <h3 className="text-base font-bold text-gray-900 mb-2">No Products Found</h3>
+            <p className="text-sm text-gray-400 mb-6">Try adjusting your search or filters.</p>
+            <button
+              onClick={() => { setSearchQuery(''); setSortBy('default'); }}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+            >
+              <X className="w-4 h-4" />
+              Clear Filters
+            </button>
+          </div>
+        )}
+
+        {/* Products */}
+        {!isLoading && !isError && sortedProducts.length > 0 && (
+          <div
+            className={
+              viewMode === 'grid'
+                ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'
+                : 'flex flex-col gap-4'
+            }
+          >
+            {sortedProducts.map((product, index) => (
+              <div
+                key={product.id}
+                className="animate-[fadeInUp_0.5s_ease-out_forwards] opacity-0"
+                style={{ animationDelay: `${Math.min(index * 40, 400)}ms` }}
+              >
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
-      <style jsx>{`
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fade-in-up {
-          animation: fade-in-up 0.6s ease-out forwards;
+      {/* Tailwind-safe keyframe via global style */}
+      <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0);    }
         }
       `}</style>
-    </div>
+    </main>
   );
 }

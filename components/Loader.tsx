@@ -7,28 +7,21 @@ export default function Loader() {
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
 
-  const showLoader = useCallback(() => {
-    setIsLoading(true);
-  }, []);
+  const showLoader = useCallback(() => setIsLoading(true), []);
+  const hideLoader = useCallback(() => setIsLoading(false), []);
 
-  const hideLoader = useCallback(() => {
-    setIsLoading(false);
-  }, []);
-
-  // 1. CLICK pe loader ON
+  // 1. Link click pe loader ON
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      
+
       if (
         target.closest('button') ||
         target.closest('[data-no-loader]') ||
         target.closest('.no-loader') ||
         target.closest('.header-internal') ||
         target.closest('.submenu')
-      ) {
-        return;
-      }
+      ) return;
 
       const link = target.closest('a');
       if (
@@ -44,59 +37,54 @@ export default function Loader() {
     return () => document.removeEventListener('click', handleClick);
   }, [showLoader]);
 
-  // 2. ROUTE CHANGE START pe loader ON (Next.js event)
+  // 2. Route change start
   useEffect(() => {
-    const handleRouteChangeStart = () => {
-      showLoader();
-    };
-
-    // Next.js App Router events
-    if (typeof window !== 'undefined') {
-      window.addEventListener('router.start', handleRouteChangeStart);
-    }
-
-    return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('router.start', handleRouteChangeStart);
-      }
-    };
+    const handleRouteChangeStart = () => showLoader();
+    window.addEventListener('router.start', handleRouteChangeStart);
+    return () => window.removeEventListener('router.start', handleRouteChangeStart);
   }, [showLoader]);
 
-  // 3. ROUTE CHANGE COMPLETE pe loader OFF (turant!)
+  // 3. Pathname change pe turant hide
   useEffect(() => {
-    // Route change complete hone pe turant hide
     hideLoader();
   }, [pathname, hideLoader]);
 
-  // 4. Next.js Router events se bhi detect karo
+  // 4. Route complete event
   useEffect(() => {
-    const handleRouteChangeComplete = () => {
-      hideLoader();
-    };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('router.complete', handleRouteChangeComplete);
-    }
-
-    return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('router.complete', handleRouteChangeComplete);
-      }
-    };
+    const handleRouteChangeComplete = () => hideLoader();
+    window.addEventListener('router.complete', handleRouteChangeComplete);
+    return () => window.removeEventListener('router.complete', handleRouteChangeComplete);
   }, [hideLoader]);
 
   if (!isLoading) return null;
 
   return (
-    <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-[9999] flex items-center justify-center">
-      <div className="flex flex-col items-center gap-4 p-8 bg-white/95 rounded-2xl shadow-2xl border border-gray-200 max-w-sm mx-4 animate-in fade-in duration-200">
-        <div className="relative">
-          <div className="w-16 h-16 border-4 border-gray-200 border-t-black rounded-full animate-spin" />
-          <div className="absolute -inset-1 w-16 h-16 border-4 border-transparent border-t-[#9e734d] rounded-full animate-ping" />
+    <div className="fixed inset-0 bg-white/70 backdrop-blur-sm z-[9999] flex items-center justify-center">
+      <div className="flex flex-col items-center gap-5 px-10 py-8 bg-white rounded-2xl shadow-2xl border border-gray-100 max-w-xs mx-4">
+
+        {/* Spinner */}
+        <div className="relative w-16 h-16">
+          {/* Outer ring */}
+          <div className="absolute inset-0 rounded-full border-4 border-gray-100" />
+          {/* Spinning orange arc */}
+          <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#FF6B00] animate-spin" />
+          {/* Inner navy ring */}
+          <div className="absolute inset-[6px] rounded-full border-4 border-transparent border-t-[#1B2A4A] animate-spin [animation-duration:1.5s]" />
+          {/* Center dot */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-3 h-3 bg-[#FF6B00] rounded-full animate-pulse" />
+          </div>
         </div>
+
+        {/* Text */}
         <div className="text-center">
-          <h3 className="text-xl font-bold text-gray-900 mb-1">Loading...</h3>
-          <p className="text-sm text-gray-500">Just a moment</p>
+          <p className="text-sm font-bold text-gray-900 tracking-wide">Loading</p>
+          <p className="text-xs text-gray-400 mt-0.5">Please wait a moment...</p>
+        </div>
+
+        {/* Progress bar */}
+        <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
+          <div className="h-full bg-gradient-to-r from-[#FF6B00] to-[#1B2A4A] rounded-full animate-[shimmer_1.5s_ease-in-out_infinite] w-1/2" />
         </div>
       </div>
     </div>

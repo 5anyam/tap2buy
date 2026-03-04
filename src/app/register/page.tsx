@@ -1,15 +1,32 @@
 'use client';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../lib/AuthContext';
-import { User, Mail, Lock, ArrowRight, Eye, EyeOff } from 'lucide-react';
+import { User, Mail, Lock, ArrowRight, Eye, EyeOff, ShoppingBag, AlertCircle, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+
+interface FormData {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  first_name: string;
+  last_name: string;
+}
+
+const memberBenefits = [
+  'Track all your orders in real-time',
+  'Faster checkout with saved addresses',
+  'Exclusive deals & member-only offers',
+  'Complete order history access',
+];
 
 export default function RegisterPage() {
   const router = useRouter();
   const { register } = useAuth();
-  
-  const [formData, setFormData] = useState({
+
+  const [formData, setFormData] = useState<FormData>({
     username: '',
     email: '',
     password: '',
@@ -17,17 +34,14 @@ export default function RegisterPage() {
     first_name: '',
     last_name: '',
   });
-  
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,15 +49,14 @@ export default function RegisterPage() {
     setLoading(true);
     setError('');
 
-    // Validation
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError('Passwords do not match.');
       setLoading(false);
       return;
     }
 
     if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setError('Password must be at least 6 characters.');
       setLoading(false);
       return;
     }
@@ -56,58 +69,68 @@ export default function RegisterPage() {
         first_name: formData.first_name,
         last_name: formData.last_name,
       });
-      
       router.push('/dashboard');
     } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('Registration failed. Please try again.');
-      }
+      setError(err instanceof Error ? err.message : 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
+  const inputClass =
+    'w-full py-3 border-2 border-gray-100 rounded-xl bg-gray-50 text-sm focus:outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10 focus:bg-white transition-all placeholder:text-gray-400';
+
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-12">
-      <div className="max-w-md w-full">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-light text-[#2d2416] mb-2">Create Account</h1>
-          <p className="text-gray-600">Join Caishen United for exclusive benefits</p>
+    <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
+      <div className="max-w-md w-full space-y-5">
+
+        {/* Brand */}
+        <div className="text-center">
+          <div className="w-14 h-14 bg-[#FF6B00] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-orange-200">
+            <ShoppingBag className="w-7 h-7 text-white" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">Create Account</h1>
+          <p className="text-sm text-gray-500">
+            Join <span className="text-[#FF6B00] font-semibold">Tap2Buy</span> for exclusive benefits
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-[#fdf6e9] border border-[#9e734d]/20 rounded-2xl p-8 shadow-lg">
+        {/* Form Card */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-7">
+
+          {/* Error */}
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
-              {error}
+            <div className="mb-5 flex items-start gap-3 p-4 bg-red-50 border border-red-100 rounded-xl">
+              <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-red-600">{error}</p>
             </div>
           )}
 
-          <div className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
+
             {/* Username */}
             <div>
-              <label className="block text-sm font-medium text-[#2d2416] mb-2">
-                Username *
+              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
+                Username <span className="text-[#FF6B00]">*</span>
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type="text"
                   name="username"
                   value={formData.username}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-3 border border-[#9e734d]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9e734d]/50"
+                  className={`${inputClass} pl-10 pr-4`}
                   placeholder="Choose a username"
                   required
                 />
               </div>
             </div>
 
-            {/* First Name & Last Name */}
-            <div className="grid grid-cols-2 gap-4">
+            {/* First & Last Name */}
+            <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm font-medium text-[#2d2416] mb-2">
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
                   First Name
                 </label>
                 <input
@@ -115,12 +138,12 @@ export default function RegisterPage() {
                   name="first_name"
                   value={formData.first_name}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-[#9e734d]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9e734d]/50"
+                  className={`${inputClass} px-4`}
                   placeholder="First name"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[#2d2416] mb-2">
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
                   Last Name
                 </label>
                 <input
@@ -128,7 +151,7 @@ export default function RegisterPage() {
                   name="last_name"
                   value={formData.last_name}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-[#9e734d]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9e734d]/50"
+                  className={`${inputClass} px-4`}
                   placeholder="Last name"
                 />
               </div>
@@ -136,17 +159,17 @@ export default function RegisterPage() {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-[#2d2416] mb-2">
-                Email *
+              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
+                Email <span className="text-[#FF6B00]">*</span>
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-3 border border-[#9e734d]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9e734d]/50"
+                  className={`${inputClass} pl-10 pr-4`}
                   placeholder="your@email.com"
                   required
                 />
@@ -155,95 +178,131 @@ export default function RegisterPage() {
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-[#2d2416] mb-2">
-                Password *
+              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
+                Password <span className="text-[#FF6B00]">*</span>
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-12 py-3 border border-[#9e734d]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9e734d]/50"
-                  placeholder="Create password (min 6 characters)"
+                  className={`${inputClass} pl-10 pr-12`}
+                  placeholder="Min. 6 characters"
                   required
                   minLength={6}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#FF6B00] transition-colors"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
 
             {/* Confirm Password */}
             <div>
-              <label className="block text-sm font-medium text-[#2d2416] mb-2">
-                Confirm Password *
+              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
+                Confirm Password <span className="text-[#FF6B00]">*</span>
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-12 py-3 border border-[#9e734d]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9e734d]/50"
-                  placeholder="Confirm your password"
+                  className={`${inputClass} pl-10 pr-12`}
+                  placeholder="Re-enter your password"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#FF6B00] transition-colors"
                 >
-                  {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
+              {/* Password match indicator */}
+              {formData.confirmPassword && (
+                <p className={`text-xs mt-1.5 font-medium ${
+                  formData.password === formData.confirmPassword
+                    ? 'text-green-600'
+                    : 'text-red-500'
+                }`}>
+                  {formData.password === formData.confirmPassword
+                    ? '✓ Passwords match'
+                    : '✗ Passwords do not match'}
+                </p>
+              )}
             </div>
 
-            {/* Submit Button */}
+            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-[#9e734d] to-[#b8834f] text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full bg-[#FF6B00] hover:bg-[#e55f00] disabled:opacity-60 disabled:cursor-not-allowed text-white py-3.5 rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-orange-200 flex items-center justify-center gap-2 mt-1"
             >
-              {loading ? 'Creating Account...' : 'Create Account'}
-              <ArrowRight className="w-5 h-5" />
+              {loading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Creating Account...
+                </>
+              ) : (
+                <>
+                  Create My Account
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
+          </form>
+
+          {/* Divider */}
+          <div className="flex items-center gap-3 my-5">
+            <div className="flex-1 h-px bg-gray-100" />
+            <span className="text-xs text-gray-400 font-medium">Already have an account?</span>
+            <div className="flex-1 h-px bg-gray-100" />
           </div>
 
-          <div className="mt-6 text-center text-sm text-gray-600">
-            Already have an account?{' '}
-            <Link href="/login" className="text-[#9e734d] font-semibold hover:underline">
-              Login here
-            </Link>
-          </div>
-        </form>
+          <Link
+            href="/login"
+            className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+          >
+            Login Instead
+          </Link>
+        </div>
 
-        {/* Benefits */}
-        <div className="mt-8 bg-white border border-gray-200 rounded-lg p-6">
-          <h3 className="text-sm font-semibold text-[#2d2416] mb-4">Member Benefits:</h3>
-          <ul className="space-y-2 text-sm text-gray-600">
-            <li className="flex items-center gap-2">
-              <span className="text-[#9e734d]">✓</span> Track all your orders
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="text-[#9e734d]">✓</span> Faster checkout
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="text-[#9e734d]">✓</span> Exclusive deals & offers
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="text-[#9e734d]">✓</span> Order history access
-            </li>
+        {/* Member Benefits Card */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
+            Member Benefits
+          </h3>
+          <ul className="space-y-2.5">
+            {memberBenefits.map((benefit, i) => (
+              <li key={i} className="flex items-center gap-2.5 text-sm text-gray-600">
+                <CheckCircle className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
+                {benefit}
+              </li>
+            ))}
           </ul>
         </div>
+
+        {/* Trust note */}
+        <p className="text-center text-xs text-gray-400 pb-2">
+          By registering, you agree to our{' '}
+          <Link href="/terms-and-conditions" className="text-[#FF6B00] hover:underline">
+            Terms & Conditions
+          </Link>{' '}
+          and{' '}
+          <Link href="/privacy-policy" className="text-[#FF6B00] hover:underline">
+            Privacy Policy
+          </Link>
+        </p>
       </div>
-    </div>
+    </main>
   );
 }

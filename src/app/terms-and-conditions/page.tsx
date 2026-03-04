@@ -1,374 +1,352 @@
 'use client';
-import { Scale, Truck, Lock, Gavel, RefreshCw, ChevronRight, Mail, Phone, Bell, Crown, MapPin, Smartphone, Shield } from 'lucide-react';
+
+import {
+  Scale, Truck, Lock, Gavel, RefreshCw,
+  ChevronRight, Mail, Phone, Bell, MapPin, Shield, LucideIcon
+} from 'lucide-react';
 import Link from 'next/link';
+
+interface TermsSection {
+  icon: LucideIcon;
+  title: string;
+  content: React.ReactNode;
+}
+
+interface PolicyLink {
+  title: string;
+  description: string;
+  link: string;
+  icon: LucideIcon;
+}
+
+const termsSections: TermsSection[] = [
+  {
+    icon: Scale,
+    title: 'Product Descriptions & Pricing',
+    content: (
+      <p className="text-sm text-gray-600 leading-relaxed">
+        All product descriptions, images, and prices are subject to change without notice. We strive to provide accurate information, but specifications may vary slightly based on manufacturer updates or stock availability.
+      </p>
+    ),
+  },
+  {
+    icon: Lock,
+    title: 'Payment & Order Processing',
+    content: (
+      <p className="text-sm text-gray-600 leading-relaxed">
+        Payments must be successfully completed before order verification and dispatch, except for orders placed under the approved Cash on Delivery (COD) option. We accept UPI, Cards, Wallets, Net Banking, and COD for your convenience.
+      </p>
+    ),
+  },
+  {
+    icon: Truck,
+    title: 'Shipping & Delivery',
+    content: (
+      <p className="text-sm text-gray-600 leading-relaxed">
+        We are not responsible for delays caused by courier services or incorrect shipping details provided by customers. Please ensure your delivery address is accurate and complete at the time of checkout. Estimated delivery: 2–7 business days across India.
+      </p>
+    ),
+  },
+  {
+    icon: RefreshCw,
+    title: 'Returns & Quality Assurance (7-Day Policy)',
+    content: (
+      <div className="space-y-3">
+        <p className="text-sm text-gray-600 leading-relaxed">
+          Returns and replacements apply strictly to items verified as defective or damaged due to manufacturing faults, reported within{' '}
+          <span className="font-semibold text-[#FF6B00]">7 days of delivery</span> with valid proof or documented evidence.
+        </p>
+        <ul className="space-y-2">
+          {[
+            'Manufacturing defects must be reported within 7 days with photographic evidence',
+            'Product must be unused and in original packaging with all accessories',
+            'Damage during shipping must be reported immediately upon delivery',
+            'Returns due to incorrect product selection or buyer remorse are not accepted',
+          ].map((item, i) => (
+            <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+              <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ),
+  },
+  {
+    icon: Shield,
+    title: 'Warranty & Replacement Policy',
+    content: (
+      <p className="text-sm text-gray-600 leading-relaxed">
+        Warranty-related concerns, where applicable, will be processed solely as per the official Warranty & Replacement Policy and under the terms and limitations stated therein. Please refer to our detailed warranty documentation for specific coverage details.
+      </p>
+    ),
+  },
+  {
+    icon: Scale,
+    title: 'Intellectual Property Rights',
+    content: (
+      <p className="text-sm text-gray-600 leading-relaxed">
+        All creative assets, including brand logos, product visuals, digital content, and layout designs, are the intellectual property of Tap2Buy or their rightful owners. Any unauthorized use, reproduction, or distribution constitutes a legal violation and may invite immediate legal proceedings.
+      </p>
+    ),
+  },
+  {
+    icon: RefreshCw,
+    title: 'Amendments to Terms',
+    content: (
+      <p className="text-sm text-gray-600 leading-relaxed">
+        We reserve the right to update these terms anytime without prior notice. Continued use of our website or services after such modifications constitutes acceptance of the updated terms.
+      </p>
+    ),
+  },
+  {
+    icon: Phone,
+    title: 'Order Verification & Authentication',
+    content: (
+      <p className="text-sm text-gray-600 leading-relaxed">
+        To ensure authenticity and prevent fraud, we may verify orders through phone calls, SMS, or WhatsApp messages. This verification process helps us confirm your purchase intent and delivery details.
+      </p>
+    ),
+  },
+  {
+    icon: Bell,
+    title: 'Communication Consent & DND Override',
+    content: (
+      <div className="space-y-3">
+        <p className="text-sm text-gray-600 leading-relaxed">
+          By providing your phone number and placing orders, you authorize us to override the Do-Not-Disturb (DND) registry for communications regarding:
+        </p>
+        <ul className="space-y-2">
+          {[
+            'Order confirmations and delivery updates',
+            'Exclusive product launches and offers',
+            'Customer service communications',
+          ].map((item, i) => (
+            <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+              <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ),
+  },
+  {
+    icon: Gavel,
+    title: 'Jurisdiction & Governing Law',
+    content: (
+      <p className="text-sm text-gray-600 leading-relaxed">
+        These Terms shall be governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of the competent courts in New Delhi, India.
+      </p>
+    ),
+  },
+];
+
+const relatedPolicies: PolicyLink[] = [
+  {
+    title: 'Return & Refund Policy',
+    description: 'Learn about our hassle-free return process and refund guidelines.',
+    link: '/returns-and-refunds-policy',
+    icon: RefreshCw,
+  },
+  {
+    title: 'Shipping Policy',
+    description: 'Understand our delivery timelines and shipping procedures.',
+    link: '/shipping-policy',
+    icon: Truck,
+  },
+  {
+    title: 'Privacy Policy',
+    description: 'How we collect, use, and protect your personal information.',
+    link: '/privacy-policy',
+    icon: Shield,
+  },
+  {
+    title: 'Cancellation Policy',
+    description: 'Learn when and how you can cancel an order on Tap2Buy.',
+    link: '/cancellation-policy',
+    icon: Scale,
+  },
+];
 
 export default function TermsOfService() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
-      {/* Hero Section */}
-      <section className="relative py-12 md:py-20 px-4 bg-gradient-to-b from-gray-50 to-white border-b border-gray-200">
-        <div className="max-w-5xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-[#9e734d]/10 border border-[#9e734d]/30 rounded-full mb-4 md:mb-6">
-            <Scale className="w-3 h-3 md:w-4 md:h-4 text-[#9e734d]" />
-            <span className="text-xs md:text-sm text-[#9e734d] font-medium">Legal Agreement</span>
+    <main className="min-h-screen bg-gray-50">
+
+      {/* ── HERO ── */}
+      <section className="bg-[#1B2A4A] py-14 px-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
+        <div className="max-w-5xl mx-auto relative z-10">
+          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
+            <Scale className="w-3.5 h-3.5 text-[#FF6B00]" />
+            <span className="text-xs font-semibold text-orange-200 uppercase tracking-wider">Legal Agreement</span>
           </div>
-          
-          <div className="flex items-center justify-center mb-4 md:mb-6">
-            <Crown className="w-6 h-6 md:w-8 md:h-8 text-[#9e734d] mr-2" />
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-light text-gray-900">
-              Terms & Conditions
-            </h1>
-          </div>
-          
-          <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto px-4">
-            Welcome to Caishen United, where every accessory is crafted to complement your device and your lifestyle.
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
+            Terms & Conditions
+          </h1>
+          <p className="text-blue-200 text-sm leading-relaxed max-w-2xl">
+            Welcome to Tap2Buy. By using our platform or making a purchase, you agree to the terms and conditions that govern your use of our services.
           </p>
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="py-8 md:py-16 px-4">
-        <div className="max-w-5xl mx-auto">
-          {/* Introduction */}
-          <div className="bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-xl md:rounded-2xl p-6 md:p-12 mb-8 md:mb-12">
-            <p className="text-gray-700 leading-relaxed text-sm md:text-lg mb-4">
-              By engaging with our website at{' '}
-              <a href="https://www.caishenunited.com" className="text-[#9e734d] hover:text-[#8a6342] font-medium underline break-all">
-                www.caishenunited.com
-              </a>{' '}
-              or making a purchase, you acknowledge, understand, and accept the terms and conditions that govern your use of our services.
-            </p>
-          </div>
+      <div className="max-w-5xl mx-auto px-4 py-12 space-y-6">
 
-          {/* Terms Sections */}
-          <div className="space-y-6 md:space-y-8 mb-8 md:mb-12">
-            
-            {/* Product Information */}
-            <div className="bg-white border border-gray-200 rounded-lg md:rounded-xl p-5 md:p-8 hover:border-[#9e734d]/40 transition-all">
-              <div className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 mb-4">
-                <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-[#9e734d]/10 rounded-full flex items-center justify-center">
-                  <Smartphone className="w-5 h-5 md:w-6 md:h-6 text-[#9e734d]" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-4">Product Descriptions & Pricing</h2>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                    All product descriptions, images, and prices are subject to change without notice. We strive to provide accurate information, but specifications may vary slightly based on manufacturer updates or stock availability.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Payment Terms */}
-            <div className="bg-white border border-gray-200 rounded-lg md:rounded-xl p-5 md:p-8 hover:border-[#9e734d]/40 transition-all">
-              <div className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 mb-4">
-                <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-[#9e734d]/10 rounded-full flex items-center justify-center">
-                  <Lock className="w-5 h-5 md:w-6 md:h-6 text-[#9e734d]" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-4">Payment & Order Processing</h2>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-4">
-                    Payments are required to be successfully completed prior to order verification and dispatch, except for orders placed under the approved Cash on Delivery (COD) option. We accept various secure payment methods to ensure your convenience.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Shipping & Delivery */}
-            <div className="bg-white border border-gray-200 rounded-lg md:rounded-xl p-5 md:p-8 hover:border-[#9e734d]/40 transition-all">
-              <div className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 mb-4">
-                <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-[#9e734d]/10 rounded-full flex items-center justify-center">
-                  <Truck className="w-5 h-5 md:w-6 md:h-6 text-[#9e734d]" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-4">Shipping & Delivery</h2>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                    We are not responsible for delays caused by courier services or incorrect shipping details provided by customers. Please ensure your delivery address is accurate and complete at the time of checkout.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Returns & Quality Assurance */}
-            <div className="bg-white border border-gray-200 rounded-lg md:rounded-xl p-5 md:p-8 hover:border-[#9e734d]/40 transition-all">
-              <div className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 mb-4">
-                <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-[#9e734d]/10 rounded-full flex items-center justify-center">
-                  <RefreshCw className="w-5 h-5 md:w-6 md:h-6 text-[#9e734d]" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-4">Returns & Quality Assurance (7-Day Policy)</h2>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-4">
-                    Returns and replacements apply strictly to items verified as defective or damaged due to manufacturing faults, reported within <span className="font-semibold text-[#9e734d]">7 days of delivery</span> with valid proof or documented evidence.
-                  </p>
-                  <ul className="space-y-2 md:space-y-3 text-sm md:text-base text-gray-600">
-                    <li className="flex gap-2 md:gap-3">
-                      <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-[#9e734d] flex-shrink-0 mt-0.5" />
-                      <span>Manufacturing defects must be reported within 7 days with photographic evidence</span>
-                    </li>
-                    <li className="flex gap-2 md:gap-3">
-                      <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-[#9e734d] flex-shrink-0 mt-0.5" />
-                      <span>Product must be unused and in original packaging with all accessories</span>
-                    </li>
-                    <li className="flex gap-2 md:gap-3">
-                      <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-[#9e734d] flex-shrink-0 mt-0.5" />
-                      <span>Damage during shipping must be reported immediately upon delivery</span>
-                    </li>
-                    <li className="flex gap-2 md:gap-3">
-                      <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-[#9e734d] flex-shrink-0 mt-0.5" />
-                      <span>Returns due to incorrect product selection or buyer remorse are not accepted</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* Warranty Policy */}
-            <div className="bg-white border border-gray-200 rounded-lg md:rounded-xl p-5 md:p-8 hover:border-[#9e734d]/40 transition-all">
-              <div className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 mb-4">
-                <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-[#9e734d]/10 rounded-full flex items-center justify-center">
-                  <Shield className="w-5 h-5 md:w-6 md:h-6 text-[#9e734d]" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-4">Warranty & Replacement Policy</h2>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                    Warranty-related concerns, where applicable, will be processed solely as per the official Warranty & Replacement Policy and under the terms and limitations stated therein. Please refer to our detailed warranty documentation for specific coverage details.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Intellectual Property */}
-            <div className="bg-white border border-gray-200 rounded-lg md:rounded-xl p-5 md:p-8 hover:border-[#9e734d]/40 transition-all">
-              <div className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 mb-4">
-                <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-[#9e734d]/10 rounded-full flex items-center justify-center">
-                  <Crown className="w-5 h-5 md:w-6 md:h-6 text-[#9e734d]" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-4">Intellectual Property Rights</h2>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                    All creative assets, including brand logos, product visuals, digital content, and layout designs, are the intellectual property of Caishen United or their rightful owners. Any unauthorized use, reproduction, or distribution constitutes a legal violation and may invite immediate legal proceedings.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Terms Updates */}
-            <div className="bg-white border border-gray-200 rounded-lg md:rounded-xl p-5 md:p-8 hover:border-[#9e734d]/40 transition-all">
-              <div className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 mb-4">
-                <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-[#9e734d]/10 rounded-full flex items-center justify-center">
-                  <RefreshCw className="w-5 h-5 md:w-6 md:h-6 text-[#9e734d]" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-4">Amendments to Terms</h2>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                    We reserve the right to update these terms anytime without prior notice. Continued use of our website or services after such modifications constitutes acceptance of the updated terms.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Order Verification */}
-            <div className="bg-white border border-gray-200 rounded-lg md:rounded-xl p-5 md:p-8 hover:border-[#9e734d]/40 transition-all">
-              <div className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 mb-4">
-                <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-[#9e734d]/10 rounded-full flex items-center justify-center">
-                  <Phone className="w-5 h-5 md:w-6 md:h-6 text-[#9e734d]" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-4">Order Verification & Authentication</h2>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                    To ensure authenticity and prevent fraud, we may verify orders through phone calls, SMS, or WhatsApp messages. This verification process helps us confirm your purchase intent and delivery details.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* DND Compliance */}
-            <div className="bg-white border border-gray-200 rounded-lg md:rounded-xl p-5 md:p-8 hover:border-[#9e734d]/40 transition-all">
-              <div className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 mb-4">
-                <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-[#9e734d]/10 rounded-full flex items-center justify-center">
-                  <Bell className="w-5 h-5 md:w-6 md:h-6 text-[#9e734d]" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-4">Communication Consent & DND Override</h2>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-4">
-                    By providing your phone number and placing orders, you authorize us to override the Do-Not-Disturb (DND) registry for communications regarding:
-                  </p>
-                  <ul className="space-y-2 md:space-y-3 text-sm md:text-base text-gray-600">
-                    <li className="flex gap-2 md:gap-3">
-                      <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-[#9e734d] flex-shrink-0 mt-0.5" />
-                      <span>Order confirmations and delivery updates</span>
-                    </li>
-                    <li className="flex gap-2 md:gap-3">
-                      <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-[#9e734d] flex-shrink-0 mt-0.5" />
-                      <span>Exclusive product launches and offers</span>
-                    </li>
-                    <li className="flex gap-2 md:gap-3">
-                      <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-[#9e734d] flex-shrink-0 mt-0.5" />
-                      <span>Customer service communications</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* Contact Information */}
-            <div className="bg-white border border-gray-200 rounded-lg md:rounded-xl p-5 md:p-8 hover:border-[#9e734d]/40 transition-all">
-              <div className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 mb-4">
-                <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-[#9e734d]/10 rounded-full flex items-center justify-center">
-                  <Mail className="w-5 h-5 md:w-6 md:h-6 text-[#9e734d]" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-4">Contact & Customer Support</h2>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-4 md:mb-6">
-                    For questions or concerns related to these Terms:
-                  </p>
-                  <div className="space-y-3 md:space-y-4">
-                    <div className="flex items-center gap-3 md:gap-4 bg-gray-50 p-3 md:p-4 rounded-lg border border-gray-200">
-                      <div className="p-1.5 md:p-2 bg-gradient-to-r from-[#9e734d] to-[#8a6342] rounded-lg">
-                        <Mail className="w-4 h-4 md:w-5 md:h-5 text-white" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-xs md:text-sm text-gray-500 mb-1">Email:</p>
-                        <a href="mailto:support@caishenunited.com" className="text-sm md:text-base text-[#9e734d] hover:text-[#8a6342] font-medium break-all">
-                          support@caishenunited.com
-                        </a>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 md:gap-4 bg-gray-50 p-3 md:p-4 rounded-lg border border-gray-200">
-                      <div className="p-1.5 md:p-2 bg-gradient-to-r from-[#9e734d] to-[#8a6342] rounded-lg">
-                        <Phone className="w-4 h-4 md:w-5 md:h-5 text-white" />
-                      </div>
-                      <div>
-                        <p className="text-xs md:text-sm text-gray-500 mb-1">Phone:</p>
-                        <a href="tel:+919911636888" className="text-sm md:text-base text-[#9e734d] hover:text-[#8a6342] font-medium">
-                          +91 9911636888
-                        </a>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 md:gap-4 bg-gray-50 p-3 md:p-4 rounded-lg border border-gray-200">
-                      <div className="p-1.5 md:p-2 bg-gradient-to-r from-[#9e734d] to-[#8a6342] rounded-lg flex-shrink-0">
-                        <MapPin className="w-4 h-4 md:w-5 md:h-5 text-white" />
-                      </div>
-                      <div>
-                        <p className="text-xs md:text-sm text-gray-500 mb-1">Address:</p>
-                        <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                          Caishen United<br />
-                          Sector 15, Rohini<br />
-                          New Delhi, Delhi 110089<br />
-                          India
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Jurisdiction */}
-            <div className="bg-white border border-gray-200 rounded-lg md:rounded-xl p-5 md:p-8 hover:border-[#9e734d]/40 transition-all">
-              <div className="flex flex-col sm:flex-row items-start gap-3 md:gap-4 mb-4">
-                <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-[#9e734d]/10 rounded-full flex items-center justify-center">
-                  <Gavel className="w-5 h-5 md:w-6 md:h-6 text-[#9e734d]" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-4">Jurisdiction & Governing Law</h2>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                    These Terms shall be governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of the competent courts in New Delhi, India.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Closing Statement */}
-          <div className="relative overflow-hidden bg-gradient-to-r from-[#9e734d] to-[#8a6342] rounded-xl md:rounded-2xl p-6 md:p-12 text-center mb-8 md:mb-12">
-            <div className="relative z-10">
-              <div className="flex items-center justify-center gap-2 md:gap-3 mb-3 md:mb-4">
-                <Crown className="w-8 h-8 md:w-10 md:h-10 text-white" />
-                <Smartphone className="w-8 h-8 md:w-10 md:h-10 text-white" />
-              </div>
-              <h3 className="text-lg md:text-2xl font-light text-white mb-4 px-2">
-                By using this website, you acknowledge that you have read, understood, and agreed to these terms.
-              </h3>
-            </div>
-          </div>
-
-          {/* Contact CTA */}
-          <div className="text-center">
-            <h3 className="text-xl md:text-2xl font-light text-gray-900 mb-4 md:mb-6">
-              Questions About Our Terms?
-            </h3>
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-[#9e734d] to-[#8a6342] text-white rounded-lg text-sm md:text-base font-semibold hover:shadow-lg transition-all"
-              >
-                <Mail className="w-4 h-4 md:w-5 md:h-5" />
-                Contact Support
-                <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
-              </Link>
-              <Link
-                href="/"
-                className="inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 border-2 border-[#9e734d] text-gray-900 rounded-lg text-sm md:text-base hover:bg-gray-50 transition-all"
-              >
-                Back to Home
-              </Link>
-            </div>
-          </div>
+        {/* Intro */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <p className="text-sm text-gray-600 leading-relaxed">
+            By engaging with our website at{' '}
+            <a href="https://www.tap2buy.in" className="text-[#FF6B00] font-medium hover:underline">
+              www.tap2buy.in
+            </a>{' '}
+            or making a purchase, you acknowledge, understand, and accept the terms and conditions that govern your use of our services. Please read these carefully before proceeding.
+          </p>
         </div>
-      </section>
 
-      {/* Related Policies */}
-      <section className="py-8 md:py-16 px-4 bg-gray-50 border-t border-gray-200">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-4xl font-light text-center text-gray-900 mb-8 md:mb-12">
-            Related Policies
-          </h2>
-          
-          <div className="grid sm:grid-cols-2 gap-4 md:gap-6">
+        {/* Terms Sections */}
+        {termsSections.map((section, index) => (
+          <div
+            key={index}
+            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+          >
+            <div className="flex items-start gap-4">
+              <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <section.icon className="w-5 h-5 text-[#FF6B00]" />
+              </div>
+              <div className="flex-1">
+                <h2 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wide">
+                  {index + 1}. {section.title}
+                </h2>
+                <div className="bg-gray-50 rounded-xl border border-gray-100 p-4">
+                  {section.content}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {/* Contact — Section 11 */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <div className="flex items-start gap-4 mb-5">
+            <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
+              <Mail className="w-5 h-5 text-[#FF6B00]" />
+            </div>
+            <div>
+              <h2 className="text-sm font-bold text-gray-900 mb-1 uppercase tracking-wide">
+                11. Contact & Customer Support
+              </h2>
+              <p className="text-sm text-gray-500">For questions or concerns related to these Terms:</p>
+            </div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4">
             {[
-              {
-                title: "Return & Refund Policy",
-                description: "Learn about our hassle-free return process and refund guidelines",
-                link: "/returns-and-refunds-policy",
-                icon: RefreshCw
-              },
-              {
-                title: "Shipping Policy",
-                description: "Understand our delivery timelines and shipping procedures",
-                link: "/shipping-policy",
-                icon: Truck
-              }
-            ].map((policy, index) => {
-              const Icon = policy.icon;
-              return (
-                <Link
-                  key={index}
-                  href={policy.link}
-                  className="group p-5 md:p-6 bg-white border border-gray-200 rounded-lg md:rounded-xl hover:border-[#9e734d]/50 transition-all"
-                >
-                  <div className="flex items-start gap-3 md:gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-[#9e734d]/10 rounded-full flex items-center justify-center group-hover:bg-[#9e734d]/20 transition-colors">
-                      <Icon className="w-5 h-5 md:w-6 md:h-6 text-[#9e734d]" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-2 group-hover:text-[#9e734d] transition-colors">
-                        {policy.title}
-                      </h3>
-                      <p className="text-xs md:text-sm text-gray-600 mb-3">
-                        {policy.description}
-                      </p>
-                      <div className="flex items-center gap-2 text-[#9e734d] text-xs md:text-sm font-medium">
-                        Read More
-                        <ChevronRight className="w-3 h-3 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
+              { icon: Mail, label: 'Email', value: 'support@tap2buy.in', href: 'mailto:support@tap2buy.in' },
+              { icon: Phone, label: 'Phone / WhatsApp', value: '+91 9911636888', href: 'tel:+919911636888' },
+            ].map((item, i) => (
+              <a
+                key={i}
+                href={item.href}
+                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#FF6B00]/30 hover:bg-orange-50/30 transition-all duration-200 group"
+              >
+                <div className="w-9 h-9 bg-orange-50 rounded-lg flex items-center justify-center group-hover:bg-[#FF6B00] transition-colors">
+                  <item.icon className="w-4 h-4 text-[#FF6B00] group-hover:text-white transition-colors" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">{item.label}</p>
+                  <p className="text-sm font-semibold text-gray-900">{item.value}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          <div className="mt-4 flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">
+            <div className="w-9 h-9 bg-orange-50 rounded-lg flex items-center justify-center flex-shrink-0">
+              <MapPin className="w-4 h-4 text-[#FF6B00]" />
+            </div>
+            <div>
+              <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Office Address</p>
+              <address className="text-sm text-gray-700 not-italic leading-relaxed">
+                Tap2Buy, Sector 15, Rohini<br />
+                New Delhi, Delhi 110089, India
+              </address>
+            </div>
+          </div>
+
+          <p className="text-xs text-gray-400 mt-4">
+            Response Time: Within 24 hours &nbsp;·&nbsp; Available: Monday–Saturday, 10 AM–7 PM IST
+          </p>
+        </div>
+
+        {/* Closing Statement */}
+        <div className="bg-[#1B2A4A] rounded-2xl p-7 text-white text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+          <p className="relative z-10 text-sm text-blue-200 leading-relaxed max-w-2xl mx-auto">
+            By using the Tap2Buy website, you acknowledge that you have{' '}
+            <span className="text-white font-semibold">read, understood, and agreed</span>{' '}
+            to these Terms & Conditions. If you do not agree, please discontinue use of our platform.
+          </p>
+        </div>
+
+        {/* CTA */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 text-center">
+          <h3 className="text-base font-bold text-gray-900 mb-1">Questions About Our Terms?</h3>
+          <p className="text-sm text-gray-500 mb-5">Our support team is happy to clarify anything.</p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href="mailto:support@tap2buy.in"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+            >
+              <Mail className="w-4 h-4" />
+              Email Support
+            </a>
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+            >
+              Back to Home
+            </Link>
           </div>
         </div>
-      </section>
-    </div>
+
+        {/* Related Policies */}
+        <div className="space-y-4">
+          <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider px-1">Related Policies</h2>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {relatedPolicies.map((policy, index) => (
+              <Link
+                key={index}
+                href={policy.link}
+                className="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#FF6B00] transition-colors duration-300">
+                    <policy.icon className="w-5 h-5 text-[#FF6B00] group-hover:text-white transition-colors duration-300" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-[#FF6B00] transition-colors">
+                      {policy.title}
+                    </h3>
+                    <p className="text-xs text-gray-500 leading-relaxed mb-2">{policy.description}</p>
+                    <div className="flex items-center gap-1 text-[#FF6B00] text-xs font-semibold">
+                      Read More
+                      <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <p className="text-xs text-gray-400 text-center pb-4">
+          © {new Date().getFullYear()} Tap2Buy. All rights reserved. &nbsp;·&nbsp;{' '}
+          <Link href="/privacy-policy" className="text-[#FF6B00] hover:underline">Privacy Policy</Link>
+          {' '}&nbsp;·&nbsp;{' '}
+          <Link href="/disclaimer" className="text-[#FF6B00] hover:underline">Disclaimer</Link>
+        </p>
+      </div>
+    </main>
   );
 }

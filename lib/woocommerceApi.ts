@@ -1,6 +1,6 @@
-const API_BASE = "https://cms.caishenunited.com/wp-json/wc/v3";
-const CONSUMER_KEY = process.env.CONSUMER_KEY || "ck_9a1fbb9afa025bbe8591eb4322c3e1c68e1b1002";
-const CONSUMER_SECRET = process.env.CONSUMER_SECRET || "cs_42d947c7a1acb0c0ca89ca17b35629a530097e44";
+const API_BASE = "https://cms.tap2buy.in/wp-json/wc/v3";
+const CONSUMER_KEY = process.env.CONSUMER_KEY || "ck_c6018ad0c7ea07ca111bbf28c539e73d3b3cf0ac";
+const CONSUMER_SECRET = process.env.CONSUMER_SECRET || "cs_aab574723e9230920cfa28e6244f2c35da5abc58";
 
 export interface WCImage {
   id?: number;
