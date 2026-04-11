@@ -16,7 +16,6 @@ interface NavItem {
   submenu?: { name: string; to: string }[];
 }
 
-// ── HOME DECOR & GIFTING NAVIGATION ──────────────────────────────────────────
 const navItems: NavItem[] = [
   { name: "HOME", to: "/" },
   {
@@ -42,14 +41,13 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    name: "CANDLES & AROMA",
+    name: "CANDLES",
     to: "/category/candles",
     submenu: [
       { name: "Scented Candles",      to: "/category/scented-candles" },
       { name: "Tealight Candles",     to: "/category/tealight-candles" },
       { name: "Pillar Candles",       to: "/category/pillar-candles" },
       { name: "Reed Diffusers",       to: "/category/reed-diffusers" },
-      { name: "Aroma Oils",           to: "/category/aroma-oils" },
     ],
   },
   {
@@ -59,28 +57,13 @@ const navItems: NavItem[] = [
       { name: "Curated Gift Sets",    to: "/category/gift-sets" },
       { name: "Personalised Gifts",   to: "/category/personalised-gifts" },
       { name: "Corporate Gifting",    to: "/category/corporate-gifts" },
-      { name: "Birthday Gifts",       to: "/category/birthday-gifts" },
-      { name: "Anniversary Gifts",    to: "/category/anniversary-gifts" },
-      { name: "All Gifts",            to: "/category/gifts" },
-    ],
-  },
-  {
-    name: "FESTIVE",
-    to: "/category/festive",
-    submenu: [
-      { name: "Diwali Collection",   to: "/category/diwali" },
-      { name: "Christmas Decor",     to: "/category/christmas" },
-      { name: "Wedding Decor",       to: "/category/wedding" },
-      { name: "Housewarming Gifts",  to: "/category/housewarming" },
+      { name: "Occasion Gifts",       to: "/category/gifts" },
     ],
   },
   { name: "DEALS", to: "/sale" },
 ];
 
-// Quick-search chips relevant to the store
-const QUICK_SEARCH_CHIPS = ['Candles', 'Photo Frames', 'Gift Sets', 'Wall Decor'];
-
-// ─────────────────────────────────────────────────────────────────────────────
+const QUICK_SEARCH_CHIPS = ['Vases', 'Candles', 'Photo Frames', 'Wall Decor'];
 
 export default function Header() {
   const location = usePathname();
@@ -108,17 +91,11 @@ export default function Header() {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    setAnnouncementVisible(localStorage.getItem('announcementBarClosed') !== 'true');
-  }, []);
-
-  useEffect(() => {
     const auth = localStorage.getItem("isAuthenticated");
     const email = localStorage.getItem("userEmail");
     setIsAuthenticated(auth === "true");
     setUserEmail(email || "");
   }, [location]);
-
-  useEffect(() => { setSearch(""); }, [searchParams]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -131,64 +108,21 @@ export default function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        if (mobileMenuOpen) setMobileMenuOpen(false);
-        if (showDesktopSearch) setShowDesktopSearch(false);
-        if (showMobileSearch) setShowMobileSearch(false);
-        if (showUserMenu) setShowUserMenu(false);
-      }
-    };
-    if (mobileMenuOpen) {
-      document.addEventListener('keydown', handleEscapeKey);
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.removeEventListener('keydown', handleEscapeKey);
-      document.body.style.overflow = 'unset';
-    };
-  }, [mobileMenuOpen, showDesktopSearch, showMobileSearch, showUserMenu]);
-
-  useEffect(() => {
-    if (showDesktopSearch && searchInputRef.current) searchInputRef.current.focus();
-  }, [showDesktopSearch]);
-
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
     const q = search.trim();
     if (!q) return;
     setShowDesktopSearch(false);
     setShowMobileSearch(false);
-    const url = `/search?q=${encodeURIComponent(q)}`;
-    if (location === '/search') window.location.href = url;
-    else router.push(url);
+    router.push(`/search?q=${encodeURIComponent(q)}`);
     setTimeout(() => setSearch(""), 100);
   }
 
   const handleLogout = async () => {
-    try {
-      await fetch("/api/auth/logout", { method: "POST" });
-      localStorage.removeItem("isAuthenticated");
-      localStorage.removeItem("userEmail");
-      setIsAuthenticated(false);
-      setUserEmail("");
-      setShowUserMenu(false);
-      router.push("/");
-      router.refresh();
-    } catch (error) {
-      console.error("Logout error:", error);
-    }
-  };
-
-  const handleSubmenuMouseEnter = (name: string) => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setActiveSubmenu(name);
-  };
-  const handleSubmenuMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => setActiveSubmenu(null), 200);
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("userEmail");
+    setIsAuthenticated(false);
+    router.push("/");
   };
 
   const headerTop = announcementVisible ? 'top-10 lg:top-11' : 'top-0';
@@ -199,142 +133,103 @@ export default function Header() {
       <AnnouncementBar onClose={() => setAnnouncementVisible(false)} />
       {announcementVisible && <div className="h-10 lg:h-11" />}
 
-      {/* ── MAIN HEADER ── */}
-      <header className={`sticky ${headerTop} z-40 bg-white shadow-sm border-b border-gray-100 transition-all duration-300`}>
+      <header className={`sticky ${headerTop} z-40 bg-white border-b border-[#E8E6E1] transition-all duration-300 font-sans`}>
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16 md:h-20">
 
-            {/* LEFT */}
-            <div className="flex items-center gap-1">
+            {/* LEFT - Search (Desktop) & Hamburger (Mobile) */}
+            <div className="flex items-center">
               {isMobile ? (
-                <>
-                  <button onClick={() => setMobileMenuOpen(true)} className="p-2 rounded-xl hover:bg-gray-100 transition-colors" aria-label="Open menu">
-                    <HiOutlineMenuAlt3 className="text-2xl text-[#1B2A4A]" />
+                <div className="flex items-center gap-1">
+                  <button onClick={() => setMobileMenuOpen(true)} className="p-2 text-[#2A2825]">
+                    <HiOutlineMenuAlt3 className="text-2xl" />
                   </button>
-                  <button onClick={() => setShowMobileSearch(true)} className="p-2 rounded-xl hover:bg-gray-100 transition-colors" aria-label="Search">
-                    <FiSearch className="w-5 h-5 text-[#1B2A4A]" />
+                  <button onClick={() => setShowMobileSearch(true)} className="p-2 text-[#2A2825]">
+                    <FiSearch className="w-5 h-5" />
                   </button>
-                </>
+                </div>
               ) : (
-                <button onClick={() => setShowDesktopSearch(!showDesktopSearch)} className="p-2 hover:bg-orange-50 rounded-xl transition-colors" aria-label="Search">
-                  <FiSearch className="w-5 h-5 text-[#1B2A4A]" />
+                <button onClick={() => setShowDesktopSearch(!showDesktopSearch)} className="p-2 text-[#2A2825] hover:text-[#B86B52] transition-colors">
+                  <FiSearch className="w-5 h-5" />
                 </button>
               )}
             </div>
 
             {/* CENTER — Logo */}
             <Link href="/" className="absolute left-1/2 -translate-x-1/2">
-              <img src="/logo.jpg" alt="Tap2Buy" className="h-10 md:h-14 w-auto object-contain" />
+              <img src="/logo.jpg" alt="Tap2Buy" className="h-10 md:h-12 w-auto" />
             </Link>
 
-            {/* RIGHT */}
-            <div className="flex items-center gap-2">
-              {!isMobile && (
-                <Link
-                  href="/sale"
-                  className="hidden md:flex items-center gap-1.5 px-3 py-1.5 bg-[#FF6B00]/10 text-[#FF6B00] border border-[#FF6B00]/30 rounded-full text-xs font-semibold hover:bg-[#FF6B00] hover:text-white transition-all duration-200"
-                >
-                  <Tag className="w-3 h-3" /> Deals
-                </Link>
-              )}
-
+            {/* RIGHT - Auth & Cart */}
+            <div className="flex items-center gap-1 md:gap-4">
               {!isMobile && (
                 <div className="relative" ref={userMenuRef}>
                   {isAuthenticated ? (
-                    <>
-                      <button onClick={() => setShowUserMenu(!showUserMenu)} className="p-2 hover:bg-gray-100 rounded-xl transition-colors" aria-label="User menu">
-                        <UserCircle2 className="w-5 h-5 text-[#1B2A4A]" />
-                      </button>
-                      {showUserMenu && (
-                        <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-xl py-2 z-50">
-                          <div className="px-4 py-2 border-b border-gray-100">
-                            <p className="text-xs text-gray-500">Signed in as</p>
-                            <p className="text-sm font-semibold text-gray-900 truncate">{userEmail}</p>
-                          </div>
-                          <Link href="/account" onClick={() => setShowUserMenu(false)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-[#FF6B00] transition-colors">My Account</Link>
-                          <Link href="/orders" onClick={() => setShowUserMenu(false)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-[#FF6B00] transition-colors">My Orders</Link>
-                          <button onClick={handleLogout} className="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-red-50 transition-colors flex items-center gap-2 border-t border-gray-100 mt-1">
-                            <LogOut className="w-4 h-4" /> Logout
-                          </button>
-                        </div>
-                      )}
-                    </>
+                    <button onClick={() => setShowUserMenu(!showUserMenu)} className="p-2 text-[#2A2825] hover:text-[#B86B52]">
+                      <UserCircle2 className="w-5 h-5 stroke-[1.5]" />
+                    </button>
                   ) : (
-                    <Link href="/login" className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1B2A4A] text-white hover:bg-[#243560] rounded-full transition-colors text-xs font-semibold">
-                      <UserCircle2 className="w-4 h-4" />
-                      <span>Login</span>
+                    <Link href="/login" className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#2A2825] hover:text-[#B86B52] transition-colors border-b border-transparent hover:border-[#B86B52] pb-0.5">
+                      Sign In
                     </Link>
+                  )}
+                  {showUserMenu && (
+                    <div className="absolute right-0 top-full mt-2 w-52 bg-white border border-[#E8E6E1] shadow-xl py-2 z-50 rounded-none">
+                      <Link href="/account" className="block px-5 py-2 text-xs text-[#2A2825] hover:bg-[#F7F5F0]">My Account</Link>
+                      <button onClick={handleLogout} className="w-full text-left px-5 py-2 text-xs text-red-600 hover:bg-red-50 border-t border-[#E8E6E1] mt-1">Logout</button>
+                    </div>
                   )}
                 </div>
               )}
-
               <CartIcon />
             </div>
           </div>
         </div>
 
-        {/* Desktop Search Bar */}
+        {/* Desktop Search Bar (Flat Elegant) */}
         {!isMobile && showDesktopSearch && (
-          <div className="border-t border-gray-100 bg-gray-50 px-4 py-3">
-            <form onSubmit={handleSearch} className="max-w-2xl mx-auto">
-              <div className="relative">
-                <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  placeholder="Search candles, frames, gifts and more..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-full focus:outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10 text-gray-900 text-sm bg-white"
-                />
-                <button type="button" onClick={() => { setShowDesktopSearch(false); setSearch(""); }} className="absolute right-4 top-1/2 -translate-y-1/2 hover:bg-gray-200 rounded-full p-1 transition-colors" aria-label="Close search">
-                  <HiOutlineX className="w-4 h-4 text-gray-500" />
-                </button>
-              </div>
+          <div className="bg-[#F7F5F0] border-t border-[#E8E6E1] px-4 py-4 animate-in slide-in-from-top duration-300">
+            <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex items-center">
+              <input
+                ref={searchInputRef}
+                type="text"
+                placeholder="Search for decor, candles, or gifts..."
+                className="w-full bg-transparent border-b border-[#2A2825] py-2 text-sm text-[#2A2825] focus:outline-none placeholder-[#A3A09B]"
+              />
+              <button type="submit" className="ml-4 text-xs font-semibold uppercase tracking-widest text-[#B86B52]">Search</button>
+              <button onClick={() => setShowDesktopSearch(false)} className="ml-6 text-gray-400 hover:text-[#2A2825]">
+                <HiOutlineX className="w-5 h-5" />
+              </button>
             </form>
           </div>
         )}
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:block border-t border-gray-100" ref={menuRef}>
+        {/* Desktop Navigation (Serif-Sans Mix) */}
+        <nav className="hidden lg:block border-t border-[#E8E6E1]" ref={menuRef}>
           <div className="max-w-7xl mx-auto px-4">
-            <div className="flex items-center justify-center gap-1">
+            <div className="flex items-center justify-center gap-2">
               {navItems.map((item) => (
-                <div key={item.name} className="relative">
-                  {item.submenu ? (
-                    <div onMouseEnter={() => handleSubmenuMouseEnter(item.name)} onMouseLeave={handleSubmenuMouseLeave}>
-                      <button className={`px-4 py-3.5 text-xs font-semibold tracking-wider transition-all duration-200 flex items-center gap-1 border-b-2 ${
-                        location.startsWith(item.to)
-                          ? "text-[#FF6B00] border-[#FF6B00]"
-                          : "text-gray-700 hover:text-[#FF6B00] border-transparent hover:border-[#FF6B00]/30"
-                      }`}>
-                        {item.name}
-                        <BiChevronDown className={`text-sm transition-transform duration-300 ${activeSubmenu === item.name ? 'rotate-180' : ''}`} />
-                      </button>
-                      <div className={`absolute top-full left-0 mt-0 bg-white border border-gray-100 min-w-[220px] shadow-xl rounded-xl transition-all duration-200 z-50 ${
-                        activeSubmenu === item.name ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
-                      }`}>
-                        <div className="py-2">
-                          {item.submenu.map((sub) => (
-                            <Link key={sub.name} href={sub.to} className={`flex items-center gap-2 px-5 py-2.5 text-sm transition-all duration-150 ${
-                              location === sub.to ? 'text-[#FF6B00] bg-orange-50 font-medium' : 'text-gray-700 hover:text-[#FF6B00] hover:bg-orange-50'
-                            }`}>
-                              {sub.name}
-                            </Link>
-                          ))}
-                        </div>
+                <div key={item.name} className="relative group" 
+                     onMouseEnter={() => setActiveSubmenu(item.name)} 
+                     onMouseLeave={() => setActiveSubmenu(null)}>
+                  
+                  <Link href={item.to} className={`block px-6 py-4 text-[11px] font-medium tracking-[0.2em] transition-all duration-300 ${
+                    item.name === "DEALS" ? "text-[#B86B52]" : "text-[#2A2825]"
+                  } hover:text-[#B86B52]`}>
+                    {item.name}
+                    {item.submenu && <BiChevronDown className="inline-block ml-1 text-sm group-hover:rotate-180 transition-transform" />}
+                  </Link>
+
+                  {item.submenu && activeSubmenu === item.name && (
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white border border-[#E8E6E1] min-w-[240px] shadow-2xl py-4 z-50">
+                      <div className="grid grid-cols-1">
+                        {item.submenu.map((sub) => (
+                          <Link key={sub.name} href={sub.to} className="px-6 py-2.5 text-[11px] tracking-wider text-[#6B665E] hover:text-[#B86B52] hover:bg-[#F7F5F0] transition-colors">
+                            {sub.name}
+                          </Link>
+                        ))}
                       </div>
                     </div>
-                  ) : (
-                    <Link href={item.to} className={`block px-4 py-3.5 text-xs font-semibold tracking-wider transition-all duration-200 border-b-2 ${
-                      item.name === "DEALS"
-                        ? "text-[#FF6B00] border-[#FF6B00] hover:bg-orange-50"
-                        : location === item.to
-                          ? "text-[#FF6B00] border-[#FF6B00]"
-                          : "text-gray-700 hover:text-[#FF6B00] border-transparent hover:border-[#FF6B00]/30"
-                    }`}>
-                      {item.name === "DEALS" ? <span className="flex items-center gap-1">🔥 {item.name}</span> : item.name}
-                    </Link>
                   )}
                 </div>
               ))}
@@ -343,133 +238,87 @@ export default function Header() {
         </nav>
       </header>
 
+      {/* Mobile Menu Drawer (Redesigned) */}
+      {mobileMenuOpen && (
+        <>
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden" onClick={() => setMobileMenuOpen(false)} />
+          <div className={`fixed ${mobileDrawerTop} left-0 h-full w-full max-w-[320px] bg-white z-50 overflow-y-auto transition-all duration-300`}>
+            
+            <div className="p-6 bg-[#2A2825] flex items-center justify-between">
+              <span className="text-white font-serif text-xl tracking-wide">Tap2Buy</span>
+              <button onClick={() => setMobileMenuOpen(false)} className="p-1 border border-white/20">
+                <HiOutlineX className="text-xl text-white" />
+              </button>
+            </div>
+
+            <nav className="p-6">
+              {navItems.map((item) => (
+                <div key={item.name} className="mb-2">
+                  <div className="flex items-center justify-between border-b border-[#F0EFEA] py-4">
+                    <Link href={item.to} className="text-sm font-medium tracking-widest text-[#2A2825]" onClick={() => setMobileMenuOpen(false)}>
+                      {item.name}
+                    </Link>
+                    {item.submenu && (
+                      <button onClick={() => setMobileActiveSubmenu(mobileActiveSubmenu === item.name ? null : item.name)}>
+                        <BiChevronDown className={`text-xl transition-transform ${mobileActiveSubmenu === item.name ? 'rotate-180' : ''}`} />
+                      </button>
+                    )}
+                  </div>
+                  {item.submenu && mobileActiveSubmenu === item.name && (
+                    <div className="bg-[#F7F5F0] px-4 py-2 flex flex-col gap-3 animate-in fade-in duration-300">
+                      {item.submenu.map((sub) => (
+                        <Link key={sub.name} href={sub.to} className="text-xs text-[#6B665E] py-1 tracking-wide" onClick={() => setMobileMenuOpen(false)}>
+                          {sub.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+              
+              <div className="mt-12 space-y-6">
+                <Link href="/account" className="flex items-center gap-3 text-xs tracking-widest text-[#2A2825] uppercase">
+                  <UserCircle2 className="w-5 h-5 stroke-[1.5]" /> My Account
+                </Link>
+                <a href="tel:+919911636888" className="flex items-center gap-3 text-xs tracking-widest text-[#2A2825] uppercase">
+                  <Phone className="w-5 h-5 stroke-[1.5]" /> Help Center
+                </a>
+              </div>
+            </nav>
+          </div>
+        </>
+      )}
+
       {/* Mobile Search Modal */}
       {showMobileSearch && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-start justify-center pt-28">
-          <div className="bg-white w-full max-w-2xl mx-4 rounded-2xl p-5 shadow-2xl">
-            <p className="text-xs text-gray-500 mb-3 font-medium">Search Products</p>
-            <form onSubmit={handleSearch} className="relative">
-              <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search candles, frames, gifts..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-12 pr-12 py-3.5 border border-gray-200 rounded-full focus:outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10 text-gray-900 text-sm"
-                autoFocus
-              />
-              <button type="button" onClick={() => { setShowMobileSearch(false); setSearch(""); }} className="absolute right-4 top-1/2 -translate-y-1/2" aria-label="Close search">
-                <HiOutlineX className="w-5 h-5 text-gray-400" />
-              </button>
-            </form>
-            {/* ── Updated quick-search chips ── */}
-            <div className="flex gap-2 mt-3 flex-wrap">
-              {QUICK_SEARCH_CHIPS.map((chip) => (
-                <button
-                  key={chip}
-                  onClick={() => router.push(`/search?q=${encodeURIComponent(chip.toLowerCase())}`)}
-                  className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-medium hover:bg-orange-50 hover:text-[#FF6B00] transition-colors"
-                >
+        <div className="fixed inset-0 bg-white z-[60] p-6 animate-in slide-in-from-bottom duration-300">
+          <div className="flex items-center justify-between mb-8">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#B86B52]">Search</span>
+            <button onClick={() => setShowMobileSearch(false)}>
+              <HiOutlineX className="text-2xl text-[#2A2825]" />
+            </button>
+          </div>
+          <form onSubmit={handleSearch}>
+            <input
+              autoFocus
+              type="text"
+              placeholder="What are you looking for?"
+              className="w-full text-lg border-b border-[#2A2825] pb-4 focus:outline-none placeholder-[#A3A09B] font-light"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </form>
+          <div className="mt-8">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-[#A3A09B] mb-4">Trending Searches</p>
+            <div className="flex flex-wrap gap-2">
+              {QUICK_SEARCH_CHIPS.map(chip => (
+                <button key={chip} onClick={() => {router.push(`/search?q=${chip}`); setShowMobileSearch(false)}} className="px-4 py-2 border border-[#E8E6E1] text-xs font-medium text-[#2A2825]">
                   {chip}
                 </button>
               ))}
             </div>
           </div>
         </div>
-      )}
-
-      {/* Mobile Menu Drawer */}
-      {mobileMenuOpen && (
-        <>
-          <div className="fixed inset-0 bg-black/60 z-40 lg:hidden" onClick={() => setMobileMenuOpen(false)} />
-          <div className={`fixed ${mobileDrawerTop} left-0 h-full w-80 max-w-[85vw] bg-white z-50 overflow-y-auto shadow-2xl rounded-r-2xl transition-all duration-300`}>
-
-            <div className="p-5 bg-[#1B2A4A] flex items-center justify-between">
-              <img src="/logo.jpg" alt="Tap2Buy" className="h-10" />
-              <button onClick={() => setMobileMenuOpen(false)} className="p-1.5 bg-white/10 rounded-lg" aria-label="Close menu">
-                <HiOutlineX className="text-xl text-white" />
-              </button>
-            </div>
-
-            {isAuthenticated ? (
-              <div className="p-4 border-b border-gray-100 bg-orange-50">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-[#FF6B00] rounded-full flex items-center justify-center text-white text-sm font-bold">
-                      {userEmail.charAt(0).toUpperCase()}
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Signed in as</p>
-                      <p className="text-sm font-semibold text-gray-900 truncate max-w-[180px]">{userEmail}</p>
-                    </div>
-                  </div>
-                  <button onClick={handleLogout} className="p-2 hover:bg-red-50 rounded-full transition-colors" aria-label="Logout">
-                    <LogOut className="w-4 h-4 text-red-500" />
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="p-4 border-b border-gray-100">
-                <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 px-4 py-3 bg-[#FF6B00] text-white rounded-xl font-semibold text-sm hover:bg-[#e55f00] transition-colors justify-center">
-                  <UserCircle2 className="w-4 h-4" />
-                  <span>Login / Sign Up</span>
-                </Link>
-              </div>
-            )}
-
-            {/* Mobile deals banner */}
-            <Link href="/sale" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 mx-4 mt-4 p-3 bg-gradient-to-r from-[#FF6B00] to-[#ff8c00] rounded-xl text-white">
-              <span className="text-xl">🔥</span>
-              <div>
-                <p className="text-sm font-bold">Today&apos;s Deals</p>
-                <p className="text-xs opacity-80">Up to 70% OFF</p>
-              </div>
-              <BiChevronDown className="-rotate-90 ml-auto" />
-            </Link>
-
-            <nav className="p-4 mt-2">
-              {navItems.map((item) => (
-                <div key={item.name} className="border-b border-gray-100 last:border-0">
-                  {item.submenu ? (
-                    <div>
-                      <button
-                        className="w-full flex items-center justify-between py-3.5 text-sm font-semibold text-[#1B2A4A] hover:text-[#FF6B00] transition-colors"
-                        onClick={() => setMobileActiveSubmenu(mobileActiveSubmenu === item.name ? null : item.name)}
-                      >
-                        {item.name}
-                        <BiChevronDown className={`transition-transform text-gray-400 ${mobileActiveSubmenu === item.name ? 'rotate-180' : ''}`} />
-                      </button>
-                      <div className={`overflow-hidden transition-all duration-300 ${mobileActiveSubmenu === item.name ? 'max-h-[500px] mb-2' : 'max-h-0'}`}>
-                        {item.submenu.map((sub) => (
-                          <Link key={sub.name} href={sub.to} className="flex items-center gap-2 py-2.5 pl-4 text-sm text-gray-600 hover:text-[#FF6B00] transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                            <span className="w-1.5 h-1.5 bg-gray-300 rounded-full flex-shrink-0" />
-                            {sub.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <Link href={item.to} className="block py-3.5 text-sm font-semibold text-[#1B2A4A] hover:text-[#FF6B00] transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                      {item.name}
-                    </Link>
-                  )}
-                </div>
-              ))}
-            </nav>
-
-            <div className="p-4 border-t border-gray-100 bg-gray-50 mt-2">
-              <a href="tel:+919911636888" className="flex items-center gap-2 text-sm font-medium text-[#1B2A4A] hover:text-[#FF6B00] transition-colors">
-                <div className="w-8 h-8 bg-[#1B2A4A] rounded-full flex items-center justify-center">
-                  <Phone className="w-4 h-4 text-white" />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500">Customer Support</p>
-                  <p className="font-semibold">+91 9911636888</p>
-                </div>
-              </a>
-            </div>
-          </div>
-        </>
       )}
     </>
   );

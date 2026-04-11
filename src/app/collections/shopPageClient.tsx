@@ -69,42 +69,39 @@ export default function ShopPageClient({ products }: ShopPageClientProps) {
   const hasActiveFilters = !!(searchTerm || selectedCategory || priceRange.min || priceRange.max);
 
   const inputClass =
-    'w-full px-3 py-2.5 border-2 border-gray-100 rounded-xl bg-white text-sm text-gray-900 focus:outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10 transition-all';
+    'w-full px-4 py-2.5 border border-[#E8E6E1] bg-white text-sm text-[#2A2825] focus:outline-none focus:border-[#B86B52] transition-colors rounded-none font-light';
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-[#FAFAF8] font-sans">
 
-      {/* ── HERO ── */}
-      <div className="bg-[#1B2A4A] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="w-10 h-10 bg-[#FF6B00] rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
-              <ShoppingBag className="w-5 h-5 text-white" />
-            </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-              Shop on <span className="text-[#FF6B00]">Tap2Buy</span>
-            </h1>
+      {/* ── HERO / HEADER ── */}
+      <div className="bg-[#F7F5F0] border-b border-[#E8E6E1]">
+        <div className="max-w-7xl mx-auto px-4 py-16 md:py-20 text-center">
+          <div className="inline-flex items-center gap-2 mb-4">
+            <span className="w-8 h-[1px] bg-[#B86B52]" />
+            <span className="text-xs font-semibold text-[#B86B52] uppercase tracking-[0.2em]">Curation</span>
           </div>
-          <p className="text-blue-200 text-sm max-w-2xl leading-relaxed mb-6">
-            Discover our curated selection of products — designed for ultimate quality, style, and durability.
+          <h1 className="text-3xl md:text-5xl font-serif font-light text-[#2A2825] mb-6">
+            The Shop <span className="italic">Collection</span>
+          </h1>
+          <p className="text-[#6B665E] text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-10 font-light">
+            Thoughtfully selected decor and gifts, designed to bring a sense of calm and beauty to your everyday living.
           </p>
 
-          {/* Search Bar */}
-          <div className="relative max-w-2xl">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          {/* Minimalist Search Bar */}
+          <div className="relative max-w-xl mx-auto">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A3A09B]" />
             <input
               type="text"
-              placeholder="Search products..."
+              placeholder="Search the collection..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-11 pr-11 py-3.5 border-2 border-transparent focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10 bg-white rounded-xl text-sm text-gray-900 focus:outline-none transition-all placeholder:text-gray-400 shadow-sm"
+              className="w-full pl-12 pr-12 py-4 bg-white border border-[#E8E6E1] text-sm text-[#2A2825] focus:outline-none focus:border-[#2A2825] transition-all placeholder:text-[#A3A09B] font-light shadow-sm"
             />
             {searchTerm && (
               <button
                 onClick={() => setSearchTerm('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#FF6B00] transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#A3A09B] hover:text-[#B86B52]"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -113,43 +110,43 @@ export default function ShopPageClient({ products }: ShopPageClientProps) {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-12">
 
         {/* Mobile filter toggle */}
-        <div className="lg:hidden mb-5">
+        <div className="lg:hidden mb-8">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+            className="flex items-center gap-3 px-6 py-3 bg-[#2A2825] text-white text-xs font-medium uppercase tracking-widest transition-all"
           >
             <SlidersHorizontal className="w-4 h-4" />
-            {showFilters ? 'Hide Filters' : 'Show Filters'}
+            {showFilters ? 'Hide Filters' : 'Filter Collection'}
           </button>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-12">
 
           {/* ── SIDEBAR ── */}
-          <aside className={`lg:w-60 flex-shrink-0 ${showFilters ? 'block' : 'hidden lg:block'}`}>
-            <div className="sticky top-8 space-y-4">
-              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <aside className={`lg:w-64 flex-shrink-0 ${showFilters ? 'block' : 'hidden lg:block'}`}>
+            <div className="sticky top-28 space-y-8">
+              
+              <div className="flex items-center justify-between border-b border-[#E8E6E1] pb-4">
+                <h2 className="text-[10px] font-bold text-[#2A2825] uppercase tracking-[0.2em]">Refine By</h2>
+                {hasActiveFilters && (
+                  <button
+                    onClick={clearFilters}
+                    className="text-[10px] text-[#B86B52] font-bold uppercase tracking-widest hover:underline"
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
 
-                <div className="flex items-center justify-between mb-5">
-                  <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Filters</h2>
-                  {hasActiveFilters && (
-                    <button
-                      onClick={clearFilters}
-                      className="text-xs text-[#FF6B00] font-bold hover:underline uppercase tracking-wide"
-                    >
-                      Clear All
-                    </button>
-                  )}
-                </div>
-
-                {/* Category */}
-                <div className="mb-4">
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
-                    Category
-                  </label>
+              {/* Category */}
+              <div>
+                <label className="block text-[10px] font-bold text-[#A3A09B] uppercase tracking-[0.2em] mb-4">
+                  Category
+                </label>
+                <div className="space-y-2">
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
@@ -161,106 +158,99 @@ export default function ShopPageClient({ products }: ShopPageClientProps) {
                     ))}
                   </select>
                 </div>
+              </div>
 
-                {/* Price Range */}
-                <div className="mb-4">
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
-                    Price Range (₹)
-                  </label>
-                  <div className="flex gap-2">
-                    <input
-                      type="number"
-                      placeholder="Min"
-                      value={priceRange.min}
-                      onChange={(e) => setPriceRange((prev) => ({ ...prev, min: e.target.value }))}
-                      className={inputClass}
-                    />
-                    <input
-                      type="number"
-                      placeholder="Max"
-                      value={priceRange.max}
-                      onChange={(e) => setPriceRange((prev) => ({ ...prev, max: e.target.value }))}
-                      className={inputClass}
-                    />
-                  </div>
-                </div>
-
-                {/* Sort */}
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
-                    Sort By
-                  </label>
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as SortOption)}
+              {/* Price Range */}
+              <div>
+                <label className="block text-[10px] font-bold text-[#A3A09B] uppercase tracking-[0.2em] mb-4">
+                  Price Range (₹)
+                </label>
+                <div className="flex flex-col gap-3">
+                  <input
+                    type="number"
+                    placeholder="Min Price"
+                    value={priceRange.min}
+                    onChange={(e) => setPriceRange((prev) => ({ ...prev, min: e.target.value }))}
                     className={inputClass}
-                  >
-                    <option value="name">Name (A–Z)</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="price-high">Price: High to Low</option>
-                  </select>
+                  />
+                  <input
+                    type="number"
+                    placeholder="Max Price"
+                    value={priceRange.max}
+                    onChange={(e) => setPriceRange((prev) => ({ ...prev, max: e.target.value }))}
+                    className={inputClass}
+                  />
                 </div>
+              </div>
 
-                {/* Active Filters */}
-                {hasActiveFilters && (
-                  <div className="mt-4 pt-4 border-t border-gray-100 space-y-1.5">
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Active Filters</p>
+              {/* Sort */}
+              <div>
+                <label className="block text-[10px] font-bold text-[#A3A09B] uppercase tracking-[0.2em] mb-4">
+                  Sort Order
+                </label>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as SortOption)}
+                  className={inputClass}
+                >
+                  <option value="name">Alphabetical (A–Z)</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                </select>
+              </div>
+
+              {/* Active Filters Summary */}
+              {hasActiveFilters && (
+                <div className="pt-6 border-t border-[#E8E6E1] space-y-3">
+                  <p className="text-[10px] font-bold text-[#A3A09B] uppercase tracking-[0.2em]">Currently Applied</p>
+                  <div className="flex flex-wrap gap-2">
                     {searchTerm && (
-                      <div className="flex items-center justify-between bg-orange-50 border border-[#FF6B00]/20 rounded-lg px-3 py-1.5">
-                        <span className="text-xs text-gray-600">Search: <span className="font-semibold">{searchTerm}</span></span>
-                        <button onClick={() => setSearchTerm('')}><X className="w-3 h-3 text-[#FF6B00]" /></button>
-                      </div>
+                      <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#F7F5F0] border border-[#E8E6E1] text-[10px] text-[#2A2825] uppercase tracking-wider">
+                        "{searchTerm}" <X className="w-3 h-3 cursor-pointer" onClick={() => setSearchTerm('')} />
+                      </span>
                     )}
                     {selectedCategory && (
-                      <div className="flex items-center justify-between bg-orange-50 border border-[#FF6B00]/20 rounded-lg px-3 py-1.5">
-                        <span className="text-xs text-gray-600">Cat: <span className="font-semibold">{selectedCategory}</span></span>
-                        <button onClick={() => setSelectedCategory('')}><X className="w-3 h-3 text-[#FF6B00]" /></button>
-                      </div>
-                    )}
-                    {(priceRange.min || priceRange.max) && (
-                      <div className="flex items-center justify-between bg-orange-50 border border-[#FF6B00]/20 rounded-lg px-3 py-1.5">
-                        <span className="text-xs text-gray-600">₹{priceRange.min || '0'} – ₹{priceRange.max || '∞'}</span>
-                        <button onClick={() => setPriceRange({ min: '', max: '' })}><X className="w-3 h-3 text-[#FF6B00]" /></button>
-                      </div>
+                      <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#F7F5F0] border border-[#E8E6E1] text-[10px] text-[#2A2825] uppercase tracking-wider">
+                        {selectedCategory} <X className="w-3 h-3 cursor-pointer" onClick={() => setSelectedCategory('')} />
+                      </span>
                     )}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </aside>
 
           {/* ── PRODUCTS ── */}
           <div className="flex-1">
             {/* Results bar */}
-            <div className="flex items-center justify-between mb-5 bg-white rounded-2xl border border-gray-100 shadow-sm px-5 py-3">
-              <p className="text-sm text-gray-600">
-                <span className="font-bold text-gray-900">{filteredProducts.length}</span>{' '}
-                {filteredProducts.length !== 1 ? 'products' : 'product'} found
+            <div className="flex items-center justify-between mb-8 pb-4 border-b border-[#E8E6E1]">
+              <p className="text-xs text-[#6B665E] tracking-widest uppercase">
+                Showing <span className="text-[#2A2825] font-bold">{filteredProducts.length}</span> results
               </p>
-              <p className="hidden sm:block text-xs text-gray-400">
-                Showing {filteredProducts.length} of {products.length}
+              <div className="hidden sm:block h-[1px] flex-1 mx-8 bg-[#E8E6E1]" />
+              <p className="hidden sm:block text-[10px] text-[#A3A09B] uppercase tracking-[0.2em]">
+                {products.length} Items Total
               </p>
             </div>
 
             {filteredProducts.length === 0 ? (
-              <div className="text-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm">
-                <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Search className="w-7 h-7 text-gray-300" />
+              <div className="text-center py-24 bg-white border border-[#E8E6E1]">
+                <div className="w-12 h-12 bg-[#F7F5F0] flex items-center justify-center mx-auto mb-6">
+                  <Search className="w-5 h-5 text-[#A3A09B]" />
                 </div>
-                <h3 className="text-base font-bold text-gray-900 mb-2">No Results Found</h3>
-                <p className="text-sm text-gray-400 mb-6 max-w-xs mx-auto">
-                  We couldn&apos;t find any products matching your criteria.
+                <h3 className="text-lg font-serif text-[#2A2825] mb-2 font-light">No matches found</h3>
+                <p className="text-xs text-[#6B665E] mb-8 font-light tracking-wide">
+                  Try adjusting your filters or search terms.
                 </p>
                 <button
                   onClick={clearFilters}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+                  className="px-8 py-3 bg-[#2A2825] text-white text-[11px] font-medium uppercase tracking-widest hover:bg-[#403D39] transition-colors"
                 >
-                  <X className="w-4 h-4" />
-                  Clear Filters
+                  Clear all filters
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-12">
                 {filteredProducts.map((product) => (
                   <ProductCard
                     key={product.id}
@@ -276,29 +266,28 @@ export default function ShopPageClient({ products }: ShopPageClientProps) {
         </div>
       </div>
 
-      {/* ── CONTACT SECTION ── */}
-      <div className="mt-12 border-t border-gray-100 bg-[#1B2A4A] py-14 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+      {/* ── CONTACT SECTION (Earthy Palette) ── */}
+      <div className="mt-20 bg-[#2A2825] py-20 relative overflow-hidden">
         <div className="max-w-4xl mx-auto text-center px-4 relative z-10">
-          <h2 className="text-xl font-bold text-white mb-2">Need Assistance?</h2>
-          <p className="text-sm text-blue-200 mb-7 max-w-md mx-auto leading-relaxed">
-            Our customer team is here to help you choose the best product for your needs.
+          <p className="text-[#A88C7D] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Customer Care</p>
+          <h2 className="text-2xl md:text-3xl font-serif font-light text-white mb-6">Need styling assistance?</h2>
+          <p className="text-[#D5D2CC] text-sm mb-10 max-w-md mx-auto leading-relaxed font-light">
+            Our interior experts are available to help you choose the perfect pieces for your unique space.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="mailto:support@tap2buy.in"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+              className="px-8 py-4 bg-[#B86B52] text-white text-[11px] font-semibold uppercase tracking-[0.2em] hover:bg-[#A35A44] transition-colors"
             >
-              <Mail className="w-4 h-4" />
-              Email Support
+              Email Consultant
             </a>
             <a
               href="https://wa.me/919911636888"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+              className="px-8 py-4 border border-white/20 text-white text-[11px] font-semibold uppercase tracking-[0.2em] hover:bg-white hover:text-[#2A2825] transition-colors"
             >
-              💬 WhatsApp Us
+              WhatsApp Support
             </a>
           </div>
         </div>

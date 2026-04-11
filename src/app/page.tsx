@@ -23,27 +23,27 @@ interface Product {
 }
 
 const ProductSkeleton: React.FC = () => (
-  <div className="bg-white overflow-hidden border border-gray-100 rounded-2xl shadow-sm animate-pulse">
-    <div className="aspect-square bg-gray-100" />
-    <div className="p-4 space-y-3">
-      <div className="h-4 bg-gray-100 rounded-full" />
-      <div className="h-3 bg-gray-100 w-2/3 rounded-full" />
-      <div className="h-8 bg-gray-100 rounded-lg" />
+  <div className="bg-white overflow-hidden border border-[#E8E6E1] rounded-none shadow-sm animate-pulse">
+    <div className="aspect-square bg-[#F0EFEA]" />
+    <div className="p-5 space-y-3">
+      <div className="h-4 bg-[#F0EFEA] rounded-sm w-3/4" />
+      <div className="h-3 bg-[#F0EFEA] w-1/2 rounded-sm" />
+      <div className="h-6 bg-[#F0EFEA] w-1/3 rounded-sm mt-4" />
     </div>
   </div>
 );
 
-// ── DATA ─────────────────────────────────────────────────────────────────────
+// ── DATA (Updated with flat aesthetic colors) ────────────────────────────────
 
 const CATEGORIES = [
-  { name: 'Candle Stands',     slug: 'candle-stands',   emoji: '🕯️',  bg: 'bg-amber-50',   border: 'border-amber-200 hover:border-amber-400' },
-  { name: 'Photo Frames',      slug: 'photo-frames',    emoji: '🖼️',  bg: 'bg-rose-50',    border: 'border-rose-200 hover:border-rose-400' },
-  { name: 'Vases & Planters',  slug: 'vases-planters',  emoji: '🪴',  bg: 'bg-green-50',   border: 'border-green-200 hover:border-green-400' },
-  { name: 'Gift Sets',         slug: 'gift-sets',       emoji: '🎁',  bg: 'bg-purple-50',  border: 'border-purple-200 hover:border-purple-400' },
-  { name: 'Wall Decor',        slug: 'wall-decor',      emoji: '🏺',  bg: 'bg-orange-50',  border: 'border-orange-200 hover:border-orange-400' },
-  { name: 'Scented Candles',   slug: 'scented-candles', emoji: '✨',  bg: 'bg-yellow-50',  border: 'border-yellow-200 hover:border-yellow-400' },
-  { name: 'Showpieces',        slug: 'showpieces',      emoji: '🏛️',  bg: 'bg-sky-50',     border: 'border-sky-200 hover:border-sky-400' },
-  { name: 'Clocks',            slug: 'clocks',          emoji: '🕰️',  bg: 'bg-stone-50',   border: 'border-stone-200 hover:border-stone-400' },
+  { name: 'Candle Stands',     slug: 'candle-stands',   emoji: '🕯️',  bg: 'bg-[#F2EFE9]', border: 'border-transparent hover:border-[#B86B52]' },
+  { name: 'Photo Frames',      slug: 'photo-frames',    emoji: '🖼️',  bg: 'bg-[#EAECE9]', border: 'border-transparent hover:border-[#8A9A86]' },
+  { name: 'Vases & Planters',  slug: 'vases-planters',  emoji: '🪴',  bg: 'bg-[#EFEAE6]', border: 'border-transparent hover:border-[#A88C7D]' },
+  { name: 'Gift Sets',         slug: 'gift-sets',       emoji: '🎁',  bg: 'bg-[#F0EFEA]', border: 'border-transparent hover:border-[#2A2825]' },
+  { name: 'Wall Decor',        slug: 'wall-decor',      emoji: '🏺',  bg: 'bg-[#F2EFE9]', border: 'border-transparent hover:border-[#B86B52]' },
+  { name: 'Scented Candles',   slug: 'scented-candles', emoji: '✨',  bg: 'bg-[#EAECE9]', border: 'border-transparent hover:border-[#8A9A86]' },
+  { name: 'Showpieces',        slug: 'showpieces',      emoji: '🏛️',  bg: 'bg-[#EFEAE6]', border: 'border-transparent hover:border-[#A88C7D]' },
+  { name: 'Clocks',            slug: 'clocks',          emoji: '🕰️',  bg: 'bg-[#F0EFEA]', border: 'border-transparent hover:border-[#2A2825]' },
 ];
 
 const TESTIMONIALS = [
@@ -65,9 +65,9 @@ const TESTIMONIALS = [
 ];
 
 const WHY_US = [
-  { icon: Gift,     title: 'Curated for Every Occasion', desc: 'From birthdays to housewarmings — we have the perfect decor gift for every moment.',  bg: 'bg-amber-50',  color: 'text-amber-600' },
-  { icon: Sparkles, title: 'Premium Craftsmanship',       desc: 'Every piece is hand-selected for quality, finish, and aesthetic appeal.',               bg: 'bg-orange-50', color: 'text-[#FF6B00]' },
-  { icon: Shield,   title: 'Safe & Secure Delivery',      desc: 'Fragile items are bubble-wrapped and packed with care to reach you undamaged.',         bg: 'bg-green-50',  color: 'text-green-600' },
+  { icon: Gift,     title: 'Curated for Occasions', desc: 'From birthdays to housewarmings — the perfect decor gift for every moment.',  bg: 'bg-[#F2EFE9]', color: 'text-[#B86B52]' },
+  { icon: Sparkles, title: 'Premium Craftsmanship', desc: 'Every piece is hand-selected for quality, finish, and aesthetic appeal.',      bg: 'bg-[#EFEAE6]', color: 'text-[#A88C7D]' },
+  { icon: Shield,   title: 'Safe & Secure Delivery',desc: 'Fragile items are packed with extreme care to reach you undamaged.',             bg: 'bg-[#EAECE9]', color: 'text-[#8A9A86]' },
 ];
 
 const TRUST_STRIP = [
@@ -78,10 +78,10 @@ const TRUST_STRIP = [
 ];
 
 const STATS = [
-  { number: '50K+',  label: 'Happy Customers',      icon: Heart },
-  { number: '4.9★',  label: 'Average Rating',        icon: Award },
-  { number: '300+',  label: 'Unique Products',       icon: Package },
-  { number: '100%',  label: 'Gift-Ready Packaging',  icon: Gift },
+  { number: '50K+',  label: 'Happy Homes',      icon: Heart },
+  { number: '4.9★',  label: 'Average Rating',   icon: Award },
+  { number: '300+',  label: 'Unique Curations', icon: Package },
+  { number: '100%',  label: 'Gift-Ready',       icon: Gift },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -114,75 +114,64 @@ export default function Homepage() {
   const displayProducts = all.slice(0, 8);
 
   return (
-    <div className="min-h-screen bg-[#faf9f7] overflow-hidden">
+    <div className="min-h-screen bg-[#FAFAF8] overflow-hidden font-sans text-[#2A2825]">
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-[#1B2A4A] overflow-hidden min-h-[520px] flex items-center">
-        {/* Decorative blobs */}
-        <div className="absolute -top-20 -right-20 w-96 h-96 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-20 -left-10 w-72 h-72 bg-amber-400/5 rounded-full blur-3xl pointer-events-none" />
-        {/* Decorative dots pattern */}
-        <div className="absolute inset-0 pointer-events-none opacity-5"
-          style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 py-14 md:py-20 w-full">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+      <section className="relative bg-[#F7F5F0] overflow-hidden min-h-[560px] flex items-center border-b border-[#E8E6E1]">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 py-16 md:py-24 w-full">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
 
             {/* LEFT — Copy */}
-            <div className="text-white">
-              <div className="inline-flex items-center gap-2 bg-[#FF6B00]/20 border border-[#FF6B00]/30 rounded-full px-4 py-1.5 mb-6">
-                <span className="w-2 h-2 bg-[#FF6B00] rounded-full animate-pulse" />
-                <span className="text-xs font-semibold text-[#FF6B00]">New Collection — Spring 2026</span>
+            <div className="text-[#2A2825]">
+              <div className="inline-flex items-center gap-2 mb-6">
+                <span className="w-8 h-[1px] bg-[#B86B52]" />
+                <span className="text-xs font-semibold text-[#B86B52] uppercase tracking-widest">Spring Collection '26</span>
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-5">
-                Decor That Tells
-                <span className="block text-[#FF6B00]">Your Story</span>
+              <h1 className="text-4xl md:text-6xl font-light leading-[1.1] mb-6 font-serif">
+                Decor that tells
+                <span className="block font-medium text-[#B86B52] mt-2">your story.</span>
               </h1>
-              <p className="text-blue-200 text-base md:text-lg mb-8 leading-relaxed max-w-md">
-                Handpicked candle stands, photo frames, vases and gift sets — crafted to bring warmth and elegance to every corner of your home.
+              <p className="text-[#6B665E] text-base md:text-lg mb-10 leading-relaxed max-w-md">
+                Handpicked candle stands, elegant frames, and curated vases — crafted to bring warmth, peace, and aesthetic charm to every corner of your home.
               </p>
-              <div className="flex flex-wrap gap-3 mb-8">
-                <Link href="/shop" className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#FF6B00] text-white font-bold rounded-xl hover:bg-[#e55f00] transition-all shadow-lg hover:-translate-y-0.5">
+              <div className="flex flex-wrap gap-4 mb-10">
+                <Link href="/shop" className="inline-flex items-center gap-2 px-8 py-4 bg-[#2A2825] text-white font-medium hover:bg-[#403D39] transition-colors rounded-none">
                   Explore Collection <ChevronRight className="w-4 h-4" />
                 </Link>
-                <Link href="/category/gifts" className="inline-flex items-center gap-2 px-6 py-3.5 bg-white/10 text-white font-medium rounded-xl border border-white/20 hover:bg-white/20 transition-all">
+                <Link href="/category/gifts" className="inline-flex items-center gap-2 px-8 py-4 bg-transparent text-[#2A2825] font-medium border border-[#2A2825] hover:bg-[#2A2825] hover:text-white transition-colors rounded-none">
                   <Gift className="w-4 h-4" /> Find a Gift
                 </Link>
               </div>
-              <div className="flex flex-wrap gap-5">
-                {['🎁 Gift-Ready Packaging', '🚚 Free Delivery above ₹499', '↩️ Easy 7-day Returns'].map((b, i) => (
-                  <span key={i} className="text-blue-200 text-xs">{b}</span>
+              <div className="flex flex-wrap gap-6 border-t border-[#E8E6E1] pt-6">
+                {['🎁 Curated Packaging', '🚚 Free Delivery > ₹499', '↩️ Easy Returns'].map((b, i) => (
+                  <span key={i} className="text-[#6B665E] text-sm tracking-wide">{b}</span>
                 ))}
               </div>
             </div>
 
-            {/* RIGHT — Visual card grid (replaces carousel) */}
+            {/* RIGHT — Visual card grid (Flat Aesthetic) */}
             <div className="grid grid-cols-2 gap-4">
-              {/* Big top-left card */}
-              <div className="bg-gradient-to-br from-amber-100 to-amber-50 rounded-2xl p-6 flex flex-col items-center justify-center gap-3 border border-amber-200 shadow-md row-span-1">
-                <span className="text-5xl">🕯️</span>
-                <p className="text-sm font-bold text-amber-800 text-center leading-snug">Candle Stands & Holders</p>
-                <Link href="/category/candle-stands" className="text-xs text-amber-700 font-semibold underline-offset-2 hover:underline">Shop Now →</Link>
+              <div className="bg-white p-8 flex flex-col items-center justify-center gap-4 border border-[#E8E6E1] hover:border-[#B86B52] transition-colors">
+                <span className="text-4xl opacity-90">🕯️</span>
+                <p className="text-sm font-medium text-[#2A2825] text-center tracking-wide">Candle Stands</p>
+                <Link href="/category/candle-stands" className="text-xs text-[#6B665E] uppercase tracking-widest hover:text-[#B86B52]">Shop Now</Link>
               </div>
-              {/* Top-right card */}
-              <div className="bg-gradient-to-br from-rose-100 to-rose-50 rounded-2xl p-6 flex flex-col items-center justify-center gap-3 border border-rose-200 shadow-md">
-                <span className="text-5xl">🖼️</span>
-                <p className="text-sm font-bold text-rose-800 text-center leading-snug">Photo Frames & Collages</p>
-                <Link href="/category/photo-frames" className="text-xs text-rose-700 font-semibold underline-offset-2 hover:underline">Shop Now →</Link>
+              <div className="bg-[#EAECE9] p-8 flex flex-col items-center justify-center gap-4">
+                <span className="text-4xl opacity-90">🖼️</span>
+                <p className="text-sm font-medium text-[#2A2825] text-center tracking-wide">Photo Frames</p>
+                <Link href="/category/photo-frames" className="text-xs text-[#6B665E] uppercase tracking-widest hover:text-[#2A2825]">Shop Now</Link>
               </div>
-              {/* Bottom-left */}
-              <div className="bg-gradient-to-br from-purple-100 to-purple-50 rounded-2xl p-6 flex flex-col items-center justify-center gap-3 border border-purple-200 shadow-md">
-                <span className="text-5xl">🎁</span>
-                <p className="text-sm font-bold text-purple-800 text-center leading-snug">Curated Gift Sets</p>
-                <Link href="/category/gift-sets" className="text-xs text-purple-700 font-semibold underline-offset-2 hover:underline">Shop Now →</Link>
+              <div className="bg-[#EFEAE6] p-8 flex flex-col items-center justify-center gap-4">
+                <span className="text-4xl opacity-90">🪴</span>
+                <p className="text-sm font-medium text-[#2A2825] text-center tracking-wide">Vases & Planters</p>
+                <Link href="/category/vases" className="text-xs text-[#6B665E] uppercase tracking-widest hover:text-[#2A2825]">Shop Now</Link>
               </div>
-              {/* Bottom-right — Offer badge */}
-              <div className="bg-[#FF6B00] rounded-2xl p-6 flex flex-col items-center justify-center gap-2 shadow-md">
-                <p className="text-white text-xs font-semibold uppercase tracking-wider opacity-80">Limited Time</p>
-                <p className="text-white text-3xl font-black leading-none">70%</p>
-                <p className="text-white text-sm font-bold">OFF Gifting</p>
-                <Link href="/sale" className="mt-2 text-xs bg-white text-[#FF6B00] font-bold px-3 py-1.5 rounded-full hover:bg-orange-50 transition-colors">
-                  Grab Deal
+              <div className="bg-[#B86B52] p-8 flex flex-col items-center justify-center gap-2 text-white">
+                <p className="text-xs font-medium uppercase tracking-widest opacity-80">Gifting</p>
+                <p className="text-4xl font-light mb-1">Sale</p>
+                <p className="text-sm font-medium">Up to 70% Off</p>
+                <Link href="/sale" className="mt-4 text-xs bg-white text-[#B86B52] font-semibold px-4 py-2 uppercase tracking-wide hover:bg-[#F7F5F0] transition-colors">
+                  View Deals
                 </Link>
               </div>
             </div>
@@ -191,19 +180,17 @@ export default function Homepage() {
       </section>
 
       {/* ── TRUST STRIP ──────────────────────────────────────────────────── */}
-      <section className="bg-white border-b border-gray-100 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <section className="bg-white border-b border-[#E8E6E1]">
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {TRUST_STRIP.map((item, i) => {
               const Icon = item.icon;
               return (
-                <div key={i} className="flex items-center gap-3 p-3">
-                  <div className="flex-shrink-0 w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-[#FF6B00]" />
-                  </div>
+                <div key={i} className="flex items-center gap-4 px-2">
+                  <Icon className="w-6 h-6 text-[#A88C7D] stroke-[1.5]" />
                   <div>
-                    <p className="text-sm font-semibold text-gray-900">{item.title}</p>
-                    <p className="text-xs text-gray-500">{item.sub}</p>
+                    <p className="text-sm font-medium text-[#2A2825]">{item.title}</p>
+                    <p className="text-xs text-[#8A857D] mt-0.5">{item.sub}</p>
                   </div>
                 </div>
               );
@@ -213,27 +200,27 @@ export default function Homepage() {
       </section>
 
       {/* ── CATEGORIES ───────────────────────────────────────────────────── */}
-      <section className="py-14 px-4 bg-[#faf9f7]">
+      <section className="py-20 px-4 bg-[#FAFAF8]">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-end justify-between mb-12">
             <div>
-              <p className="text-xs font-bold text-[#FF6B00] uppercase tracking-widest mb-1">Browse</p>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Shop by Category</h2>
+              <p className="text-xs font-medium text-[#B86B52] uppercase tracking-widest mb-2">Curations</p>
+              <h2 className="text-3xl font-light text-[#2A2825] font-serif">Shop by Category</h2>
             </div>
-            <Link href="/shop" className="hidden md:flex items-center gap-1 text-[#FF6B00] font-semibold text-sm hover:underline underline-offset-2">
-              View all <ChevronRight className="w-4 h-4" />
+            <Link href="/shop" className="hidden md:flex items-center gap-2 text-[#2A2825] font-medium text-sm hover:text-[#B86B52] transition-colors border-b border-[#2A2825] hover:border-[#B86B52] pb-1">
+              View all collections
             </Link>
           </div>
 
-          <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
+          <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
             {CATEGORIES.map((cat) => (
               <Link
                 key={cat.slug}
                 href={`/category/${cat.slug}`}
-                className={`group flex flex-col items-center gap-2.5 p-3 md:p-4 ${cat.bg} border-2 ${cat.border} rounded-2xl transition-all duration-300 hover:shadow-md hover:-translate-y-1`}
+                className={`group flex flex-col items-center justify-center py-8 px-4 ${cat.bg} border ${cat.border} transition-colors duration-300`}
               >
-                <span className="text-3xl">{cat.emoji}</span>
-                <span className="text-[10px] md:text-xs font-bold text-gray-700 text-center leading-tight">{cat.name}</span>
+                <span className="text-3xl mb-4 grayscale-[0.2]">{cat.emoji}</span>
+                <span className="text-xs font-medium text-[#2A2825] text-center tracking-wide">{cat.name}</span>
               </Link>
             ))}
           </div>
@@ -241,98 +228,89 @@ export default function Homepage() {
       </section>
 
       {/* ── PROMO BANNERS ────────────────────────────────────────────────── */}
-      <section className="pb-6 px-4">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
-
-          {/* Big left banner */}
-          <div className="md:col-span-2 relative bg-gradient-to-r from-[#1B2A4A] to-[#2c3e6b] rounded-2xl p-8 overflow-hidden min-h-[200px] flex items-center">
-            <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-[#FF6B00]/10 rounded-l-full blur-3xl pointer-events-none" />
-            <div className="absolute top-4 right-8 text-8xl opacity-20 pointer-events-none select-none">🕯️</div>
+      <section className="pb-12 px-4">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          {/* Flat Charcoal Banner */}
+          <div className="md:col-span-2 bg-[#2A2825] p-10 md:p-14 flex items-center relative overflow-hidden">
             <div className="relative z-10">
-              <p className="text-[#FF6B00] text-xs font-bold uppercase tracking-widest mb-2">🔥 Limited Time</p>
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">Festive Decor Sale</h3>
-              <p className="text-blue-200 text-sm mb-5">Up to 60% off on candle stands, frames & gift sets</p>
-              <Link href="/sale" className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FF6B00] text-white font-bold rounded-xl text-sm hover:bg-[#e55f00] transition-all shadow-md">
-                Grab Deals <ChevronRight className="w-4 h-4" />
+              <p className="text-[#A88C7D] text-xs font-medium uppercase tracking-widest mb-4">Limited Edition</p>
+              <h3 className="text-3xl md:text-4xl font-light text-white mb-4 font-serif">Festive Decor Edit</h3>
+              <p className="text-[#D5D2CC] text-base mb-8 max-w-sm font-light">Bring warmth to your spaces with up to 60% off on curated lighting and table decor.</p>
+              <Link href="/sale" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#2A2825] font-medium text-sm hover:bg-[#F0EFEA] transition-colors">
+                Shop the Edit
               </Link>
             </div>
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 text-[120px] opacity-10 select-none pointer-events-none">🏺</div>
           </div>
 
-          {/* Two small right banners */}
-          <div className="flex flex-col gap-4">
-            <Link href="/category/personalised-gifts" className="relative bg-gradient-to-r from-rose-500 to-pink-500 rounded-2xl p-5 flex items-center gap-4 flex-1 hover:shadow-lg transition-all">
-              <span className="text-4xl flex-shrink-0">💝</span>
+          {/* Side Banners - Flat Earthy Colors */}
+          <div className="flex flex-col gap-6">
+            <Link href="/category/personalised-gifts" className="bg-[#A88C7D] p-8 flex items-center justify-between flex-1 hover:bg-[#977C6D] transition-colors group">
               <div>
-                <p className="text-white font-bold text-base">Personalised Gifts</p>
-                <p className="text-white/70 text-xs">Make it memorable</p>
+                <p className="text-white font-medium text-lg mb-1 font-serif">Personalised</p>
+                <p className="text-white/80 text-sm font-light">Make it memorable</p>
               </div>
-              <ChevronRight className="w-4 h-4 text-white/70 ml-auto flex-shrink-0" />
+              <ChevronRight className="w-5 h-5 text-white transform group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link href="/category/diwali" className="relative bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl p-5 flex items-center gap-4 flex-1 hover:shadow-lg transition-all">
-              <span className="text-4xl flex-shrink-0">🪔</span>
+            <Link href="/category/diwali" className="bg-[#8A9A86] p-8 flex items-center justify-between flex-1 hover:bg-[#788A74] transition-colors group">
               <div>
-                <p className="text-white font-bold text-base">Festive Collection</p>
-                <p className="text-white/70 text-xs">Diwali | Weddings | More</p>
+                <p className="text-white font-medium text-lg mb-1 font-serif">Festive Range</p>
+                <p className="text-white/80 text-sm font-light">Curated bundles</p>
               </div>
-              <ChevronRight className="w-4 h-4 text-white/70 ml-auto flex-shrink-0" />
+              <ChevronRight className="w-5 h-5 text-white transform group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>
       </section>
 
       {/* ── FEATURED PRODUCTS ────────────────────────────────────────────── */}
-      <section className="py-14 px-4 bg-white">
+      <section className="py-20 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <p className="text-xs font-bold text-[#FF6B00] uppercase tracking-widest mb-1">Our Products</p>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Featured Collection</h2>
+          <div className="flex flex-col items-center mb-12 text-center">
+            <p className="text-xs font-medium text-[#B86B52] uppercase tracking-widest mb-2">Our Masterpieces</p>
+            <h2 className="text-3xl font-light text-[#2A2825] font-serif mb-8">Signature Collection</h2>
+            
+            {/* Minimalist Tabs */}
+            <div className="flex gap-6 border-b border-[#E8E6E1] px-4">
+              {([
+                { key: 'all',      label: 'All Pieces' },
+                { key: 'featured', label: 'Best Sellers' },
+                { key: 'new',      label: 'New Arrivals' },
+              ] as const).map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => setActiveCategory(tab.key)}
+                  className={`pb-3 text-sm font-medium tracking-wide transition-colors relative ${
+                    activeCategory === tab.key
+                      ? 'text-[#2A2825]'
+                      : 'text-[#8A857D] hover:text-[#2A2825]'
+                  }`}
+                >
+                  {tab.label}
+                  {activeCategory === tab.key && (
+                    <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#2A2825]" />
+                  )}
+                </button>
+              ))}
             </div>
-            <Link href="/shop" className="hidden md:flex items-center gap-1 text-[#FF6B00] font-semibold text-sm hover:underline underline-offset-2">
-              View all <ChevronRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          {/* Tabs */}
-          <div className="flex gap-2 mb-8 overflow-x-auto pb-1">
-            {([
-              { key: 'all'      as const, label: '✦ All Products' },
-              { key: 'featured' as const, label: '🌟 Best Sellers' },
-              { key: 'new'      as const, label: '🆕 New Arrivals' },
-            ] as const).map((tab) => (
-              <button
-                key={tab.key}
-                onClick={() => setActiveCategory(tab.key)}
-                className={`flex-shrink-0 px-5 py-2 text-sm font-semibold rounded-full border-2 transition-all duration-300 ${
-                  activeCategory === tab.key
-                    ? 'bg-[#FF6B00] text-white border-[#FF6B00] shadow-md'
-                    : 'bg-white text-gray-500 border-gray-200 hover:border-[#FF6B00] hover:text-[#FF6B00]'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
           </div>
 
           {isLoading ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
               {[...Array(8)].map((_, i) => <ProductSkeleton key={i} />)}
             </div>
           ) : isError ? (
-            <div className="text-center py-20 bg-gray-50 rounded-2xl">
-              <div className="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-7 h-7 text-red-400" />
-              </div>
-              <p className="text-gray-500 mb-4 text-sm">Unable to load products. Please try again.</p>
-              <button onClick={() => window.location.reload()} className="px-6 py-2.5 bg-[#FF6B00] text-white rounded-xl font-semibold hover:bg-[#e55f00] transition-all">Retry</button>
+            <div className="text-center py-24 bg-[#FAFAF8] border border-[#E8E6E1]">
+              <p className="text-[#6B665E] mb-4">Unable to load the collection right now.</p>
+              <button onClick={() => window.location.reload()} className="px-6 py-2 border border-[#2A2825] text-[#2A2825] hover:bg-[#2A2825] hover:text-white transition-colors">Refresh</button>
             </div>
           ) : displayProducts.length === 0 ? (
-            <div className="text-center py-20">
-              <Search className="w-14 h-14 mx-auto mb-4 text-gray-300" />
-              <p className="text-gray-500 text-sm">No products found</p>
+            <div className="text-center py-24 border border-[#E8E6E1]">
+              <p className="text-[#6B665E]">No pieces found in this collection.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
               {displayProducts.map((prod, i) => (
                 <div key={prod.id} className="animate-[fadeInUp_0.5s_ease_forwards] opacity-0" style={{ animationDelay: `${Math.min(i * 50, 350)}ms` }}>
                   <ProductCard product={prod} />
@@ -342,9 +320,9 @@ export default function Homepage() {
           )}
 
           {!isLoading && displayProducts.length > 0 && (
-            <div className="mt-10 text-center">
-              <Link href="/shop" className="inline-flex items-center gap-2 px-8 py-3.5 border-2 border-[#FF6B00] text-[#FF6B00] rounded-xl font-bold hover:bg-[#FF6B00] hover:text-white transition-all duration-300">
-                View All Products <ChevronRight className="w-5 h-5" />
+            <div className="mt-16 text-center">
+              <Link href="/shop" className="inline-flex items-center gap-2 px-10 py-4 border border-[#2A2825] text-[#2A2825] font-medium hover:bg-[#2A2825] hover:text-white transition-colors tracking-wide">
+                View Full Catalog
               </Link>
             </div>
           )}
@@ -352,23 +330,21 @@ export default function Homepage() {
       </section>
 
       {/* ── GIFTING GUIDE BANNER ─────────────────────────────────────────── */}
-      <section className="py-6 px-4 bg-[#faf9f7]">
+      <section className="py-12 px-4 bg-[#FAFAF8]">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-200 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div>
-              <p className="text-xs font-bold text-[#FF6B00] uppercase tracking-widest mb-2">🎁 Not sure what to gift?</p>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Let Us Help You Choose</h2>
-              <p className="text-gray-600 text-sm max-w-md leading-relaxed">
-                Explore our occasion-based gift guides — birthdays, anniversaries, housewarmings, and more. Find the perfect gift in minutes.
+          <div className="bg-[#EFEAE6] p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10">
+            <div className="max-w-lg">
+              <h2 className="text-3xl font-light text-[#2A2825] font-serif mb-4">The Art of Gifting</h2>
+              <p className="text-[#6B665E] text-base leading-relaxed mb-8">
+                Thoughtfully curated selections for weddings, housewarmings, or just because. Explore our occasion-based guide to find a gift that speaks volumes.
               </p>
-              <Link href="/category/gifts" className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-[#FF6B00] text-white font-bold rounded-xl hover:bg-[#e55f00] transition-all shadow-md">
-                <Gift className="w-4 h-4" /> Explore Gift Guide <ChevronRight className="w-4 h-4" />
+              <Link href="/category/gifts" className="inline-flex items-center gap-2 px-8 py-3 bg-[#2A2825] text-white font-medium hover:bg-[#403D39] transition-colors">
+                Explore Gift Guide <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
-            {/* Occasion pills */}
-            <div className="flex flex-wrap gap-3 max-w-xs justify-center">
-              {['🎂 Birthday', '💍 Anniversary', '🏠 Housewarming', '🪔 Diwali', '💼 Corporate', '🎄 Christmas'].map((occ) => (
-                <span key={occ} className="px-4 py-2 bg-white border border-amber-200 rounded-full text-sm font-semibold text-gray-700 shadow-sm">
+            <div className="flex flex-wrap gap-3 max-w-sm justify-center md:justify-end">
+              {['Weddings', 'Housewarming', 'Anniversary', 'Corporate', 'Festive'].map((occ) => (
+                <span key={occ} className="px-5 py-2.5 bg-white text-sm font-medium text-[#2A2825] tracking-wide border border-transparent hover:border-[#A88C7D] transition-colors cursor-pointer">
                   {occ}
                 </span>
               ))}
@@ -377,75 +353,19 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* ── STATS ────────────────────────────────────────────────────────── */}
-      <section ref={statsRef} className="py-16 px-4 bg-[#1B2A4A]">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-          {STATS.map((stat, i) => {
-            const Icon = stat.icon;
-            return (
-              <div key={i} className={`text-center transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: `${i * 100}ms` }}>
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-[#FF6B00]/20 rounded-full mb-4">
-                  <Icon className="w-6 h-6 text-[#FF6B00]" />
-                </div>
-                <div className="text-3xl md:text-4xl font-bold text-white mb-1">{stat.number}</div>
-                <div className="text-xs text-blue-300 uppercase tracking-wider">{stat.label}</div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ── TESTIMONIALS ─────────────────────────────────────────────────── */}
-      <section className="py-16 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-xs font-bold text-[#FF6B00] uppercase tracking-widest mb-2">Reviews</p>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Our Customers Love Us</h2>
-            <p className="text-gray-500 text-sm">Real stories from real homes</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {TESTIMONIALS.map((review, i) => (
-              <div key={i} className="bg-[#faf9f7] border border-gray-100 rounded-2xl p-6 hover:shadow-md transition-all duration-300">
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(review.rating)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#FF6B00] text-[#FF6B00]" />)}
-                </div>
-                <p className="text-gray-700 text-sm leading-relaxed mb-5 italic">&quot;{review.text}&quot;</p>
-                <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 bg-[#FF6B00] rounded-full flex items-center justify-center text-white font-bold text-sm">
-                      {review.name.charAt(0)}
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-gray-900">{review.name}</p>
-                      <p className="text-xs text-gray-500">{review.location}</p>
-                    </div>
-                  </div>
-                  <span className="text-xs text-[#FF6B00] font-bold bg-orange-50 px-2.5 py-1 rounded-full border border-orange-100">{review.tag}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── WHY CHOOSE US ────────────────────────────────────────────────── */}
-      <section className="py-16 px-4 bg-[#faf9f7]">
+      <section className="py-24 px-4 bg-white border-t border-[#E8E6E1]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-xs font-bold text-[#FF6B00] uppercase tracking-widest mb-2">Our Promise</p>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Why Shop With Us?</h2>
-            <p className="text-gray-500 text-sm">Every order is crafted with care</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
             {WHY_US.map((item, i) => {
               const Icon = item.icon;
               return (
-                <div key={i} className="bg-white rounded-2xl p-8 border border-gray-100 hover:shadow-md transition-all duration-300 group text-center">
-                  <div className={`inline-flex items-center justify-center w-16 h-16 ${item.bg} rounded-2xl mb-5 group-hover:scale-110 transition-transform`}>
-                    <Icon className={`w-8 h-8 ${item.color}`} />
+                <div key={i} className="flex flex-col items-center">
+                  <div className={`w-16 h-16 ${item.bg} flex items-center justify-center rounded-full mb-6`}>
+                    <Icon className={`w-7 h-7 ${item.color} stroke-[1.5]`} />
                   </div>
-                  <h3 className="text-base font-bold text-gray-900 mb-3">{item.title}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
+                  <h3 className="text-lg font-serif text-[#2A2825] mb-3">{item.title}</h3>
+                  <p className="text-[#6B665E] text-sm leading-relaxed max-w-xs">{item.desc}</p>
                 </div>
               );
             })}
@@ -453,26 +373,64 @@ export default function Homepage() {
         </div>
       </section>
 
+      {/* ── STATS (Minimal Flat Aesthetic) ───────────────────────────────── */}
+      <section ref={statsRef} className="py-20 px-4 bg-[#2A2825]">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-white/10">
+          {STATS.map((stat, i) => (
+            <div key={i} className={`text-center px-4 transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: `${i * 150}ms` }}>
+              <div className="text-4xl md:text-5xl font-light text-white mb-3 font-serif">{stat.number}</div>
+              <div className="text-xs text-[#A88C7D] uppercase tracking-widest">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── TESTIMONIALS ─────────────────────────────────────────────────── */}
+      <section className="py-24 px-4 bg-[#FAFAF8]">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-light text-[#2A2825] font-serif mb-3">Words from Homes</h2>
+            <p className="text-[#8A857D] text-sm tracking-wide">Real stories from our patrons</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {TESTIMONIALS.map((review, i) => (
+              <div key={i} className="bg-white p-10 border border-[#E8E6E1] flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-1 mb-6">
+                    {[...Array(review.rating)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#A88C7D] text-[#A88C7D]" />)}
+                  </div>
+                  <p className="text-[#2A2825] text-base leading-relaxed mb-8 font-serif italic">"{review.text}"</p>
+                </div>
+                <div className="flex items-center justify-between pt-6 border-t border-[#FAFAF8]">
+                  <div>
+                    <p className="text-sm font-medium text-[#2A2825]">{review.name}</p>
+                    <p className="text-xs text-[#8A857D] mt-1">{review.location}</p>
+                  </div>
+                  <span className="text-[10px] text-[#A88C7D] uppercase tracking-widest border border-[#EFEAE6] px-3 py-1 bg-[#FAFAF8]">{review.tag}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── NEWSLETTER ───────────────────────────────────────────────────── */}
-      <section className="py-16 px-4 bg-[#1B2A4A] relative overflow-hidden">
-        <div className="absolute -top-10 -right-10 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="max-w-2xl mx-auto text-center relative z-10">
-          <div className="text-4xl mb-4">💌</div>
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Get Exclusive Decor Inspiration</h2>
-          <p className="text-blue-200 text-sm mb-8 leading-relaxed">
-            New arrivals, seasonal gifting ideas and subscriber-only discounts — straight to your inbox.
+      <section className="py-24 px-4 bg-[#F7F5F0] border-t border-[#E8E6E1]">
+        <div className="max-w-xl mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl font-light text-[#2A2825] font-serif mb-4">Join our inner circle</h2>
+          <p className="text-[#6B665E] text-sm mb-10 leading-relaxed">
+            Sign up to receive early access to new collections, decor inspiration, and exclusive subscriber perks.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+          <div className="flex flex-col sm:flex-row gap-0 max-w-md mx-auto border border-[#2A2825] bg-white">
             <input
               type="email"
-              placeholder="Enter your email address"
-              className="flex-1 px-5 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-blue-300 focus:outline-none focus:border-[#FF6B00] transition-colors text-sm"
+              placeholder="Your email address"
+              className="flex-1 px-6 py-4 bg-transparent text-[#2A2825] placeholder-[#A3A09B] focus:outline-none text-sm"
             />
-            <button className="px-6 py-3.5 bg-[#FF6B00] text-white font-bold rounded-xl hover:bg-[#e55f00] transition-all shadow-lg whitespace-nowrap">
+            <button className="px-8 py-4 bg-[#2A2825] text-white font-medium hover:bg-[#403D39] transition-colors text-sm uppercase tracking-wider">
               Subscribe
             </button>
           </div>
-          <p className="text-blue-300 text-xs mt-4">No spam. Unsubscribe anytime.</p>
         </div>
       </section>
 

@@ -4,118 +4,78 @@ import { Mail, Phone, MapPin, Shield, ShoppingBag, ExternalLink } from "lucide-r
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0f172a] text-white border-t border-[#1B2A4A]">
+    <footer className="bg-[#2A2825] text-white border-t border-[#403D39] font-sans">
 
-      {/* ── PRE-FOOTER: MARKETPLACES ── */}
-      <div className="border-b border-[#1e3a5f] bg-[#1B2A4A]">
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-3">
-              <ShoppingBag className="w-5 h-5 text-[#FF6B00]" />
-              <div>
-                <h3 className="text-sm font-bold text-white uppercase tracking-wider">Also Available On</h3>
-                <p className="text-xs text-blue-300 mt-1">Shop Tap2Buy products on your favorite platforms</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Link
-                href="https://www.amazon.in/s?k=tap2buy"
-                target="_blank"
-                className="flex items-center gap-2 px-6 py-2.5 bg-white text-black rounded-xl hover:bg-gray-100 transition-colors group"
-              >
-                <img src="https://static.vecteezy.com/system/resources/thumbnails/014/018/563/small/amazon-logo-on-transparent-background-free-vector.jpg" className="h-8" alt="Amazon" />
-                <ExternalLink className="w-3 h-3 opacity-50 group-hover:translate-x-0.5 transition-transform" />
-              </Link>
-              <Link
-                href="https://www.flipkart.com/search?q=tap2buy"
-                target="_blank"
-                className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl hover:bg-gray-100 transition-colors group"
-              >
-                <img src="https://1000logos.net/wp-content/uploads/2021/02/Flipkart-logo.png" className="h-10" alt="Flipkart" />
-                <ExternalLink className="w-3 h-3 opacity-50 text-gray-700 group-hover:translate-x-0.5 transition-transform" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
+     
       {/* ── MAIN FOOTER ── */}
-      <div className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-8">
+      <div className="max-w-7xl mx-auto px-4 py-16 sm:py-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
 
           {/* Column 1: Brand */}
           <div className="lg:col-span-1">
-            <div className="mb-5">
+            <div className="mb-6">
+              {/* Note: Update your logo to a transparent or dark-mode compatible version if needed */}
               <img className="h-12 sm:h-14" src="/logo.jpg" alt="Tap2Buy" />
             </div>
-            <div className="mb-5">
-              <h3 className="font-bold text-sm text-white mb-2 tracking-wider uppercase">Tap2Buy</h3>
-              <p className="text-xs leading-relaxed text-gray-400 font-light">
-                Your one-stop online shopping destination in India. Best prices, genuine products, and fast delivery across all categories.
+            <div className="mb-6">
+            
+              <p className="text-sm leading-relaxed text-[#D5D2CC] font-light">
+                Your destination for curated home decor. Bringing warmth, elegance, and aesthetic charm to your spaces.
               </p>
             </div>
 
             {/* Trust Badge */}
-            <div className="flex items-center gap-2 mb-5 text-[#FF6B00]">
-              <Shield className="w-4 h-4" />
-              <span className="text-xs uppercase tracking-wider font-bold">100% Authentic</span>
+            <div className="flex items-center gap-2 mb-6 text-[#A88C7D]">
+              <Shield className="w-4 h-4 stroke-[1.5]" />
+              <span className="text-xs uppercase tracking-widest font-medium">100% Authentic</span>
             </div>
 
-            {/* Social Icons */}
+            {/* Social Icons (Monochromatic Premium Look) */}
             <div className="flex gap-3">
               <Link
                 target="_blank"
                 href="https://www.facebook.com/tap2buyin"
-                className="p-2.5 border border-[#1e3a5f] hover:border-[#1877F2] hover:bg-[#1877F2] hover:text-white transition-all duration-300 rounded-lg"
+                className="p-3 border border-white/10 text-[#D5D2CC] hover:border-[#B86B52] hover:bg-[#B86B52] hover:text-white transition-all duration-300"
                 aria-label="Facebook"
               >
-                <FaFacebookF className="text-xs" />
+                <FaFacebookF className="text-sm" />
               </Link>
               <Link
                 target="_blank"
                 href="https://www.instagram.com/tap2buyin"
-                className="p-2.5 border border-[#1e3a5f] hover:border-[#E4405F] hover:bg-gradient-to-br hover:from-[#833AB4] hover:via-[#E4405F] hover:to-[#F77737] hover:text-white transition-all duration-300 rounded-lg"
+                className="p-3 border border-white/10 text-[#D5D2CC] hover:border-[#B86B52] hover:bg-[#B86B52] hover:text-white transition-all duration-300"
                 aria-label="Instagram"
               >
-                <FaInstagram className="text-xs" />
+                <FaInstagram className="text-sm" />
               </Link>
               <Link
                 target="_blank"
                 href="https://www.youtube.com/@tap2buyin"
-                className="p-2.5 border border-[#1e3a5f] hover:border-[#FF0000] hover:bg-[#FF0000] hover:text-white transition-all duration-300 rounded-lg"
+                className="p-3 border border-white/10 text-[#D5D2CC] hover:border-[#B86B52] hover:bg-[#B86B52] hover:text-white transition-all duration-300"
                 aria-label="YouTube"
               >
-                <FaYoutube className="text-xs" />
+                <FaYoutube className="text-sm" />
               </Link>
-              <a
-                href="tel:+919911636888"
-                className="p-2.5 border border-[#1e3a5f] hover:border-[#FF6B00] hover:bg-[#FF6B00] hover:text-white transition-all duration-300 rounded-lg"
-                aria-label="Call us"
-              >
-                <Phone className="w-3.5 h-3.5" />
-              </a>
             </div>
           </div>
 
           {/* Column 2: Shop */}
           <div className="lg:col-span-1">
-            <h4 className="text-[11px] font-bold text-[#FF6B00] mb-4 sm:mb-5 uppercase tracking-[0.2em]">
-              Shop
+            <h4 className="text-xs font-medium text-[#A88C7D] mb-6 uppercase tracking-[0.15em]">
+              Collections
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3">
               {[
-                { name: 'Electronics', href: '/shop?category=electronics' },
-                { name: 'Fashion', href: '/shop?category=fashion' },
-                { name: 'Home & Living', href: '/shop?category=home-living' },
-                { name: 'Beauty & Care', href: '/shop?category=beauty' },
-                { name: 'Sports & Fitness', href: '/shop?category=sports' },
-                { name: 'Books & Stationery', href: '/shop?category=books' },
-                { name: 'Toys & Games', href: '/shop?category=toys' },
-                { name: 'Grocery & Food', href: '/shop?category=grocery' },
-                { name: 'All Collections', href: '/collections' },
+                { name: 'Candle Stands', href: '/shop?category=candle-stands' },
+                { name: 'Photo Frames', href: '/shop?category=photo-frames' },
+                { name: 'Vases & Planters', href: '/shop?category=vases' },
+                { name: 'Gift Sets', href: '/shop?category=gifts' },
+                { name: 'Wall Decor', href: '/shop?category=wall-decor' },
+                { name: 'Showpieces', href: '/shop?category=showpieces' },
+                { name: 'All Pieces', href: '/collections' },
               ].map((item) => (
                 <li key={item.name}>
-                  <Link href={item.href} className="text-xs text-gray-400 hover:text-[#FF6B00] transition-colors font-light">
+                  <Link href={item.href} className="text-sm text-[#D5D2CC] hover:text-[#B86B52] transition-colors font-light">
                     {item.name}
                   </Link>
                 </li>
@@ -125,21 +85,20 @@ export default function Footer() {
 
           {/* Column 3: Customer Service */}
           <div className="lg:col-span-1">
-            <h4 className="text-[11px] font-bold text-[#FF6B00] mb-4 sm:mb-5 uppercase tracking-[0.2em]">
-              Customer Service
+            <h4 className="text-xs font-medium text-[#A88C7D] mb-6 uppercase tracking-[0.15em]">
+              Assistance
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3">
               {[
-                { name: 'About Us', href: '/about' },
+                { name: 'Our Story', href: '/about' },
                 { name: 'Contact Us', href: '/contact' },
-                { name: 'Track Your Order', href: '/track-order' },
-                { name: 'Shipping Policy', href: '/shipping-policy' },
-                { name: 'Returns & Refunds', href: '/returns-and-refunds-policy' },
-                { name: 'Warranty Policy', href: '/warranty-replacement-policy' },
+                { name: 'Track Order', href: '/track-order' },
+                { name: 'Shipping Guide', href: '/shipping-policy' },
+                { name: 'Returns & Exchanges', href: '/returns-and-refunds-policy' },
                 { name: 'FAQs', href: '/faq' },
               ].map((item) => (
                 <li key={item.name}>
-                  <Link href={item.href} className="text-xs text-gray-400 hover:text-[#FF6B00] transition-colors font-light">
+                  <Link href={item.href} className="text-sm text-[#D5D2CC] hover:text-[#B86B52] transition-colors font-light">
                     {item.name}
                   </Link>
                 </li>
@@ -149,19 +108,18 @@ export default function Footer() {
 
           {/* Column 4: Legal */}
           <div className="lg:col-span-1">
-            <h4 className="text-[11px] font-bold text-[#FF6B00] mb-4 sm:mb-5 uppercase tracking-[0.2em]">
-              Legal & Policies
+            <h4 className="text-xs font-medium text-[#A88C7D] mb-6 uppercase tracking-[0.15em]">
+              Legal
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3">
               {[
                 { name: 'Privacy Policy', href: '/privacy-policy' },
-                { name: 'Terms & Conditions', href: '/terms-and-conditions' },
-                { name: 'Cancellation Policy', href: '/cancellation-policy' },
+                { name: 'Terms of Service', href: '/terms-and-conditions' },
+                { name: 'Cancellation', href: '/cancellation-policy' },
                 { name: 'Disclaimer', href: '/disclaimer' },
-                { name: 'Cookie Policy', href: '/cookie-policy' },
               ].map((item) => (
                 <li key={item.name}>
-                  <Link href={item.href} className="text-xs text-gray-400 hover:text-[#FF6B00] transition-colors font-light">
+                  <Link href={item.href} className="text-sm text-[#D5D2CC] hover:text-[#B86B52] transition-colors font-light">
                     {item.name}
                   </Link>
                 </li>
@@ -171,132 +129,104 @@ export default function Footer() {
 
           {/* Column 5: Contact */}
           <div className="lg:col-span-1">
-            <h4 className="text-[11px] font-bold text-[#FF6B00] mb-4 sm:mb-5 uppercase tracking-[0.2em]">
+            <h4 className="text-xs font-medium text-[#A88C7D] mb-6 uppercase tracking-[0.15em]">
               Get in Touch
             </h4>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <div className="w-7 h-7 bg-[#FF6B00]/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Mail className="w-3.5 h-3.5 text-[#FF6B00]" />
-                </div>
+            <ul className="space-y-5">
+              <li className="flex items-start gap-4">
+                <Mail className="w-4 h-4 text-[#B86B52] flex-shrink-0 mt-0.5 stroke-[1.5]" />
                 <a
                   href="mailto:support@tap2buy.in"
-                  className="text-xs text-gray-400 hover:text-[#FF6B00] transition-colors font-light break-all"
+                  className="text-sm text-[#D5D2CC] hover:text-[#B86B52] transition-colors font-light break-all"
                 >
                   support@tap2buy.in
                 </a>
               </li>
-              <li className="flex items-start gap-3">
-                <div className="w-7 h-7 bg-[#FF6B00]/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Phone className="w-3.5 h-3.5 text-[#FF6B00]" />
-                </div>
+              <li className="flex items-start gap-4">
+                <Phone className="w-4 h-4 text-[#B86B52] flex-shrink-0 mt-0.5 stroke-[1.5]" />
                 <div>
                   <a
                     href="tel:+919911636888"
-                    className="text-xs text-gray-400 hover:text-[#FF6B00] transition-colors font-light block"
+                    className="text-sm text-[#D5D2CC] hover:text-[#B86B52] transition-colors font-light block"
                   >
                     +91 9911636888
                   </a>
-                  <p className="text-[10px] text-gray-600 mt-0.5">Mon–Sat, 10am–6pm</p>
+                  <p className="text-xs text-[#A88C7D] mt-1 font-light">Mon–Sat, 10am–6pm</p>
                 </div>
               </li>
-              <li className="flex items-start gap-3">
-                <div className="w-7 h-7 bg-[#FF6B00]/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <MapPin className="w-3.5 h-3.5 text-[#FF6B00]" />
-                </div>
-                <span className="text-xs text-gray-400 font-light leading-relaxed">
-                  Tap2Buy<br />
+              <li className="flex items-start gap-4">
+                <MapPin className="w-4 h-4 text-[#B86B52] flex-shrink-0 mt-0.5 stroke-[1.5]" />
+                <span className="text-sm text-[#D5D2CC] font-light leading-relaxed">
+                  Tap2Buy Studio<br />
                   Sector 15, Rohini<br />
-                  New Delhi, Delhi 110089<br />
-                  India
+                  New Delhi, 110089
                 </span>
               </li>
             </ul>
-
-            {/* Quick Trust Badges */}
-            <div className="mt-6 space-y-2">
-              {[
-                { emoji: '✅', text: '100% Authentic Products' },
-                { emoji: '🚚', text: 'Pan India Delivery' },
-                { emoji: '↩️', text: '7-Day Easy Returns' },
-              ].map((badge, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <span className="text-sm">{badge.emoji}</span>
-                  <span className="text-[11px] text-gray-400">{badge.text}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
 
         {/* ── NEWSLETTER ── */}
-        <div className="mt-12 pt-10 border-t border-[#1e3a5f]">
+        <div className="mt-16 pt-12 border-t border-white/10">
           <div className="max-w-2xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 bg-[#FF6B00]/10 border border-[#FF6B00]/20 rounded-full px-4 py-1.5 mb-4">
-              <span className="text-xs font-semibold text-[#FF6B00] uppercase tracking-wider">Newsletter</span>
-            </div>
-            <h4 className="text-lg font-bold text-white mb-2">Get Exclusive Deals in Your Inbox</h4>
-            <p className="text-xs text-gray-400 font-light mb-6">
-              Join 50,000+ smart shoppers. Get early access to sales, new arrivals & coupons.
+            <h4 className="text-2xl font-serif text-white mb-3">Join our inner circle</h4>
+            <p className="text-sm text-[#D5D2CC] font-light mb-8">
+              Sign up to receive early access to new collections, decor inspiration, and exclusive perks.
             </p>
-            <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+            <form className="flex flex-col sm:flex-row gap-0 max-w-md mx-auto border border-white/20 focus-within:border-[#B86B52] transition-colors">
               <input
                 type="email"
-                placeholder="Enter your email address"
-                className="flex-1 px-4 py-3 text-xs border border-[#1e3a5f] rounded-xl focus:border-[#FF6B00] focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/10 transition-colors font-light bg-[#1B2A4A] text-white placeholder-gray-500"
+                placeholder="Your email address"
+                className="flex-1 px-6 py-4 text-sm bg-transparent border-none focus:outline-none focus:ring-0 font-light text-white placeholder-[#8A857D]"
                 required
               />
               <button
                 type="submit"
-                className="px-7 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white text-xs uppercase tracking-widest rounded-xl transition-all duration-300 font-semibold shadow-lg hover:shadow-orange-500/20 whitespace-nowrap"
+                className="px-8 py-4 bg-[#B86B52] hover:bg-[#A35A44] text-white text-xs uppercase tracking-widest transition-colors font-medium whitespace-nowrap"
               >
                 Subscribe
               </button>
             </form>
-            <p className="text-[10px] text-gray-600 mt-3">No spam, ever. Unsubscribe anytime.</p>
           </div>
         </div>
       </div>
 
       {/* ── FOOTER BOTTOM ── */}
-      <div className="border-t border-[#1e3a5f] bg-[#0d1f35]">
-  <div className="max-w-7xl mx-auto px-4 py-4 sm:py-5">
-    <div className="flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-gray-500 font-light">
-      <div className="text-center sm:text-left">
-        © {new Date().getFullYear()}{" "}
-        <span className="text-gray-400 font-medium">Tap2Buy</span>. All rights reserved.
-        <span className="mx-2 text-gray-700">|</span>
-        <span className="text-[10px]">Made with ❤️ in India</span>
-      </div>
+      <div className="border-t border-white/10 bg-[#1A1917]">
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#8A857D] font-light tracking-wide">
+            <div className="text-center md:text-left">
+              © {new Date().getFullYear()}{" "}
+              <span className="text-[#D5D2CC] font-medium">Tap2Buy</span>. All rights reserved.
+            </div>
 
-      <div className="flex flex-col sm:flex-row items-center gap-4">
-        {/* Developed By */}
-        <span className="text-[10px] text-gray-600">
-          Developed by{" "}
-          <a
-            href="https://www.proshala.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[#FF6B00] hover:text-[#ff8c00] font-semibold transition-colors hover:underline"
-          >
-            Proshala
-          </a>
-        </span>
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+              {/* Developed By */}
+              <span className="text-[#8A857D]">
+                Developed by{" "}
+                <a
+                  href="https://www.proshala.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#B86B52] hover:text-[#D5D2CC] font-medium transition-colors"
+                >
+                  Proshala
+                </a>
+              </span>
 
-        <span className="hidden sm:block text-gray-700">|</span>
+              <span className="hidden sm:block text-white/10">|</span>
 
-        {/* Payment Badges */}
-        <div className="flex items-center gap-3">
-          <span className="text-[10px] uppercase tracking-wider text-gray-600">We Accept</span>
-          <div className="flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
-            <img className="h-8 sm:h-9 rounded-lg" src="/badges.webp" alt="Payment methods" />
+              {/* Payment Badges (Cleaned up container) */}
+              <div className="flex items-center gap-3">
+                <span className="uppercase tracking-widest text-[10px]">Secure Payments</span>
+                <div className="flex items-center opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                  <img className="h-6 object-contain" src="/badges.webp" alt="Payment methods" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-</footer>
-
+    </footer>
   );
 }

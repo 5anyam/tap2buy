@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { productToSlug } from "../lib/slug";
-import { Sparkles, ArrowRight, ShoppingCart, Star } from 'lucide-react';
+import { ArrowRight, ShoppingCart, Star } from 'lucide-react';
 
 interface Product {
   id: number | string;
@@ -28,113 +28,98 @@ export default function ProductCard({ product }: { product: Product }) {
     : 0;
 
   return (
-    <Link href={productUrl} className="block h-full">
-      <div className="group relative flex flex-col h-full overflow-hidden bg-white border border-gray-100 rounded-2xl transition-all duration-300 hover:shadow-lg hover:shadow-orange-100 hover:border-[#FF6B00]/30 hover:-translate-y-0.5">
+    <Link href={productUrl} className="group block h-full bg-white border border-[#E8E6E1] hover:border-[#B86B52] transition-colors duration-500">
+      <div className="relative flex flex-col h-full overflow-hidden">
 
-        {/* ── IMAGE ── */}
-        <div className="relative aspect-square overflow-hidden bg-gray-50 rounded-t-2xl">
+        {/* ── IMAGE SECTION ── */}
+        <div className="relative aspect-square overflow-hidden bg-[#F7F5F0]">
           <img
             src={product.images?.[0]?.src || "/placeholder.png"}
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
           />
 
-          {/* Top-left Badges */}
-          <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5">
+          {/* Minimalist Labels */}
+          <div className="absolute top-0 left-0 flex flex-col items-start">
             {product.badge === 'New' && (
-              <span className="bg-[#1B2A4A] text-white text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wider uppercase shadow-md">
-                NEW
+              <span className="bg-[#2A2825] text-white text-[9px] font-bold px-3 py-1.5 tracking-[0.2em] uppercase">
+                New Arrival
               </span>
             )}
             {product.badge === 'Hot' && (
-              <span className="bg-red-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wider uppercase shadow-md">
-                🔥 HOT
+              <span className="bg-[#B86B52] text-white text-[9px] font-bold px-3 py-1.5 tracking-[0.2em] uppercase">
+                Trending
               </span>
             )}
-            {isOnSale && discountPercent > 0 && (
-              <span className="bg-[#FF6B00] text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-md">
+            {isOnSale && (
+              <span className="bg-white text-[#B86B52] border-r border-b border-[#E8E6E1] text-[9px] font-bold px-3 py-1.5 tracking-[0.2em] uppercase">
                 {discountPercent}% OFF
               </span>
             )}
           </div>
-
-          {/* Wishlist / Quick-view overlay — subtle on hover */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
 
-        {/* ── CONTENT ── */}
-        <div className="flex flex-col flex-1 p-3.5 md:p-4 gap-2">
+        {/* ── CONTENT SECTION ── */}
+        <div className="flex flex-col flex-1 p-4 md:p-5 gap-3">
 
-          {/* Category */}
+          {/* Category - Delicate Terracotta */}
           {product.category && (
-            <span className="text-[10px] text-[#FF6B00] uppercase tracking-widest font-semibold">
+            <span className="text-[10px] text-[#B86B52] uppercase tracking-[0.2em] font-medium">
               {product.category}
             </span>
           )}
 
-          {/* Product Name */}
-          <h3 className="text-sm font-semibold text-gray-800 line-clamp-2 leading-snug min-h-[2.5rem] group-hover:text-[#FF6B00] transition-colors duration-200">
+          {/* Product Name - Elegant Serif-like feel */}
+          <h3 className="text-sm font-medium text-[#2A2825] line-clamp-2 leading-relaxed min-h-[2.5rem] group-hover:text-[#B86B52] transition-colors duration-300">
             {product.name}
           </h3>
 
-          {/* Rating */}
+          {/* Rating - Minimal Gold */}
           {Number.isFinite(rating) && rating > 0 && (
-            <div className="flex items-center gap-1.5">
-              <div className="flex items-center gap-0.5">
+            <div className="flex items-center gap-1">
+              <div className="flex items-center">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
                     key={i}
-                    className={`w-3 h-3 ${
+                    className={`w-2.5 h-2.5 ${
                       i < Math.round(rating)
-                        ? "text-[#FF6B00] fill-[#FF6B00]"
-                        : "text-gray-200 fill-gray-200"
+                        ? "text-[#A88C7D] fill-[#A88C7D]"
+                        : "text-[#E8E6E1] fill-[#E8E6E1]"
                     }`}
                   />
                 ))}
               </div>
-              <span className="text-[11px] text-gray-600 font-semibold">
-                {rating.toFixed(1)}
+              <span className="text-[10px] text-[#A3A09B] tracking-wider ml-1">
+                ({product.rating_count || 0})
               </span>
-              {product.rating_count && product.rating_count > 0 && (
-                <span className="text-[11px] text-gray-400">
-                  ({product.rating_count})
-                </span>
-              )}
             </div>
           )}
 
-          {/* Spacer pushes price + button to bottom */}
+          {/* Spacer */}
           <div className="flex-1" />
 
-          {/* ── PRICE ── */}
-          <div className="pt-2.5 border-t border-gray-100">
-            <div className="flex items-baseline gap-2">
-              <span className="text-base md:text-lg font-bold text-gray-900">
-                ₹{salePrice.toLocaleString('en-IN')}
-              </span>
-              {isOnSale && (
-                <span className="text-xs text-gray-400 line-through font-normal">
-                  ₹{originalPrice.toLocaleString('en-IN')}
+          {/* ── PRICE & ACTION ── */}
+          <div className="pt-4 border-t border-[#F0EFEA] flex flex-col gap-4">
+            <div className="flex items-baseline justify-between">
+              <div className="flex items-baseline gap-2">
+                <span className="text-lg font-light text-[#2A2825]">
+                  ₹{salePrice.toLocaleString('en-IN')}
                 </span>
-              )}
+                {isOnSale && (
+                  <span className="text-xs text-[#A3A09B] line-through font-light">
+                    ₹{originalPrice.toLocaleString('en-IN')}
+                  </span>
+                )}
+              </div>
+              {/* Optional: Add a "Save" amount in subtle text if you want */}
             </div>
 
-            {isOnSale && (
-              <div className="flex items-center gap-1 mt-0.5">
-                <Sparkles className="w-3 h-3 text-green-500 flex-shrink-0" />
-                <span className="text-[11px] text-green-600 font-semibold">
-                  Save ₹{(originalPrice - salePrice).toLocaleString('en-IN')}
-                </span>
-              </div>
-            )}
+            {/* Premium CTA - Full Width Matte Button */}
+            <button className="w-full py-3 bg-[#2A2825] text-white text-[10px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:bg-[#403D39] transition-all duration-300 active:scale-[0.98]">
+              <ShoppingCart className="w-3.5 h-3.5 stroke-[1.5]" />
+              Add to Collection
+            </button>
           </div>
-
-          {/* ── CTA BUTTON ── */}
-          <button className="w-full mt-2 py-2.5 text-xs md:text-sm text-white bg-[#FF6B00] hover:bg-[#e55f00] rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-sm hover:shadow-md hover:shadow-orange-200 active:scale-95">
-            <ShoppingCart className="w-3.5 h-3.5 flex-shrink-0" />
-            Add to Cart
-            <ArrowRight className="w-3.5 h-3.5 transform group-hover/btn:translate-x-1 transition-transform duration-300" />
-          </button>
         </div>
       </div>
     </Link>
