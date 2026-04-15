@@ -1,25 +1,54 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
 export default function Loader() {
-  const [isLoading, setIsLoading] = useState(false);
-  const pathname = usePathname();
+  const [progress, setProgress] = useState(0);
+  const [visible, setVisible]   = useState(false);
+  const tickRef    = useRef<NodeJS.Timeout | null>(null);
+  const hideRef    = useRef<NodeJS.Timeout | null>(null);
+  const startedRef = useRef(false);           // ← track if loader was actually started
+  const pathname   = usePathname();
+  const prevPath   = useRef(pathname);        // ← skip finish() on initial mount
 
-  const showLoader = useCallback(() => setIsLoading(true), []);
-  const hideLoader = useCallback(() => setIsLoading(false), []);
+  const start = useCallback(() => {
+    if (hideRef.current) clearTimeout(hideRef.current);   // cancel any pending hide
+    if (tickRef.current) clearTimeout(tickRef.current);
 
-  // 1. Link click pe loader ON
+    startedRef.current = true;
+    setProgress(0);
+    setVisible(true);
+
+    let current = 0;
+    const tick = () => {
+      current += current < 40 ? 8 : current < 70 ? 4 : current < 85 ? 1 : 0.3;
+      if (current > 85) current = 85;
+      setProgress(current);
+      tickRef.current = setTimeout(tick, 120);
+    };
+    tick();
+  }, []);
+
+  const finish = useCallback(() => {
+    if (!startedRef.current) return;          // ← never started? do nothing
+    if (tickRef.current) clearTimeout(tickRef.current);
+    startedRef.current = false;
+    setProgress(100);
+    hideRef.current = setTimeout(() => {
+      setVisible(false);
+      setProgress(0);
+    }, 400);
+  }, []);
+
+  // Link click → start
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-
       if (
         target.closest('button') ||
         target.closest('[data-no-loader]') ||
         target.closest('.no-loader') ||
-        target.closest('.header-internal') ||
         target.closest('.submenu')
       ) return;
 
@@ -28,65 +57,37 @@ export default function Loader() {
         link &&
         link.hostname === window.location.hostname &&
         link.href !== window.location.href
-      ) {
-        showLoader();
-      }
+      ) start();
     };
-
     document.addEventListener('click', handleClick);
     return () => document.removeEventListener('click', handleClick);
-  }, [showLoader]);
+  }, [start]);
 
-  // 2. Route change start
+  // Pathname change → finish (initial mount pe NAHI)
   useEffect(() => {
-    const handleRouteChangeStart = () => showLoader();
-    window.addEventListener('router.start', handleRouteChangeStart);
-    return () => window.removeEventListener('router.start', handleRouteChangeStart);
-  }, [showLoader]);
+    if (prevPath.current === pathname) return;   // ← same path = skip
+    prevPath.current = pathname;
+    finish();
+  }, [pathname, finish]);
 
-  // 3. Pathname change pe turant hide
-  useEffect(() => {
-    hideLoader();
-  }, [pathname, hideLoader]);
+  // Cleanup
+  useEffect(() => () => {
+    if (tickRef.current) clearTimeout(tickRef.current);
+    if (hideRef.current) clearTimeout(hideRef.current);
+  }, []);
 
-  // 4. Route complete event
-  useEffect(() => {
-    const handleRouteChangeComplete = () => hideLoader();
-    window.addEventListener('router.complete', handleRouteChangeComplete);
-    return () => window.removeEventListener('router.complete', handleRouteChangeComplete);
-  }, [hideLoader]);
-
-  if (!isLoading) return null;
+  if (!visible) return null;
 
   return (
-    <div className="fixed inset-0 bg-white/70 backdrop-blur-sm z-[9999] flex items-center justify-center">
-      <div className="flex flex-col items-center gap-5 px-10 py-8 bg-white rounded-2xl shadow-2xl border border-gray-100 max-w-xs mx-4">
-
-        {/* Spinner */}
-        <div className="relative w-16 h-16">
-          {/* Outer ring */}
-          <div className="absolute inset-0 rounded-full border-4 border-gray-100" />
-          {/* Spinning orange arc */}
-          <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#FF6B00] animate-spin" />
-          {/* Inner navy ring */}
-          <div className="absolute inset-[6px] rounded-full border-4 border-transparent border-t-[#1B2A4A] animate-spin [animation-duration:1.5s]" />
-          {/* Center dot */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-3 h-3 bg-[#FF6B00] rounded-full animate-pulse" />
-          </div>
-        </div>
-
-        {/* Text */}
-        <div className="text-center">
-          <p className="text-sm font-bold text-gray-900 tracking-wide">Loading</p>
-          <p className="text-xs text-gray-400 mt-0.5">Please wait a moment...</p>
-        </div>
-
-        {/* Progress bar */}
-        <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
-          <div className="h-full bg-gradient-to-r from-[#FF6B00] to-[#1B2A4A] rounded-full animate-[shimmer_1.5s_ease-in-out_infinite] w-1/2" />
-        </div>
-      </div>
+    <div className="fixed top-0 left-0 right-0 z-[9999] h-[3px]" style={{ pointerEvents: 'none' }}>
+      <div
+        className="h-full bg-[#FF6B00] transition-all ease-out"
+        style={{
+          width: `${progress}%`,
+          transitionDuration: progress === 100 ? '300ms' : '120ms',
+          boxShadow: '0 0 8px rgba(255, 107, 0, 0.6)',
+        }}
+      />
     </div>
   );
 }
