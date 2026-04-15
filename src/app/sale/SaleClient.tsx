@@ -61,7 +61,9 @@ export default function SaleClient({
   const categories = useMemo(() => {
     const map = new Map<string, string>()
     saleProducts.forEach((p) =>
-      p.categories?.forEach((c) => map.set(c.slug, c.name))
+      p.categories?.forEach((c) => {
+        if (c.slug) map.set(c.slug, c.name)   // 👈 slug exist kare tabhi add karo
+      })
     )
     return Array.from(map.entries()).map(([slug, name]) => ({ slug, name }))
   }, [saleProducts])

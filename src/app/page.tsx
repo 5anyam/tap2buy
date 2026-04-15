@@ -5,7 +5,7 @@ import ProductCard from "../../components/ProductCard";
 import Link from "next/link";
 import {
   ChevronRight, Shield, Sparkles, Package, Award, Star,
-  Search, Truck, RotateCcw, HeadphonesIcon, Gift, Heart
+  Truck, RotateCcw, HeadphonesIcon, Heart, Zap, Tag,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 
@@ -15,15 +15,12 @@ interface Product {
   slug: string;
   price: string;
   regular_price: string;
-  description?: string;
-  short_description?: string;
   images?: { src: string }[];
   categories?: { id: number; name: string; slug?: string }[];
-  attributes?: { option: string }[];
 }
 
 const ProductSkeleton: React.FC = () => (
-  <div className="bg-white overflow-hidden border border-[#E8E6E1] rounded-none shadow-sm animate-pulse">
+  <div className="bg-white overflow-hidden border border-[#E8E6E1] animate-pulse">
     <div className="aspect-square bg-[#F0EFEA]" />
     <div className="p-5 space-y-3">
       <div className="h-4 bg-[#F0EFEA] rounded-sm w-3/4" />
@@ -33,55 +30,63 @@ const ProductSkeleton: React.FC = () => (
   </div>
 );
 
-// ── DATA (Updated with flat aesthetic colors) ────────────────────────────────
+// ── DATA ──────────────────────────────────────────────────────────────────────
 
 const CATEGORIES = [
-  { name: 'Candle Stands',     slug: 'candle-stands',   emoji: '🕯️',  bg: 'bg-[#F2EFE9]', border: 'border-transparent hover:border-[#B86B52]' },
-  { name: 'Photo Frames',      slug: 'photo-frames',    emoji: '🖼️',  bg: 'bg-[#EAECE9]', border: 'border-transparent hover:border-[#8A9A86]' },
-  { name: 'Vases & Planters',  slug: 'vases-planters',  emoji: '🪴',  bg: 'bg-[#EFEAE6]', border: 'border-transparent hover:border-[#A88C7D]' },
-  { name: 'Gift Sets',         slug: 'gift-sets',       emoji: '🎁',  bg: 'bg-[#F0EFEA]', border: 'border-transparent hover:border-[#2A2825]' },
-  { name: 'Wall Decor',        slug: 'wall-decor',      emoji: '🏺',  bg: 'bg-[#F2EFE9]', border: 'border-transparent hover:border-[#B86B52]' },
-  { name: 'Scented Candles',   slug: 'scented-candles', emoji: '✨',  bg: 'bg-[#EAECE9]', border: 'border-transparent hover:border-[#8A9A86]' },
-  { name: 'Showpieces',        slug: 'showpieces',      emoji: '🏛️',  bg: 'bg-[#EFEAE6]', border: 'border-transparent hover:border-[#A88C7D]' },
-  { name: 'Clocks',            slug: 'clocks',          emoji: '🕰️',  bg: 'bg-[#F0EFEA]', border: 'border-transparent hover:border-[#2A2825]' },
+  { name: 'Home Decor',       slug: 'home-decor',                       emoji: '🏺', bg: 'bg-[#F2EFE9]', border: 'border-transparent hover:border-[#B86B52]' },
+  { name: 'Fashion',          slug: 'fashion',                          emoji: '👗', bg: 'bg-[#EAECE9]', border: 'border-transparent hover:border-[#8A9A86]' },
+  { name: 'Home & Kitchen',   slug: 'home-kitchen',                     emoji: '🍳', bg: 'bg-[#EFEAE6]', border: 'border-transparent hover:border-[#A88C7D]' },
+  { name: 'Electronics',      slug: 'mobile-electronics-accessories',   emoji: '📱', bg: 'bg-[#F0EFEA]', border: 'border-transparent hover:border-[#2A2825]' },
+  { name: 'Bike & Car',       slug: 'bike-car-accessories',             emoji: '🚗', bg: 'bg-[#F2EFE9]', border: 'border-transparent hover:border-[#B86B52]' },
+  { name: 'Sports & Outdoors',slug: 'sports-outdoors',                  emoji: '⚽', bg: 'bg-[#EAECE9]', border: 'border-transparent hover:border-[#8A9A86]' },
+  { name: 'Toys & Games',     slug: 'toys-games',                       emoji: '🎮', bg: 'bg-[#EFEAE6]', border: 'border-transparent hover:border-[#A88C7D]' },
+  { name: 'Office Products',  slug: 'office-products',                  emoji: '💼', bg: 'bg-[#F0EFEA]', border: 'border-transparent hover:border-[#2A2825]' },
+];
+
+// Hero grid — 4 spotlight categories
+const HERO_CARDS = [
+  { emoji: '🏺', name: 'Home Decor',     href: '/category/home-decor',                      bg: 'bg-white',       border: true  },
+  { emoji: '👗', name: 'Fashion',        href: '/category/fashion',                          bg: 'bg-[#EAECE9]',   border: false },
+  { emoji: '📱', name: 'Electronics',    href: '/category/mobile-electronics-accessories',   bg: 'bg-[#EFEAE6]',   border: false },
+  { emoji: '⚡', name: 'Sale — 70% Off', href: '/sale',                                      bg: 'bg-[#B86B52]',   border: false, accent: true },
 ];
 
 const TESTIMONIALS = [
   {
     name: 'Priya S.', location: 'Delhi', rating: 5,
-    text: 'Ordered a candle stand set for Diwali — absolutely stunning! The packaging was beautiful and delivery was super fast.',
-    tag: 'Candle Stands',
+    text: 'Ordered a phone stand and desk organiser — super fast delivery and quality is exactly as shown. Will order again!',
+    tag: 'Office Products',
   },
   {
     name: 'Rahul M.', location: 'Mumbai', rating: 5,
-    text: 'Got a photo collage frame for my parents anniversary. They loved it! Quality is premium and prices are very reasonable.',
-    tag: 'Photo Frames',
+    text: 'Got a car phone holder and bike accessories. Fits perfectly and the price is unbeatable compared to other sites.',
+    tag: 'Bike & Car',
   },
   {
     name: 'Ananya K.', location: 'Bangalore', rating: 5,
-    text: 'The gift set I ordered for my friend housewarming was perfect. Beautifully curated and great value for money.',
-    tag: 'Gift Sets',
+    text: 'The fashion section is amazing — got a dress that fits perfectly. Packaging was careful and delivery was on time.',
+    tag: 'Fashion',
   },
 ];
 
 const WHY_US = [
-  { icon: Gift,     title: 'Curated for Occasions', desc: 'From birthdays to housewarmings — the perfect decor gift for every moment.',  bg: 'bg-[#F2EFE9]', color: 'text-[#B86B52]' },
-  { icon: Sparkles, title: 'Premium Craftsmanship', desc: 'Every piece is hand-selected for quality, finish, and aesthetic appeal.',      bg: 'bg-[#EFEAE6]', color: 'text-[#A88C7D]' },
-  { icon: Shield,   title: 'Safe & Secure Delivery',desc: 'Fragile items are packed with extreme care to reach you undamaged.',             bg: 'bg-[#EAECE9]', color: 'text-[#8A9A86]' },
+  { icon: Zap,      title: 'Wide Selection',        desc: '8 categories, 300+ products — everything you need in one place.',         bg: 'bg-[#F2EFE9]', color: 'text-[#B86B52]' },
+  { icon: Sparkles, title: 'Quality Assured',        desc: 'Every product is reviewed for quality before it goes live on the store.',  bg: 'bg-[#EFEAE6]', color: 'text-[#A88C7D]' },
+  { icon: Shield,   title: 'Safe & Secure Delivery', desc: 'Items are packed with care to ensure they reach you in perfect condition.', bg: 'bg-[#EAECE9]', color: 'text-[#8A9A86]' },
 ];
 
 const TRUST_STRIP = [
-  { icon: Truck,           title: 'Free Shipping',    sub: 'On orders above ₹499' },
-  { icon: RotateCcw,       title: 'Easy Returns',     sub: '7-day hassle-free returns' },
-  { icon: Shield,          title: 'Secure Payment',   sub: '100% safe & encrypted' },
-  { icon: HeadphonesIcon,  title: '24/7 Support',     sub: 'We\'re always here for you' },
+  { icon: Truck,          title: 'Free Shipping',  sub: 'On orders above ₹499'       },
+  { icon: RotateCcw,      title: 'Easy Returns',   sub: '7-day hassle-free returns'   },
+  { icon: Shield,         title: 'Secure Payment', sub: '100% safe & encrypted'       },
+  { icon: HeadphonesIcon, title: '24/7 Support',   sub: "We're always here for you"   },
 ];
 
 const STATS = [
-  { number: '50K+',  label: 'Happy Homes',      icon: Heart },
-  { number: '4.9★',  label: 'Average Rating',   icon: Award },
-  { number: '300+',  label: 'Unique Curations', icon: Package },
-  { number: '100%',  label: 'Gift-Ready',       icon: Gift },
+  { number: '50K+', label: 'Happy Customers', icon: Heart  },
+  { number: '4.9★', label: 'Average Rating',  icon: Award  },
+  { number: '300+', label: 'Products Listed', icon: Package },
+  { number: '8',    label: 'Categories',      icon: Tag    },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -121,59 +126,59 @@ export default function Homepage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 py-16 md:py-24 w-full">
           <div className="grid md:grid-cols-2 gap-16 items-center">
 
-            {/* LEFT — Copy */}
+            {/* LEFT */}
             <div className="text-[#2A2825]">
               <div className="inline-flex items-center gap-2 mb-6">
                 <span className="w-8 h-[1px] bg-[#B86B52]" />
-                <span className="text-xs font-semibold text-[#B86B52] uppercase tracking-widest">Spring Collection '26</span>
+                <span className="text-xs font-semibold text-[#B86B52] uppercase tracking-widest">Shop Everything</span>
               </div>
               <h1 className="text-4xl md:text-6xl font-light leading-[1.1] mb-6 font-serif">
-                Decor that tells
-                <span className="block font-medium text-[#B86B52] mt-2">your story.</span>
+                One store.
+                <span className="block font-medium text-[#B86B52] mt-2">Everything you need.</span>
               </h1>
               <p className="text-[#6B665E] text-base md:text-lg mb-10 leading-relaxed max-w-md">
-                Handpicked candle stands, elegant frames, and curated vases — crafted to bring warmth, peace, and aesthetic charm to every corner of your home.
+                From home decor and fashion to electronics and sports gear — discover 8 curated categories with 300+ quality products, delivered fast.
               </p>
               <div className="flex flex-wrap gap-4 mb-10">
-                <Link href="/shop" className="inline-flex items-center gap-2 px-8 py-4 bg-[#2A2825] text-white font-medium hover:bg-[#403D39] transition-colors rounded-none">
-                  Explore Collection <ChevronRight className="w-4 h-4" />
+                <Link href="/shop" className="inline-flex items-center gap-2 px-8 py-4 bg-[#2A2825] text-white font-medium hover:bg-[#403D39] transition-colors">
+                  Explore All Products <ChevronRight className="w-4 h-4" />
                 </Link>
-                <Link href="/category/gifts" className="inline-flex items-center gap-2 px-8 py-4 bg-transparent text-[#2A2825] font-medium border border-[#2A2825] hover:bg-[#2A2825] hover:text-white transition-colors rounded-none">
-                  <Gift className="w-4 h-4" /> Find a Gift
+                <Link href="/sale" className="inline-flex items-center gap-2 px-8 py-4 bg-transparent text-[#2A2825] font-medium border border-[#2A2825] hover:bg-[#2A2825] hover:text-white transition-colors">
+                  <Tag className="w-4 h-4" /> View Deals
                 </Link>
               </div>
               <div className="flex flex-wrap gap-6 border-t border-[#E8E6E1] pt-6">
-                {['🎁 Curated Packaging', '🚚 Free Delivery > ₹499', '↩️ Easy Returns'].map((b, i) => (
+                {['🚚 Free Delivery > ₹499', '↩️ Easy Returns', '🔒 Secure Checkout'].map((b, i) => (
                   <span key={i} className="text-[#6B665E] text-sm tracking-wide">{b}</span>
                 ))}
               </div>
             </div>
 
-            {/* RIGHT — Visual card grid (Flat Aesthetic) */}
+            {/* RIGHT — 4 Category Cards */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white p-8 flex flex-col items-center justify-center gap-4 border border-[#E8E6E1] hover:border-[#B86B52] transition-colors">
-                <span className="text-4xl opacity-90">🕯️</span>
-                <p className="text-sm font-medium text-[#2A2825] text-center tracking-wide">Candle Stands</p>
-                <Link href="/category/candle-stands" className="text-xs text-[#6B665E] uppercase tracking-widest hover:text-[#B86B52]">Shop Now</Link>
-              </div>
-              <div className="bg-[#EAECE9] p-8 flex flex-col items-center justify-center gap-4">
-                <span className="text-4xl opacity-90">🖼️</span>
-                <p className="text-sm font-medium text-[#2A2825] text-center tracking-wide">Photo Frames</p>
-                <Link href="/category/photo-frames" className="text-xs text-[#6B665E] uppercase tracking-widest hover:text-[#2A2825]">Shop Now</Link>
-              </div>
-              <div className="bg-[#EFEAE6] p-8 flex flex-col items-center justify-center gap-4">
-                <span className="text-4xl opacity-90">🪴</span>
-                <p className="text-sm font-medium text-[#2A2825] text-center tracking-wide">Vases & Planters</p>
-                <Link href="/category/vases" className="text-xs text-[#6B665E] uppercase tracking-widest hover:text-[#2A2825]">Shop Now</Link>
-              </div>
-              <div className="bg-[#B86B52] p-8 flex flex-col items-center justify-center gap-2 text-white">
-                <p className="text-xs font-medium uppercase tracking-widest opacity-80">Gifting</p>
-                <p className="text-4xl font-light mb-1">Sale</p>
-                <p className="text-sm font-medium">Up to 70% Off</p>
-                <Link href="/sale" className="mt-4 text-xs bg-white text-[#B86B52] font-semibold px-4 py-2 uppercase tracking-wide hover:bg-[#F7F5F0] transition-colors">
-                  View Deals
-                </Link>
-              </div>
+              {HERO_CARDS.map((card) => (
+                <div
+                  key={card.href}
+                  className={`${card.bg} p-8 flex flex-col items-center justify-center gap-4 ${card.border ? 'border border-[#E8E6E1] hover:border-[#B86B52]' : ''} transition-colors`}
+                >
+                  {card.accent ? (
+                    <>
+                      <p className="text-xs font-medium uppercase tracking-widest text-white/80">Deals</p>
+                      <p className="text-4xl font-light text-white">Sale</p>
+                      <p className="text-sm font-medium text-white">Up to 70% Off</p>
+                      <Link href={card.href} className="mt-2 text-xs bg-white text-[#B86B52] font-semibold px-4 py-2 uppercase tracking-wide hover:bg-[#F7F5F0] transition-colors">
+                        View Deals
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-4xl">{card.emoji}</span>
+                      <p className="text-sm font-medium text-[#2A2825] text-center tracking-wide">{card.name}</p>
+                      <Link href={card.href} className="text-xs text-[#6B665E] uppercase tracking-widest hover:text-[#B86B52] transition-colors">Shop Now</Link>
+                    </>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -204,14 +209,13 @@ export default function Homepage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between mb-12">
             <div>
-              <p className="text-xs font-medium text-[#B86B52] uppercase tracking-widest mb-2">Curations</p>
+              <p className="text-xs font-medium text-[#B86B52] uppercase tracking-widest mb-2">Browse</p>
               <h2 className="text-3xl font-light text-[#2A2825] font-serif">Shop by Category</h2>
             </div>
             <Link href="/shop" className="hidden md:flex items-center gap-2 text-[#2A2825] font-medium text-sm hover:text-[#B86B52] transition-colors border-b border-[#2A2825] hover:border-[#B86B52] pb-1">
-              View all collections
+              View all products
             </Link>
           </div>
-
           <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
             {CATEGORIES.map((cat) => (
               <Link
@@ -219,7 +223,7 @@ export default function Homepage() {
                 href={`/category/${cat.slug}`}
                 className={`group flex flex-col items-center justify-center py-8 px-4 ${cat.bg} border ${cat.border} transition-colors duration-300`}
               >
-                <span className="text-3xl mb-4 grayscale-[0.2]">{cat.emoji}</span>
+                <span className="text-3xl mb-4">{cat.emoji}</span>
                 <span className="text-xs font-medium text-[#2A2825] text-center tracking-wide">{cat.name}</span>
               </Link>
             ))}
@@ -230,35 +234,37 @@ export default function Homepage() {
       {/* ── PROMO BANNERS ────────────────────────────────────────────────── */}
       <section className="pb-12 px-4">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          {/* Flat Charcoal Banner */}
+
+          {/* Main Banner */}
           <div className="md:col-span-2 bg-[#2A2825] p-10 md:p-14 flex items-center relative overflow-hidden">
             <div className="relative z-10">
-              <p className="text-[#A88C7D] text-xs font-medium uppercase tracking-widest mb-4">Limited Edition</p>
-              <h3 className="text-3xl md:text-4xl font-light text-white mb-4 font-serif">Festive Decor Edit</h3>
-              <p className="text-[#D5D2CC] text-base mb-8 max-w-sm font-light">Bring warmth to your spaces with up to 60% off on curated lighting and table decor.</p>
+              <p className="text-[#A88C7D] text-xs font-medium uppercase tracking-widest mb-4">Limited Time</p>
+              <h3 className="text-3xl md:text-4xl font-light text-white mb-4 font-serif">Mega Sale is Live</h3>
+              <p className="text-[#D5D2CC] text-base mb-8 max-w-sm font-light">
+                Up to 70% off across Home Decor, Electronics, Fashion and more. Don't miss out.
+              </p>
               <Link href="/sale" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#2A2825] font-medium text-sm hover:bg-[#F0EFEA] transition-colors">
-                Shop the Edit
+                Shop All Deals <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 text-[120px] opacity-10 select-none pointer-events-none">🏺</div>
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 text-[120px] opacity-10 select-none pointer-events-none">🛍️</div>
           </div>
 
-          {/* Side Banners - Flat Earthy Colors */}
+          {/* Side Banners */}
           <div className="flex flex-col gap-6">
-            <Link href="/category/personalised-gifts" className="bg-[#A88C7D] p-8 flex items-center justify-between flex-1 hover:bg-[#977C6D] transition-colors group">
+            <Link href="/category/sports-outdoors" className="bg-[#A88C7D] p-8 flex items-center justify-between flex-1 hover:bg-[#977C6D] transition-colors group">
               <div>
-                <p className="text-white font-medium text-lg mb-1 font-serif">Personalised</p>
-                <p className="text-white/80 text-sm font-light">Make it memorable</p>
+                <p className="text-white font-medium text-lg mb-1 font-serif">Sports & Outdoors</p>
+                <p className="text-white/80 text-sm font-light">Gear up for more</p>
               </div>
-              <ChevronRight className="w-5 h-5 text-white transform group-hover:translate-x-1 transition-transform" />
+              <ChevronRight className="w-5 h-5 text-white group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link href="/category/diwali" className="bg-[#8A9A86] p-8 flex items-center justify-between flex-1 hover:bg-[#788A74] transition-colors group">
+            <Link href="/category/toys-games" className="bg-[#8A9A86] p-8 flex items-center justify-between flex-1 hover:bg-[#788A74] transition-colors group">
               <div>
-                <p className="text-white font-medium text-lg mb-1 font-serif">Festive Range</p>
-                <p className="text-white/80 text-sm font-light">Curated bundles</p>
+                <p className="text-white font-medium text-lg mb-1 font-serif">Toys & Games</p>
+                <p className="text-white/80 text-sm font-light">Fun for everyone</p>
               </div>
-              <ChevronRight className="w-5 h-5 text-white transform group-hover:translate-x-1 transition-transform" />
+              <ChevronRight className="w-5 h-5 text-white group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>
@@ -268,23 +274,19 @@ export default function Homepage() {
       <section className="py-20 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col items-center mb-12 text-center">
-            <p className="text-xs font-medium text-[#B86B52] uppercase tracking-widest mb-2">Our Masterpieces</p>
-            <h2 className="text-3xl font-light text-[#2A2825] font-serif mb-8">Signature Collection</h2>
-            
-            {/* Minimalist Tabs */}
+            <p className="text-xs font-medium text-[#B86B52] uppercase tracking-widest mb-2">Handpicked</p>
+            <h2 className="text-3xl font-light text-[#2A2825] font-serif mb-8">Featured Products</h2>
             <div className="flex gap-6 border-b border-[#E8E6E1] px-4">
               {([
-                { key: 'all',      label: 'All Pieces' },
-                { key: 'featured', label: 'Best Sellers' },
-                { key: 'new',      label: 'New Arrivals' },
+                { key: 'all',      label: 'All Products' },
+                { key: 'featured', label: 'Best Sellers'  },
+                { key: 'new',      label: 'New Arrivals'  },
               ] as const).map((tab) => (
                 <button
                   key={tab.key}
                   onClick={() => setActiveCategory(tab.key)}
                   className={`pb-3 text-sm font-medium tracking-wide transition-colors relative ${
-                    activeCategory === tab.key
-                      ? 'text-[#2A2825]'
-                      : 'text-[#8A857D] hover:text-[#2A2825]'
+                    activeCategory === tab.key ? 'text-[#2A2825]' : 'text-[#8A857D] hover:text-[#2A2825]'
                   }`}
                 >
                   {tab.label}
@@ -302,12 +304,12 @@ export default function Homepage() {
             </div>
           ) : isError ? (
             <div className="text-center py-24 bg-[#FAFAF8] border border-[#E8E6E1]">
-              <p className="text-[#6B665E] mb-4">Unable to load the collection right now.</p>
+              <p className="text-[#6B665E] mb-4">Unable to load products right now.</p>
               <button onClick={() => window.location.reload()} className="px-6 py-2 border border-[#2A2825] text-[#2A2825] hover:bg-[#2A2825] hover:text-white transition-colors">Refresh</button>
             </div>
           ) : displayProducts.length === 0 ? (
             <div className="text-center py-24 border border-[#E8E6E1]">
-              <p className="text-[#6B665E]">No pieces found in this collection.</p>
+              <p className="text-[#6B665E]">No products found.</p>
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
@@ -329,24 +331,28 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* ── GIFTING GUIDE BANNER ─────────────────────────────────────────── */}
+      {/* ── CATEGORY SPOTLIGHT ───────────────────────────────────────────── */}
       <section className="py-12 px-4 bg-[#FAFAF8]">
         <div className="max-w-7xl mx-auto">
           <div className="bg-[#EFEAE6] p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10">
             <div className="max-w-lg">
-              <h2 className="text-3xl font-light text-[#2A2825] font-serif mb-4">The Art of Gifting</h2>
+              <h2 className="text-3xl font-light text-[#2A2825] font-serif mb-4">Find What You Need</h2>
               <p className="text-[#6B665E] text-base leading-relaxed mb-8">
-                Thoughtfully curated selections for weddings, housewarmings, or just because. Explore our occasion-based guide to find a gift that speaks volumes.
+                From everyday essentials to lifestyle upgrades — browse our 8 categories and discover products that fit your life perfectly.
               </p>
-              <Link href="/category/gifts" className="inline-flex items-center gap-2 px-8 py-3 bg-[#2A2825] text-white font-medium hover:bg-[#403D39] transition-colors">
-                Explore Gift Guide <ChevronRight className="w-4 h-4" />
+              <Link href="/shop" className="inline-flex items-center gap-2 px-8 py-3 bg-[#2A2825] text-white font-medium hover:bg-[#403D39] transition-colors">
+                Browse All Categories <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
             <div className="flex flex-wrap gap-3 max-w-sm justify-center md:justify-end">
-              {['Weddings', 'Housewarming', 'Anniversary', 'Corporate', 'Festive'].map((occ) => (
-                <span key={occ} className="px-5 py-2.5 bg-white text-sm font-medium text-[#2A2825] tracking-wide border border-transparent hover:border-[#A88C7D] transition-colors cursor-pointer">
-                  {occ}
-                </span>
+              {CATEGORIES.map((cat) => (
+                <Link
+                  key={cat.slug}
+                  href={`/category/${cat.slug}`}
+                  className="px-5 py-2.5 bg-white text-sm font-medium text-[#2A2825] tracking-wide border border-transparent hover:border-[#A88C7D] transition-colors flex items-center gap-2"
+                >
+                  <span>{cat.emoji}</span> {cat.name}
+                </Link>
               ))}
             </div>
           </div>
@@ -373,7 +379,7 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* ── STATS (Minimal Flat Aesthetic) ───────────────────────────────── */}
+      {/* ── STATS ────────────────────────────────────────────────────────── */}
       <section ref={statsRef} className="py-20 px-4 bg-[#2A2825]">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-white/10">
           {STATS.map((stat, i) => (
@@ -389,24 +395,28 @@ export default function Homepage() {
       <section className="py-24 px-4 bg-[#FAFAF8]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-light text-[#2A2825] font-serif mb-3">Words from Homes</h2>
-            <p className="text-[#8A857D] text-sm tracking-wide">Real stories from our patrons</p>
+            <h2 className="text-3xl font-light text-[#2A2825] font-serif mb-3">What Customers Say</h2>
+            <p className="text-[#8A857D] text-sm tracking-wide">Real reviews from real buyers</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {TESTIMONIALS.map((review, i) => (
               <div key={i} className="bg-white p-10 border border-[#E8E6E1] flex flex-col justify-between">
                 <div>
                   <div className="flex items-center gap-1 mb-6">
-                    {[...Array(review.rating)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#A88C7D] text-[#A88C7D]" />)}
+                    {[...Array(review.rating)].map((_, j) => (
+                      <Star key={j} className="w-4 h-4 fill-[#A88C7D] text-[#A88C7D]" />
+                    ))}
                   </div>
                   <p className="text-[#2A2825] text-base leading-relaxed mb-8 font-serif italic">"{review.text}"</p>
                 </div>
-                <div className="flex items-center justify-between pt-6 border-t border-[#FAFAF8]">
+                <div className="flex items-center justify-between pt-6 border-t border-[#F0EFEA]">
                   <div>
                     <p className="text-sm font-medium text-[#2A2825]">{review.name}</p>
                     <p className="text-xs text-[#8A857D] mt-1">{review.location}</p>
                   </div>
-                  <span className="text-[10px] text-[#A88C7D] uppercase tracking-widest border border-[#EFEAE6] px-3 py-1 bg-[#FAFAF8]">{review.tag}</span>
+                  <span className="text-[10px] text-[#A88C7D] uppercase tracking-widest border border-[#EFEAE6] px-3 py-1 bg-[#FAFAF8]">
+                    {review.tag}
+                  </span>
                 </div>
               </div>
             ))}
@@ -417,9 +427,9 @@ export default function Homepage() {
       {/* ── NEWSLETTER ───────────────────────────────────────────────────── */}
       <section className="py-24 px-4 bg-[#F7F5F0] border-t border-[#E8E6E1]">
         <div className="max-w-xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-light text-[#2A2825] font-serif mb-4">Join our inner circle</h2>
+          <h2 className="text-2xl md:text-3xl font-light text-[#2A2825] font-serif mb-4">Stay in the loop</h2>
           <p className="text-[#6B665E] text-sm mb-10 leading-relaxed">
-            Sign up to receive early access to new collections, decor inspiration, and exclusive subscriber perks.
+            Get early access to new arrivals, exclusive deals across all categories, and subscriber-only offers.
           </p>
           <div className="flex flex-col sm:flex-row gap-0 max-w-md mx-auto border border-[#2A2825] bg-white">
             <input
