@@ -33,22 +33,32 @@ const ProductSkeleton: React.FC = () => (
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
 const CATEGORIES = [
-  { name: 'Home Decor',       slug: 'home-decor',                       emoji: '🏺', bg: 'bg-[#F2EFE9]', border: 'border-transparent hover:border-[#B86B52]' },
-  { name: 'Fashion',          slug: 'fashion',                          emoji: '👗', bg: 'bg-[#EAECE9]', border: 'border-transparent hover:border-[#8A9A86]' },
-  { name: 'Home & Kitchen',   slug: 'home-kitchen',                     emoji: '🍳', bg: 'bg-[#EFEAE6]', border: 'border-transparent hover:border-[#A88C7D]' },
-  { name: 'Electronics',      slug: 'mobile-electronics-accessories',   emoji: '📱', bg: 'bg-[#F0EFEA]', border: 'border-transparent hover:border-[#2A2825]' },
-  { name: 'Bike & Car',       slug: 'bike-car-accessories',             emoji: '🚗', bg: 'bg-[#F2EFE9]', border: 'border-transparent hover:border-[#B86B52]' },
-  { name: 'Sports & Outdoors',slug: 'sports-outdoors',                  emoji: '⚽', bg: 'bg-[#EAECE9]', border: 'border-transparent hover:border-[#8A9A86]' },
-  { name: 'Toys & Games',     slug: 'toys-games',                       emoji: '🎮', bg: 'bg-[#EFEAE6]', border: 'border-transparent hover:border-[#A88C7D]' },
-  { name: 'Office Products',  slug: 'office-products',                  emoji: '💼', bg: 'bg-[#F0EFEA]', border: 'border-transparent hover:border-[#2A2825]' },
+  { name: 'Home Decor',        slug: 'home-decor',                     emoji: '🏺', bg: 'bg-[#F2EFE9]', border: 'border-transparent hover:border-[#B86B52]' },
+  { name: 'Fashion',           slug: 'fashion',                        emoji: '👗', bg: 'bg-[#EAECE9]', border: 'border-transparent hover:border-[#8A9A86]' },
+  { name: 'Home & Kitchen',    slug: 'home-kitchen',                   emoji: '🍳', bg: 'bg-[#EFEAE6]', border: 'border-transparent hover:border-[#A88C7D]' },
+  { name: 'Electronics',       slug: 'mobile-electronics-accessories', emoji: '📱', bg: 'bg-[#F0EFEA]', border: 'border-transparent hover:border-[#2A2825]' },
+  { name: 'Bike & Car',        slug: 'bike-car-accessories',           emoji: '🚗', bg: 'bg-[#F2EFE9]', border: 'border-transparent hover:border-[#B86B52]' },
+  { name: 'Sports & Outdoors', slug: 'sports-outdoors',                emoji: '⚽', bg: 'bg-[#EAECE9]', border: 'border-transparent hover:border-[#8A9A86]' },
+  { name: 'Toys & Games',      slug: 'toys-games',                     emoji: '🎮', bg: 'bg-[#EFEAE6]', border: 'border-transparent hover:border-[#A88C7D]' },
+  { name: 'Office Products',   slug: 'office-products',                emoji: '💼', bg: 'bg-[#F0EFEA]', border: 'border-transparent hover:border-[#2A2825]' },
 ];
 
-// Hero grid — 4 spotlight categories
 const HERO_CARDS = [
-  { emoji: '🏺', name: 'Home Decor',     href: '/category/home-decor',                      bg: 'bg-white',       border: true  },
-  { emoji: '👗', name: 'Fashion',        href: '/category/fashion',                          bg: 'bg-[#EAECE9]',   border: false },
-  { emoji: '📱', name: 'Electronics',    href: '/category/mobile-electronics-accessories',   bg: 'bg-[#EFEAE6]',   border: false },
-  { emoji: '⚡', name: 'Sale — 70% Off', href: '/sale',                                      bg: 'bg-[#B86B52]',   border: false, accent: true },
+  { emoji: '🏺', name: 'Home Decor',     href: '/category/home-decor',                    bg: 'bg-white',     border: true,  accent: false },
+  { emoji: '👗', name: 'Fashion',        href: '/category/fashion',                        bg: 'bg-[#EAECE9]', border: false, accent: false },
+  { emoji: '📱', name: 'Electronics',    href: '/category/mobile-electronics-accessories', bg: 'bg-[#EFEAE6]', border: false, accent: false },
+  { emoji: '⚡', name: 'Sale — 70% Off', href: '/sale',                                    bg: 'bg-[#B86B52]', border: false, accent: true  },
+];
+
+const SHOWCASE_CATEGORIES = [
+  { name: 'Home Decor',        slug: 'home-decor',                     emoji: '🏺' },
+  { name: 'Fashion',           slug: 'fashion',                        emoji: '👗' },
+  { name: 'Home & Kitchen',    slug: 'home-kitchen',                   emoji: '🍳' },
+  { name: 'Electronics',       slug: 'mobile-electronics-accessories', emoji: '📱' },
+  { name: 'Bike & Car',        slug: 'bike-car-accessories',           emoji: '🚗' },
+  { name: 'Sports & Outdoors', slug: 'sports-outdoors',                emoji: '⚽' },
+  { name: 'Toys & Games',      slug: 'toys-games',                     emoji: '🎮' },
+  { name: 'Office Products',   slug: 'office-products',                emoji: '💼' },
 ];
 
 const TESTIMONIALS = [
@@ -70,29 +80,28 @@ const TESTIMONIALS = [
 ];
 
 const WHY_US = [
-  { icon: Zap,      title: 'Wide Selection',        desc: '8 categories, 300+ products — everything you need in one place.',         bg: 'bg-[#F2EFE9]', color: 'text-[#B86B52]' },
-  { icon: Sparkles, title: 'Quality Assured',        desc: 'Every product is reviewed for quality before it goes live on the store.',  bg: 'bg-[#EFEAE6]', color: 'text-[#A88C7D]' },
-  { icon: Shield,   title: 'Safe & Secure Delivery', desc: 'Items are packed with care to ensure they reach you in perfect condition.', bg: 'bg-[#EAECE9]', color: 'text-[#8A9A86]' },
+  { icon: Zap,      title: 'Wide Selection',         desc: '8 categories, 300+ products — everything you need in one place.',          bg: 'bg-[#F2EFE9]', color: 'text-[#B86B52]' },
+  { icon: Sparkles, title: 'Quality Assured',         desc: 'Every product is reviewed for quality before it goes live on the store.',   bg: 'bg-[#EFEAE6]', color: 'text-[#A88C7D]' },
+  { icon: Shield,   title: 'Safe & Secure Delivery',  desc: 'Items are packed with care to ensure they reach you in perfect condition.',  bg: 'bg-[#EAECE9]', color: 'text-[#8A9A86]' },
 ];
 
 const TRUST_STRIP = [
-  { icon: Truck,          title: 'Free Shipping',  sub: 'On orders above ₹499'       },
-  { icon: RotateCcw,      title: 'Easy Returns',   sub: '7-day hassle-free returns'   },
-  { icon: Shield,         title: 'Secure Payment', sub: '100% safe & encrypted'       },
-  { icon: HeadphonesIcon, title: '24/7 Support',   sub: "We're always here for you"   },
+  { icon: Truck,          title: 'Free Shipping',  sub: 'On orders above ₹499'      },
+  { icon: RotateCcw,      title: 'Easy Returns',   sub: '7-day hassle-free returns'  },
+  { icon: Shield,         title: 'Secure Payment', sub: '100% safe & encrypted'      },
+  { icon: HeadphonesIcon, title: '24/7 Support',   sub: "We're always here for you"  },
 ];
 
 const STATS = [
-  { number: '50K+', label: 'Happy Customers', icon: Heart  },
-  { number: '4.9★', label: 'Average Rating',  icon: Award  },
-  { number: '300+', label: 'Products Listed', icon: Package },
-  { number: '8',    label: 'Categories',      icon: Tag    },
+  { number: '50K+', label: 'Happy Customers', icon: Heart   },
+  { number: '4.9★', label: 'Average Rating',  icon: Award   },
+  { number: '300+', label: 'Products Listed', icon: Package  },
+  { number: '8',    label: 'Categories',      icon: Tag     },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function Homepage() {
-  const [activeCategory, setActiveCategory] = useState<'all' | 'featured' | 'new'>('all');
   const [isVisible, setIsVisible] = useState(false);
   const statsRef = useRef<HTMLDivElement>(null);
 
@@ -116,7 +125,6 @@ export default function Homepage() {
   });
 
   const all: Product[] = Array.isArray(data) ? data : [];
-  const displayProducts = all.slice(0, 8);
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] overflow-hidden font-sans text-[#2A2825]">
@@ -204,10 +212,10 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* ── CATEGORIES ───────────────────────────────────────────────────── */}
-      <section className="py-20 px-4 bg-[#FAFAF8]">
+      {/* ── CATEGORIES STRIP ─────────────────────────────────────────────── */}
+      <section className="py-16 px-4 bg-[#FAFAF8]">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-end justify-between mb-12">
+          <div className="flex items-end justify-between mb-10">
             <div>
               <p className="text-xs font-medium text-[#B86B52] uppercase tracking-widest mb-2">Browse</p>
               <h2 className="text-3xl font-light text-[#2A2825] font-serif">Shop by Category</h2>
@@ -216,15 +224,15 @@ export default function Homepage() {
               View all products
             </Link>
           </div>
-          <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
+          <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
             {CATEGORIES.map((cat) => (
               <Link
                 key={cat.slug}
                 href={`/category/${cat.slug}`}
-                className={`group flex flex-col items-center justify-center py-8 px-4 ${cat.bg} border ${cat.border} transition-colors duration-300`}
+                className={`group flex flex-col items-center justify-center py-7 px-3 ${cat.bg} border ${cat.border} transition-colors duration-300`}
               >
-                <span className="text-3xl mb-4">{cat.emoji}</span>
-                <span className="text-xs font-medium text-[#2A2825] text-center tracking-wide">{cat.name}</span>
+                <span className="text-3xl mb-3">{cat.emoji}</span>
+                <span className="text-xs font-medium text-[#2A2825] text-center tracking-wide leading-tight">{cat.name}</span>
               </Link>
             ))}
           </div>
@@ -234,14 +242,12 @@ export default function Homepage() {
       {/* ── PROMO BANNERS ────────────────────────────────────────────────── */}
       <section className="pb-12 px-4">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-
-          {/* Main Banner */}
           <div className="md:col-span-2 bg-[#2A2825] p-10 md:p-14 flex items-center relative overflow-hidden">
             <div className="relative z-10">
               <p className="text-[#A88C7D] text-xs font-medium uppercase tracking-widest mb-4">Limited Time</p>
               <h3 className="text-3xl md:text-4xl font-light text-white mb-4 font-serif">Mega Sale is Live</h3>
               <p className="text-[#D5D2CC] text-base mb-8 max-w-sm font-light">
-                Up to 70% off across Home Decor, Electronics, Fashion and more. Don't miss out.
+                Up to 70% off across Home Decor, Electronics, Fashion and more. Don&apos;t miss out.
               </p>
               <Link href="/sale" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#2A2825] font-medium text-sm hover:bg-[#F0EFEA] transition-colors">
                 Shop All Deals <ChevronRight className="w-4 h-4" />
@@ -249,8 +255,6 @@ export default function Homepage() {
             </div>
             <div className="absolute right-0 top-1/2 -translate-y-1/2 text-[120px] opacity-10 select-none pointer-events-none">🛍️</div>
           </div>
-
-          {/* Side Banners */}
           <div className="flex flex-col gap-6">
             <Link href="/category/sports-outdoors" className="bg-[#A88C7D] p-8 flex items-center justify-between flex-1 hover:bg-[#977C6D] transition-colors group">
               <div>
@@ -270,69 +274,114 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* ── FEATURED PRODUCTS ────────────────────────────────────────────── */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col items-center mb-12 text-center">
-            <p className="text-xs font-medium text-[#B86B52] uppercase tracking-widest mb-2">Handpicked</p>
-            <h2 className="text-3xl font-light text-[#2A2825] font-serif mb-8">Featured Products</h2>
-            <div className="flex gap-6 border-b border-[#E8E6E1] px-4">
-              {([
-                { key: 'all',      label: 'All Products' },
-                { key: 'featured', label: 'Best Sellers'  },
-                { key: 'new',      label: 'New Arrivals'  },
-              ] as const).map((tab) => (
-                <button
-                  key={tab.key}
-                  onClick={() => setActiveCategory(tab.key)}
-                  className={`pb-3 text-sm font-medium tracking-wide transition-colors relative ${
-                    activeCategory === tab.key ? 'text-[#2A2825]' : 'text-[#8A857D] hover:text-[#2A2825]'
-                  }`}
-                >
-                  {tab.label}
-                  {activeCategory === tab.key && (
-                    <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#2A2825]" />
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {isLoading ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+      {/* ── CATEGORY-WISE PRODUCT SECTIONS ───────────────────────────────── */}
+      {isLoading ? (
+        <section className="py-20 px-4 bg-white border-t border-[#E8E6E1]">
+          <div className="max-w-7xl mx-auto">
+            <div className="h-8 bg-[#F0EFEA] rounded w-48 mb-10 animate-pulse" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {[...Array(8)].map((_, i) => <ProductSkeleton key={i} />)}
             </div>
-          ) : isError ? (
-            <div className="text-center py-24 bg-[#FAFAF8] border border-[#E8E6E1]">
-              <p className="text-[#6B665E] mb-4">Unable to load products right now.</p>
-              <button onClick={() => window.location.reload()} className="px-6 py-2 border border-[#2A2825] text-[#2A2825] hover:bg-[#2A2825] hover:text-white transition-colors">Refresh</button>
-            </div>
-          ) : displayProducts.length === 0 ? (
-            <div className="text-center py-24 border border-[#E8E6E1]">
-              <p className="text-[#6B665E]">No products found.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
-              {displayProducts.map((prod, i) => (
-                <div key={prod.id} className="animate-[fadeInUp_0.5s_ease_forwards] opacity-0" style={{ animationDelay: `${Math.min(i * 50, 350)}ms` }}>
-                  <ProductCard product={prod} />
-                </div>
-              ))}
-            </div>
-          )}
+          </div>
+        </section>
+      ) : isError ? (
+        <section className="py-20 px-4 bg-white border-t border-[#E8E6E1]">
+          <div className="max-w-7xl mx-auto text-center py-24 border border-[#E8E6E1]">
+            <p className="text-[#6B665E] mb-4">Unable to load products right now.</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-6 py-2 border border-[#2A2825] text-[#2A2825] hover:bg-[#2A2825] hover:text-white transition-colors"
+            >
+              Refresh
+            </button>
+          </div>
+        </section>
+      ) : (
+        SHOWCASE_CATEGORIES.map((cat, catIdx) => {
+          const catProducts = all
+            .filter((p) =>
+              p.categories?.some(
+                (c) => c.slug === cat.slug ||
+                       c.name.toLowerCase().replace(/\s+/g, '-') === cat.slug
+              )
+            )
+            .slice(0, 4);
 
-          {!isLoading && displayProducts.length > 0 && (
-            <div className="mt-16 text-center">
-              <Link href="/shop" className="inline-flex items-center gap-2 px-10 py-4 border border-[#2A2825] text-[#2A2825] font-medium hover:bg-[#2A2825] hover:text-white transition-colors tracking-wide">
-                View Full Catalog
-              </Link>
-            </div>
-          )}
-        </div>
-      </section>
+          if (catProducts.length === 0) return null;
+
+          const isEven = catIdx % 2 === 0;
+
+          return (
+            <section
+              key={cat.slug}
+              className={`py-16 px-4 ${isEven ? 'bg-white' : 'bg-[#FAFAF8]'} border-t border-[#E8E6E1]`}
+            >
+              <div className="max-w-7xl mx-auto">
+
+                {/* Header */}
+                <div className="flex items-center justify-between mb-10">
+                  <div className="flex items-center gap-4">
+                    <span className="text-3xl">{cat.emoji}</span>
+                    <div>
+                      <p className="text-xs font-medium text-[#B86B52] uppercase tracking-widest mb-0.5">
+                        Browse Collection
+                      </p>
+                      <h2 className="text-2xl font-light text-[#2A2825] font-serif">
+                        {cat.name}
+                      </h2>
+                    </div>
+                  </div>
+                  <Link
+                    href={`/category/${cat.slug}`}
+                    className="hidden md:flex items-center gap-2 text-sm font-medium text-[#2A2825] hover:text-[#B86B52] transition-colors border-b border-[#2A2825] hover:border-[#B86B52] pb-0.5"
+                  >
+                    View all <ChevronRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+
+                {/* Products */}
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                  {catProducts.map((prod, i) => (
+                    <div
+                      key={prod.id}
+                      className="animate-[fadeInUp_0.5s_ease_forwards] opacity-0"
+                      style={{ animationDelay: `${i * 60}ms` }}
+                    >
+                      <ProductCard product={prod} />
+                    </div>
+                  ))}
+
+                  {/* 5th "See All" dashed tile — desktop only */}
+                  <Link
+                    href={`/category/${cat.slug}`}
+                    className="hidden lg:flex flex-col items-center justify-center gap-3 border-2 border-dashed border-[#E8E6E1] hover:border-[#B86B52] hover:bg-[#F7F5F0] transition-all duration-300 min-h-[280px] group"
+                  >
+                    <span className="text-4xl opacity-40 group-hover:opacity-100 transition-opacity">{cat.emoji}</span>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-[#8A857D] group-hover:text-[#B86B52] transition-colors">
+                      See All
+                    </p>
+                    <p className="text-xs text-[#A3A09B] text-center px-4">{cat.name}</p>
+                    <ChevronRight className="w-4 h-4 text-[#A3A09B] group-hover:text-[#B86B52] group-hover:translate-x-1 transition-all" />
+                  </Link>
+                </div>
+
+                {/* Mobile CTA */}
+                <div className="mt-8 md:hidden text-center">
+                  <Link
+                    href={`/category/${cat.slug}`}
+                    className="inline-flex items-center gap-2 px-8 py-3 border border-[#2A2825] text-sm font-medium text-[#2A2825] hover:bg-[#2A2825] hover:text-white transition-colors"
+                  >
+                    View all {cat.name} <ChevronRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </div>
+            </section>
+          );
+        })
+      )}
 
       {/* ── CATEGORY SPOTLIGHT ───────────────────────────────────────────── */}
-      <section className="py-12 px-4 bg-[#FAFAF8]">
+      <section className="py-12 px-4 bg-[#FAFAF8] border-t border-[#E8E6E1]">
         <div className="max-w-7xl mx-auto">
           <div className="bg-[#EFEAE6] p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10">
             <div className="max-w-lg">
@@ -383,7 +432,11 @@ export default function Homepage() {
       <section ref={statsRef} className="py-20 px-4 bg-[#2A2825]">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-white/10">
           {STATS.map((stat, i) => (
-            <div key={i} className={`text-center px-4 transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: `${i * 150}ms` }}>
+            <div
+              key={i}
+              className={`text-center px-4 transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+              style={{ transitionDelay: `${i * 150}ms` }}
+            >
               <div className="text-4xl md:text-5xl font-light text-white mb-3 font-serif">{stat.number}</div>
               <div className="text-xs text-[#A88C7D] uppercase tracking-widest">{stat.label}</div>
             </div>
@@ -407,7 +460,7 @@ export default function Homepage() {
                       <Star key={j} className="w-4 h-4 fill-[#A88C7D] text-[#A88C7D]" />
                     ))}
                   </div>
-                  <p className="text-[#2A2825] text-base leading-relaxed mb-8 font-serif italic">"{review.text}"</p>
+                  <p className="text-[#2A2825] text-base leading-relaxed mb-8 font-serif italic">&quot;{review.text}&quot;</p>
                 </div>
                 <div className="flex items-center justify-between pt-6 border-t border-[#F0EFEA]">
                   <div>
