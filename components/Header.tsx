@@ -18,46 +18,18 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { name: "HOME", to: "/" },
+  { name: "HOME DECOR", to: "/category/home-decor" },
+  { name: "FASHION", to: "/category/fashion" },
+  { name: "HOME & KITCHEN", to: "/category/home-kitchen" },
+  { name: "ELECTRONICS", to: "/category/mobile-electronics-accessories" },
   {
-    name: "HOME DECOR",
-    to: "/category/home-decor",
+    name: "MORE",
+    to: "#",
     submenu: [
-      { name: "Candle Stands & Holders", to: "/category/candle-stands" },
-      { name: "Vases & Planters",        to: "/category/vases-planters" },
-      { name: "Wall Decor",              to: "/category/wall-decor" },
-      { name: "Showpieces & Figurines",  to: "/category/showpieces" },
-      { name: "Table & Shelf Decor",     to: "/category/table-decor" },
-      { name: "Clocks",                  to: "/category/clocks" },
-    ],
-  },
-  {
-    name: "PHOTO FRAMES",
-    to: "/category/photo-frames",
-    submenu: [
-      { name: "Single Frames",   to: "/category/single-frames" },
-      { name: "Collage Frames",  to: "/category/collage-frames" },
-      { name: "Digital Frames",  to: "/category/digital-frames" },
-      { name: "Hanging Frames",  to: "/category/hanging-frames" },
-    ],
-  },
-  {
-    name: "CANDLES",
-    to: "/category/candles",
-    submenu: [
-      { name: "Scented Candles",      to: "/category/scented-candles" },
-      { name: "Tealight Candles",     to: "/category/tealight-candles" },
-      { name: "Pillar Candles",       to: "/category/pillar-candles" },
-      { name: "Reed Diffusers",       to: "/category/reed-diffusers" },
-    ],
-  },
-  {
-    name: "GIFTING",
-    to: "/category/gifts",
-    submenu: [
-      { name: "Curated Gift Sets",    to: "/category/gift-sets" },
-      { name: "Personalised Gifts",   to: "/category/personalised-gifts" },
-      { name: "Corporate Gifting",    to: "/category/corporate-gifts" },
-      { name: "Occasion Gifts",       to: "/category/gifts" },
+      { name: "Bike & Car Accessories",  to: "/category/bike-car-accessories" },
+      { name: "Sports & Outdoors",       to: "/category/sports-outdoors" },
+      { name: "Toys & Games",            to: "/category/toys-games" },
+      { name: "Office Products",         to: "/category/office-products" },
     ],
   },
   { name: "DEALS", to: "/sale" },
