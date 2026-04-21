@@ -1,5 +1,6 @@
 'use client';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
+import { usePathname, useRouter } from 'next/navigation';
 import Link from "next/link";
 import CartIcon from "./CartIcon";
 import { useIsMobile } from "../hooks/use-mobile";
@@ -7,7 +8,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
 import { BiChevronDown } from "react-icons/bi";
-import { Phone, UserCircle2, LogOut, Tag } from "lucide-react";
+import { Phone, UserCircle2 } from "lucide-react";
 import AnnouncementBar from './anouncement';
 
 interface NavItem {
@@ -39,7 +40,6 @@ const QUICK_SEARCH_CHIPS = ['Vases', 'Candles', 'Photo Frames', 'Wall Decor'];
 
 export default function Header() {
   const location = usePathname();
-  const searchParams = useSearchParams();
   const isMobile = useIsMobile();
   const [search, setSearch] = useState("");
   const [showDesktopSearch, setShowDesktopSearch] = useState(false);
@@ -60,7 +60,6 @@ export default function Header() {
   const menuRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const auth = localStorage.getItem("isAuthenticated");
@@ -147,6 +146,12 @@ export default function Header() {
                   )}
                   {showUserMenu && (
                     <div className="absolute right-0 top-full mt-2 w-52 bg-white border border-[#E8E6E1] shadow-xl py-2 z-50 rounded-none">
+                      {userEmail && (
+                        <div className="px-5 py-2 border-b border-[#E8E6E1] mb-1 bg-[#FAFAF8]">
+                          <p className="text-[10px] text-[#A3A09B] uppercase tracking-wider">Signed in as</p>
+                          <p className="text-xs font-medium text-[#2A2825] truncate">{userEmail}</p>
+                        </div>
+                      )}
                       <Link href="/account" className="block px-5 py-2 text-xs text-[#2A2825] hover:bg-[#F7F5F0]">My Account</Link>
                       <button onClick={handleLogout} className="w-full text-left px-5 py-2 text-xs text-red-600 hover:bg-red-50 border-t border-[#E8E6E1] mt-1">Logout</button>
                     </div>
@@ -167,9 +172,12 @@ export default function Header() {
                 type="text"
                 placeholder="Search for decor, candles, or gifts..."
                 className="w-full bg-transparent border-b border-[#2A2825] py-2 text-sm text-[#2A2825] focus:outline-none placeholder-[#A3A09B]"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                autoFocus
               />
               <button type="submit" className="ml-4 text-xs font-semibold uppercase tracking-widest text-[#B86B52]">Search</button>
-              <button onClick={() => setShowDesktopSearch(false)} className="ml-6 text-gray-400 hover:text-[#2A2825]">
+              <button type="button" onClick={() => setShowDesktopSearch(false)} className="ml-6 text-gray-400 hover:text-[#2A2825]">
                 <HiOutlineX className="w-5 h-5" />
               </button>
             </form>
