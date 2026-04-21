@@ -2,7 +2,6 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Search, Filter, X, ShoppingBag, Sparkles, CheckCircle } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchProducts } from '../../../lib/woocommerceApi';
@@ -353,12 +352,11 @@ export default function SearchPage() {
                       {/* Image */}
                       <div className="relative aspect-square overflow-hidden bg-gray-50">
                         {productImage ? (
-                          <Image
+                          // Yahan Next.js Image ki jagah normal img tag use kiya hai 👇
+                          <img
                             src={productImage}
                             alt={product.name}
-                            fill
-                            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             loading="lazy"
                           />
                         ) : (
