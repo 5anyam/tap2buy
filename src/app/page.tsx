@@ -155,7 +155,7 @@ export default function Homepage() {
                 From home decor and fashion to electronics and sports gear — discover 8 curated categories with 300+ quality products, delivered fast.
               </p>
               <div className="flex flex-wrap gap-4 mb-10">
-                <Link href="/shop" className="inline-flex items-center gap-2 px-8 py-4 bg-[#2A2825] text-white font-medium hover:bg-[#403D39] transition-colors">
+                <Link href="/collections" className="inline-flex items-center gap-2 px-8 py-4 bg-[#2A2825] text-white font-medium hover:bg-[#403D39] transition-colors">
                   Explore All Products <ChevronRight className="w-4 h-4" />
                 </Link>
                 <Link href="/sale" className="inline-flex items-center gap-2 px-8 py-4 bg-transparent text-[#2A2825] font-medium border border-[#2A2825] hover:bg-[#2A2825] hover:text-white transition-colors backdrop-blur-sm">
