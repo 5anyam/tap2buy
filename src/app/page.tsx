@@ -129,8 +129,15 @@ export default function Homepage() {
   return (
     <div className="min-h-screen bg-[#FAFAF8] overflow-hidden font-sans text-[#2A2825]">
 
-      {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-[#F7F5F0] overflow-hidden min-h-[560px] flex items-center border-b border-[#E8E6E1]">
+     {/* ── HERO ─────────────────────────────────────────────────────────── */}
+     <section 
+        className="relative overflow-hidden min-h-[560px] flex items-center border-b border-[#E8E6E1] bg-cover bg-center"
+        // Yahan par apni banner image ka URL daal dena 👇
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1597668900045-b9283c0de174?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }} 
+      >
+        {/* Overlay taaki text clear dikhe */}
+        <div className="absolute inset-0 bg-[#F7F5F0]/85 backdrop-blur-[2px]"></div>
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 py-16 md:py-24 w-full">
           <div className="grid md:grid-cols-2 gap-16 items-center">
 
@@ -151,11 +158,11 @@ export default function Homepage() {
                 <Link href="/shop" className="inline-flex items-center gap-2 px-8 py-4 bg-[#2A2825] text-white font-medium hover:bg-[#403D39] transition-colors">
                   Explore All Products <ChevronRight className="w-4 h-4" />
                 </Link>
-                <Link href="/sale" className="inline-flex items-center gap-2 px-8 py-4 bg-transparent text-[#2A2825] font-medium border border-[#2A2825] hover:bg-[#2A2825] hover:text-white transition-colors">
+                <Link href="/sale" className="inline-flex items-center gap-2 px-8 py-4 bg-transparent text-[#2A2825] font-medium border border-[#2A2825] hover:bg-[#2A2825] hover:text-white transition-colors backdrop-blur-sm">
                   <Tag className="w-4 h-4" /> View Deals
                 </Link>
               </div>
-              <div className="flex flex-wrap gap-6 border-t border-[#E8E6E1] pt-6">
+              <div className="flex flex-wrap gap-6 border-t border-[#E8E6E1]/50 pt-6">
                 {['🚚 Free Delivery > ₹499', '↩️ Easy Returns', '🔒 Secure Checkout'].map((b, i) => (
                   <span key={i} className="text-[#6B665E] text-sm tracking-wide">{b}</span>
                 ))}
@@ -167,7 +174,7 @@ export default function Homepage() {
               {HERO_CARDS.map((card) => (
                 <div
                   key={card.href}
-                  className={`${card.bg} p-8 flex flex-col items-center justify-center gap-4 ${card.border ? 'border border-[#E8E6E1] hover:border-[#B86B52]' : ''} transition-colors`}
+                  className={`${card.bg} p-8 flex flex-col items-center justify-center gap-4 ${card.border ? 'border border-[#E8E6E1] hover:border-[#B86B52]' : ''} transition-colors ${card.bg === 'bg-white' ? 'bg-white/90 backdrop-blur-sm' : ''}`}
                 >
                   {card.accent ? (
                     <>

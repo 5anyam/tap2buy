@@ -210,16 +210,18 @@ export default function SearchPage() {
           </div>
 
           {/* Search Bar */}
-          <form onSubmit={handleSearch} className="max-w-2xl mb-5">
+         {/* Search Bar */}
+         <form onSubmit={handleSearch} className="max-w-2xl mb-5">
             <div className="relative">
               <input
                 type="text"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 placeholder="Search products, brands, categories..."
-                className="w-full px-5 py-3.5 pl-12 pr-12 text-sm text-gray-900 bg-white border-2 border-transparent focus:border-[#FF6B00] focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/10 rounded-xl transition-all placeholder:text-gray-400 shadow-sm"
+                // Yahan text-black aur font-medium add kiya hai
+                className="w-full px-5 py-3.5 pl-12 pr-12 text-sm text-black font-medium bg-white border-2 border-transparent focus:border-[#FF6B00] focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/10 rounded-xl transition-all placeholder:text-gray-500 shadow-sm"
               />
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
               {searchInput && (
                 <button
                   type="button"
@@ -231,7 +233,6 @@ export default function SearchPage() {
               )}
             </div>
           </form>
-
           {/* Results count + mobile filter */}
           <div className="flex items-center justify-between">
             <p className="text-sm text-blue-200">
