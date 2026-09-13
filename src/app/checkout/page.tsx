@@ -649,19 +649,24 @@ export default function Checkout(): React.ReactElement {
             <button
               type="submit"
               disabled={loading || step === "processing"}
-              className="w-full bg-[#8A4B24] hover:bg-[#6E3A1B] disabled:opacity-60 disabled:cursor-not-allowed text-white py-4 rounded-sm text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-[#E0D5C4] flex items-center justify-center gap-2"
+              className="w-full bg-[#1A1410] hover:bg-[#8A4B24] disabled:opacity-60 disabled:cursor-not-allowed text-white py-4 rounded-sm text-[12px] font-semibold uppercase tracking-[0.2em] transition-colors flex items-center justify-center gap-3"
             >
-              ) : paymentMethod === cod ? (
-  <>
-    Place COD Order — ₹{finalTotal.toLocaleString("en-IN")}
-    <ArrowRight className="w-4 h-4" />
-  </>
-) : (
-  <>
-    Pay ₹{finalTotal.toLocaleString("en-IN")} Securely
-    <ArrowRight className="w-4 h-4" />
-  </>
-)
+              {loading || step === "processing" ? (
+                <>
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                  Processing…
+                </>
+              ) : paymentMethod === "cod" ? (
+                <>
+                  Place COD Order — ₹{finalTotal.toLocaleString("en-IN")}
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              ) : (
+                <>
+                  Pay ₹{finalTotal.toLocaleString("en-IN")} Securely
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
 
             <div className="flex items-center justify-center gap-5 text-xs text-gray-400 pt-1">

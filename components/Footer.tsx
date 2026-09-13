@@ -104,6 +104,17 @@ export default function Footer() {
         <div className="mt-20 flex flex-col items-center justify-between gap-4 border-t border-ivory/10 pt-8 text-[11px] tracking-[0.14em] text-ivory/45 sm:flex-row">
           <p>© {new Date().getFullYear()} Tap2Buy. All rights reserved.</p>
           <p className="uppercase">UPI · Cards · Net Banking — Secured by Razorpay</p>
+          <p>
+            Developed by{' '}
+            <a
+              href="https://proshala.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-ivory/80 underline decoration-ivory/30 underline-offset-4 transition-colors hover:text-ivory"
+            >
+              Proshala
+            </a>
+          </p>
         </div>
       </div>
     </footer>
