@@ -1,336 +1,120 @@
-"use client";
+'use client';
 
-import React, { useState, useRef, useEffect } from "react";
-import { usePathname } from 'next/navigation';
-import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
+import React, { useEffect, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-// --- Types and Interfaces ---
+type GalleryImage = { src: string; alt?: string };
 
-type Image = { src: string; alt?: string };
-
-// --- MAIN COMPONENT ---
-
-export default function ImageGallery({ images }: { images: Image[] }) {
-  const pathname = usePathname();
-
-  const getSlugFromPath = () => {
-    const segments = pathname.split('/');
-    const slug = segments[segments.length - 1];
-    return slug.toLowerCase();
-  };
-
-  const currentSlug = getSlugFromPath();
-
+export default function ImageGallery({
+  images,
+  focusSrc,
+  alt = 'Product image',
+}: {
+  images: GalleryImage[];
+  /** When this changes to a src in `images`, the gallery jumps to it (e.g. after a colour change). */
+  focusSrc?: string;
+  alt?: string;
+}) {
   const [active, setActive] = useState(0);
-  const [isZoomed, setIsZoomed] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState(0);
-  const [startX, setStartX] = useState(0);
-  const [currentX, setCurrentX] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [zoom, setZoom] = useState<{ x: number; y: number } | null>(null);
+  const touchStartX = useRef<number | null>(null);
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const DRAG_THRESHOLD = 80;
-  const VELOCITY_THRESHOLD = 0.5;
-
-  const displayImages = images && images.length > 0 ? images : [];
-
-  // --- Background Images Logic ---
-  const backgroundImages: Record<string, string> = {
-    liver: "https://cms.amraj.in/wp-content/uploads/2025/07/liver-bg.png",
-    prostate: "https://cms.amraj.in/wp-content/uploads/2025/07/prostate-bg.png",
-    weight: "https://cms.amraj.in/wp-content/uploads/2025/07/weight-bg.png",
-    diabetes: "https://cms.amraj.in/wp-content/uploads/2025/07/diabetes-bg.png",
-    default: "https://cms.amraj.in/wp-content/uploads/2025/07/default-bg.png"
-  };
-
-  const getBackgroundImage = () => {
-    if (backgroundImages[currentSlug]) return backgroundImages[currentSlug];
-    for (const [key, image] of Object.entries(backgroundImages)) {
-      if (key !== 'default' && currentSlug.includes(key)) return image;
-    }
-    return backgroundImages.default;
-  };
-
-  const bgImage = getBackgroundImage();
-
-  // --- Image Loading State ---
   useEffect(() => {
-    const img = new window.Image();
-    img.onload = () => setIsLoading(false);
-    img.src = displayImages[active]?.src;
-    setIsLoading(true);
-  }, [active, displayImages]);
+    if (!focusSrc) return;
+    const index = images.findIndex((img) => img.src === focusSrc);
+    if (index >= 0) setActive(index);
+  }, [focusSrc, images]);
 
-  // --- Navigation/Drag Logic ---
+  useEffect(() => {
+    if (active >= images.length) setActive(0);
+  }, [active, images.length]);
 
-  const handlePrevious = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setActive((prev) => (prev === 0 ? displayImages.length - 1 : prev - 1));
-    setTimeout(() => setIsTransitioning(false), 300);
-    setIsZoomed(false);
+  if (!images.length) return <div className="aspect-[4/5] bg-parchment" />;
+
+  const go = (delta: number) => {
+    setZoom(null);
+    setActive((i) => (i + delta + images.length) % images.length);
   };
 
-  const handleNext = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setActive((prev) => (prev === displayImages.length - 1 ? 0 : prev + 1));
-    setTimeout(() => setIsTransitioning(false), 300);
-    setIsZoomed(false);
+  const pointToPercent = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    return { x: ((e.clientX - rect.left) / rect.width) * 100, y: ((e.clientY - rect.top) / rect.height) * 100 };
   };
 
-  // -- Touch/Drag handlers
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (isZoomed) return;
-    const touch = e.touches[0];
-    setStartX(touch.clientX);
-    setCurrentX(touch.clientX);
-    setIsDragging(true);
-    setDragOffset(0);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging || isZoomed) return;
-    const touch = e.touches[0];
-    const deltaX = touch.clientX - startX;
-    const absDeltaX = Math.abs(deltaX);
-    if (absDeltaX > 10) e.preventDefault();
-    let adjustedDelta = deltaX;
-    if ((active === 0 && deltaX > 0) || (active === displayImages.length - 1 && deltaX < 0)) {
-      adjustedDelta = deltaX * 0.3;
-    }
-    setCurrentX(touch.clientX);
-    setDragOffset(adjustedDelta);
-  };
-
-  const handleTouchEnd = () => {
-    if (!isDragging || isZoomed) return;
-    const deltaX = currentX - startX;
-    const velocity = Math.abs(deltaX) / 100;
-    const shouldSlide = Math.abs(deltaX) > DRAG_THRESHOLD || velocity > VELOCITY_THRESHOLD;
-    if (shouldSlide) {
-      if (deltaX > 0 && active > 0) handlePrevious();
-      else if (deltaX < 0 && active < displayImages.length - 1) handleNext();
-    }
-    setIsDragging(false);
-    setDragOffset(0);
-    setStartX(0);
-    setCurrentX(0);
-  };
-
-  // -- Desktop Mouse drag
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (isZoomed) return;
-    setStartX(e.clientX);
-    setCurrentX(e.clientX);
-    setIsDragging(true);
-    setDragOffset(0);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || isZoomed) return;
-    const deltaX = e.clientX - startX;
-    let adjustedDelta = deltaX;
-    if ((active === 0 && deltaX > 0) || (active === displayImages.length - 1 && deltaX < 0)) {
-      adjustedDelta = deltaX * 0.3;
-    }
-    setCurrentX(e.clientX);
-    setDragOffset(adjustedDelta);
-  };
-
-  const handleMouseUp = () => {
-    if (!isDragging || isZoomed) return;
-    const deltaX = currentX - startX;
-    const shouldSlide = Math.abs(deltaX) > DRAG_THRESHOLD;
-    if (shouldSlide) {
-      if (deltaX > 0 && active > 0) handlePrevious();
-      else if (deltaX < 0 && active < displayImages.length - 1) handleNext();
-    }
-    setIsDragging(false);
-    setDragOffset(0);
-    setStartX(0);
-    setCurrentX(0);
-  };
-
-  if (!displayImages || displayImages.length === 0) return null;
-
-  // --- UI RETURN ---
   return (
-    <>
-      {/* Main Image Container */}
-      <div className="relative group">
-        <div
-          ref={containerRef}
-          className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200/50 h-[400px] md:h-[600px] lg:h-[700px] bg-white touch-pan-y"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-          style={{
-            cursor: isDragging ? "grabbing" : "grab",
-            touchAction: isDragging ? "none" : "pan-y"
-          }}
-        >
-          {/* Fixed Background */}
-          <div className="absolute inset-0">
-            <div className="absolute inset-0 opacity-20">
-              <div
-                className="w-full h-full bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${bgImage})` }}
-              ></div>
-            </div>
-          </div>
-
-          {/* Loading Spinner */}
-          {isLoading && (
-            <div className="absolute inset-0 flex items-center justify-center z-20">
-              <div className="relative">
-                <div className="w-12 h-12 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin"></div>
-                <div className="absolute inset-0 w-12 h-12 border-4 border-transparent border-r-purple-400 rounded-full animate-spin animate-reverse"></div>
-              </div>
-            </div>
-          )}
-
-          {/* Images Container with Drag */}
-          <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
-            {displayImages.map((img, i) => (
-              <div
-                key={i}
-                className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ease-out ${
-                  i === active
-                    ? "opacity-100 translate-x-0 scale-100 z-10"
-                    : i < active
-                      ? "opacity-0 -translate-x-full scale-95 z-0"
-                      : "opacity-0 translate-x-full scale-95 z-0"
-                }`}
-                style={{
-                  transform: i === active ? `translateX(${dragOffset}px)` : undefined
-                }}
-              >
-                <img
-                  src={img.src}
-                  alt={img.alt || `Product image ${i + 1}`}
-                  className={`w-[375px] h-[375px] sm:w-[490px] sm:h-[490px] object-cover transition-all duration-500 select-none mx-auto rounded-xl ${
-                    isZoomed && i === active
-                      ? "scale-200 cursor-zoom-out"
-                      : "cursor-pointer hover:scale-105"
-                  }`}
-                  onClick={() => {
-                    if (i === active) {
-                      setIsZoomed(!isZoomed);
-                    } else {
-                      setActive(i);
-                      setIsZoomed(false);
-                    }
-                  }}
-                  onLoad={() => i === active && setIsLoading(false)}
-                  onDragStart={(e) => e.preventDefault()}
-                  style={{
-                    filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.15)) drop-shadow(0 10px 20px rgba(0,0,0,0.1))",
-                    userSelect: "none"
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Desktop Navigation Arrows */}
-          {displayImages.length > 1 && (
-            <>
-              <button
-                onClick={handlePrevious}
-                disabled={isTransitioning}
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 border border-gray-200/50 z-30 hidden md:block disabled:opacity-50 focus:outline-none"
-                aria-label="Previous image"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={handleNext}
-                disabled={isTransitioning}
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 border border-gray-200/50 z-30 hidden md:block disabled:opacity-50 focus:outline-none"
-                aria-label="Next image"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </>
-          )}
-
-          {/* Zoom Button */}
-          <div className="absolute top-4 right-4 flex gap-2 z-30">
+    <div className="flex flex-col-reverse gap-3 lg:flex-row lg:gap-4">
+      {images.length > 1 && (
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide lg:max-h-[min(84vh,820px)] lg:w-[72px] lg:shrink-0 lg:flex-col lg:overflow-y-auto">
+          {images.map((img, i) => (
             <button
-              onClick={() => setIsZoomed(!isZoomed)}
-              className="bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg backdrop-blur-sm hover:scale-110 transition-all duration-200 border border-gray-200/50 opacity-100 md:opacity-0 md:group-hover:opacity-100"
-              aria-label={isZoomed ? "Zoom out" : "Zoom in"}
-              tabIndex={-1}
-            >
-              <ZoomIn className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* Drag Indicator */}
-          {isDragging && (
-            <div className="absolute bottom-24 left-1/2 -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded-full text-sm backdrop-blur-sm border border-white/20 z-10">
-              {Math.abs(dragOffset) > DRAG_THRESHOLD ? "Release to slide" : "Drag to slide"}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Thumbnails (desktop+mobile) */}
-      {displayImages.length > 1 && (
-        <div className="mt-8">
-          <div className="flex overflow-x-auto gap-4 px-2 py-2 scrollbar-hide">
-            {displayImages.map((img, i) => (
-              <button
-                key={i}
-                onClick={() => {
-                  setActive(i);
-                  setIsZoomed(false);
-                }}
-                className={`flex-shrink-0 relative group/thumb transition-all duration-300 focus:outline-none ${
-                  i === active
-                    ? "ring-2 ring-blue-500 ring-offset-2 scale-105 shadow-lg"
-                    : "ring-2 ring-transparent hover:ring-gray-300 opacity-70 hover:opacity-100 hover:scale-105"
-                }`}
-                aria-label={`View image ${i + 1}`}
-              >
-                <div className="w-[64px] h-[64px] rounded-xl overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200/50">
-                  <img
-                    src={img.src}
-                    alt={img.alt || `Thumbnail ${i + 1}`}
-                    className="object-cover w-full h-full transition-transform duration-300 group-hover/thumb:scale-110 drop-shadow-md"
-                    loading="lazy"
-                  />
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Mobile Dots Indicator */}
-      {displayImages.length > 1 && (
-        <div className="flex justify-center mt-4 gap-3 sm:hidden">
-          {displayImages.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActive(i)}
-              className={`w-8 h-2 rounded-full transition-all duration-300 shadow-sm ${
-                i === active
-                  ? "bg-gradient-to-r from-blue-500 via-indigo-400 to-blue-400 shadow-blue-500/40"
-                  : "bg-gray-300 hover:bg-gray-400"
+              key={img.src}
+              onClick={() => {
+                setActive(i);
+                setZoom(null);
+              }}
+              aria-label={`View image ${i + 1}`}
+              className={`relative aspect-[4/5] w-16 shrink-0 overflow-hidden bg-parchment transition-opacity duration-300 lg:w-full ${
+                i === active ? 'opacity-100 outline-1 outline-offset-2 outline-espresso' : 'opacity-50 hover:opacity-100'
               }`}
-              aria-label={`Go to image ${i + 1}`}
-            />
+            >
+              <img src={img.src} alt="" loading="lazy" className="h-full w-full object-cover" />
+            </button>
           ))}
         </div>
       )}
-    </>
+
+      <div
+        className="group relative aspect-[4/5] flex-1 select-none overflow-hidden bg-parchment lg:aspect-auto lg:h-[min(84vh,820px)]"
+        onTouchStart={(e) => (touchStartX.current = e.touches[0].clientX)}
+        onTouchEnd={(e) => {
+          if (touchStartX.current === null) return;
+          const dx = e.changedTouches[0].clientX - touchStartX.current;
+          if (Math.abs(dx) > 45) go(dx < 0 ? 1 : -1);
+          touchStartX.current = null;
+        }}
+        onMouseMove={(e) => zoom && setZoom(pointToPercent(e))}
+        onMouseLeave={() => setZoom(null)}
+      >
+        {images.map((img, i) => (
+          <img
+            key={img.src}
+            src={img.src}
+            alt={i === 0 ? alt : `${alt} — view ${i + 1}`}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            draggable={false}
+            onClick={(e) => {
+              if (window.matchMedia('(hover: none)').matches) return;
+              setZoom(zoom ? null : pointToPercent(e));
+            }}
+            style={i === active && zoom ? { transform: 'scale(2)', transformOrigin: `${zoom.x}% ${zoom.y}%` } : undefined}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+              i === active ? 'opacity-100' : 'pointer-events-none opacity-0'
+            } ${zoom ? 'cursor-zoom-out' : 'lg:cursor-zoom-in'}`}
+          />
+        ))}
+
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={() => go(-1)}
+              aria-label="Previous image"
+              className="absolute left-4 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center bg-ivory/90 text-espresso opacity-0 transition-opacity duration-300 hover:bg-ivory group-hover:opacity-100 lg:flex"
+            >
+              <ChevronLeft className="h-4 w-4" strokeWidth={1.5} />
+            </button>
+            <button
+              onClick={() => go(1)}
+              aria-label="Next image"
+              className="absolute right-4 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center bg-ivory/90 text-espresso opacity-0 transition-opacity duration-300 hover:bg-ivory group-hover:opacity-100 lg:flex"
+            >
+              <ChevronRight className="h-4 w-4" strokeWidth={1.5} />
+            </button>
+            <span className="pointer-events-none absolute bottom-4 left-4 bg-ivory/90 px-2.5 py-1 text-[10px] tracking-[0.2em] text-espresso">
+              {active + 1} / {images.length}
+            </span>
+          </>
+        )}
+      </div>
+    </div>
   );
 }

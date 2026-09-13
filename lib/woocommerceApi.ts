@@ -68,6 +68,9 @@ export interface Product {
   type?: 'simple' | 'variable' | 'grouped' | 'external';  // ⭐ ADDED
   variations?: number[];  // ⭐ ADDED
   categories?: WCCategoryRef[];
+  sale_price?: string;
+  price_html?: string;
+  date_created?: string;
 }
 
 export interface Category {
@@ -415,6 +418,48 @@ export async function fetchProduct(id: string | number): Promise<Product> {
   if (!res.ok) throw new Error(`Failed to fetch product: ${res.status} ${res.statusText}`);
   const data: unknown = await res.json();
   return data as Product;
+}
+
+// Lightweight listing fields — keeps each page well under Next's 2MB fetch-cache limit
+const LIST_FIELDS =
+  'id,name,slug,type,price,regular_price,sale_price,price_html,images,categories,attributes,variations,date_created';
+
+/** Fetches every published product (all pages) with listing fields only. Server-side cached. */
+export async function fetchAllProductsLean(revalidate = 300): Promise<Product[]> {
+  const pageUrl = (page: number) =>
+    `${API_BASE}/products?${qs({
+      ...authParams,
+      per_page: 100,
+      page,
+      status: 'publish',
+      orderby: 'date',
+      order: 'desc',
+      _fields: LIST_FIELDS,
+    })}`;
+
+  const first = await fetch(pageUrl(1), { next: { revalidate } });
+  if (!first.ok) throw new Error(`Failed to fetch products: ${first.status} ${first.statusText}`);
+  const totalPages = Number(first.headers.get('x-wp-totalpages') || '1');
+  const firstPage: unknown = await first.json();
+
+  const rest = await Promise.all(
+    Array.from({ length: Math.max(0, totalPages - 1) }, (_, i) =>
+      fetch(pageUrl(i + 2), { next: { revalidate } })
+        .then((r) => (r.ok ? r.json() : []))
+        .catch(() => [])
+    )
+  );
+
+  return [firstPage, ...rest].flatMap((page) => (isArray<Product>(page) ? page : []));
+}
+
+/** Fetches a single published product (full fields) by its slug. */
+export async function fetchProductBySlug(slug: string, revalidate = 300): Promise<Product | null> {
+  const url = `${API_BASE}/products?${qs({ ...authParams, slug, status: 'publish' })}`;
+  const res = await fetch(url, { next: { revalidate } });
+  if (!res.ok) return null;
+  const data: unknown = await res.json();
+  return isArray<Product>(data) ? data[0] ?? null : null;
 }
 
 // ⭐ NEW: Fetch Product Variations

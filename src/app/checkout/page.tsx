@@ -11,7 +11,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ShoppingBag, User, CheckCircle, AlertCircle,
-  Tag, X, ArrowRight, Gift, Lock
+  Tag, X, ArrowRight, Lock
 } from "lucide-react";
 
 // ── CONFIG ──────────────────────────────────────────────────────────────────
@@ -24,7 +24,7 @@ const WOOCOMMERCE_CONFIG = {
 const RAZORPAY_CONFIG = {
   KEY_ID: "rzp_live_RkoPyn44Fu0nOg",
   COMPANY_NAME: "Tap2Buy",
-  THEME_COLOR: "#FF6B00",
+  THEME_COLOR: "#1A1410",
 };
 
 // ── INTERFACES ───────────────────────────────────────────────────────────────
@@ -166,7 +166,7 @@ function FieldError({ msg }: { msg?: string }) {
 
 function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <div className="bg-white rounded-sm border border-gray-100 shadow-sm overflow-hidden">
       <div className="px-6 pt-5 pb-3 border-b border-gray-100">
         <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider">{title}</h2>
       </div>
@@ -398,8 +398,8 @@ export default function Checkout(): React.ReactElement {
   };
 
   const inputClass = (hasError?: string) =>
-    `w-full px-4 py-3 border-2 rounded-xl bg-gray-50 text-sm text-gray-900 focus:outline-none focus:bg-white transition-all placeholder:text-gray-400 ${
-      hasError ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100" : "border-gray-100 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10"
+    `w-full px-4 py-3 border-2 rounded-sm bg-gray-50 text-sm text-gray-900 focus:outline-none focus:bg-white transition-all placeholder:text-gray-400 ${
+      hasError ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100" : "border-gray-100 focus:border-[#8A4B24] focus:ring-2 focus:ring-[#8A4B24]/10"
     }`;
 
   // ── EMPTY CART ──
@@ -407,7 +407,7 @@ export default function Checkout(): React.ReactElement {
     return (
       <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="text-center max-w-sm space-y-5">
-          <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto">
+          <div className="w-16 h-16 bg-gray-100 rounded-sm flex items-center justify-center mx-auto">
             <ShoppingBag className="w-8 h-8 text-gray-400" />
           </div>
           <div>
@@ -416,7 +416,7 @@ export default function Checkout(): React.ReactElement {
           </div>
           <button
             onClick={() => router.push("/shop")}
-            className="inline-flex items-center gap-2 px-7 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+            className="inline-flex items-center gap-2 px-7 py-3 bg-[#8A4B24] hover:bg-[#6E3A1B] text-white rounded-sm text-sm font-bold uppercase tracking-wide transition-all shadow-md"
           >
             <ShoppingBag className="w-4 h-4" /> Start Shopping <ArrowRight className="w-4 h-4" />
           </button>
@@ -429,16 +429,16 @@ export default function Checkout(): React.ReactElement {
     <main className="min-h-screen bg-gray-50 pb-12">
 
       {/* ── HERO ── */}
-      <div className="bg-[#1B2A4A] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-[#1A1410] relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#8A4B24]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-2xl mx-auto px-4 py-10 relative z-10">
           <div className="flex items-center gap-3 mb-1">
-            <div className="w-9 h-9 bg-[#FF6B00] rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
+            <div className="w-9 h-9 bg-[#8A4B24] rounded-sm flex items-center justify-center shadow-lg shadow-[#8A4B24]/30">
               <Lock className="w-4 h-4 text-white" />
             </div>
             <h1 className="text-2xl font-bold text-white">Secure Checkout</h1>
           </div>
-          <p className="text-blue-200 text-sm pl-12">Complete your purchase on <span className="text-[#FF6B00] font-semibold">Tap2Buy</span></p>
+          <p className="text-[#CBBBA8] text-sm pl-12">Complete your purchase on <span className="text-[#8A4B24] font-semibold">Tap2Buy</span></p>
         </div>
       </div>
 
@@ -446,16 +446,16 @@ export default function Checkout(): React.ReactElement {
 
         {/* Auth banners */}
         {!user ? (
-          <div className="flex items-center gap-3 p-4 bg-orange-50 border border-[#FF6B00]/20 rounded-2xl">
-            <User className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
+          <div className="flex items-center gap-3 p-4 bg-[#F3EBE0] border border-[#8A4B24]/20 rounded-sm">
+            <User className="w-4 h-4 text-[#8A4B24] flex-shrink-0" />
             <p className="text-sm text-gray-700">
               Already have an account?{" "}
-              <Link href="/login" className="text-[#FF6B00] font-bold hover:underline">Login here</Link>{" "}
+              <Link href="/login" className="text-[#8A4B24] font-bold hover:underline">Login here</Link>{" "}
               to track your orders easily.
             </p>
           </div>
         ) : (
-          <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-2xl">
+          <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-sm">
             <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
             <p className="text-sm text-green-800">
               Welcome back, <span className="font-bold">{user.first_name || user.username}</span>! Your order will be saved to your account.
@@ -470,7 +470,7 @@ export default function Checkout(): React.ReactElement {
               <div key={item.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
                 <div className="flex items-center gap-3">
                   {item.images?.[0]?.src && (
-                    <div className="w-10 h-10 rounded-lg overflow-hidden border border-gray-100 relative flex-shrink-0">
+                    <div className="w-10 h-10 rounded-sm overflow-hidden border border-gray-100 relative flex-shrink-0">
                       <Image src={item.images[0].src} alt={item.name} fill className="object-contain p-0.5" sizes="40px" />
                     </div>
                   )}
@@ -487,7 +487,7 @@ export default function Checkout(): React.ReactElement {
               <div className="flex justify-between text-sm text-gray-600"><span>Subtotal</span><span>₹{subtotal.toLocaleString("en-IN")}</span></div>
               {couponDiscount > 0 && <div className="flex justify-between text-sm text-green-600 font-semibold"><span>Coupon ({appliedCoupon})</span><span>−₹{couponDiscount.toLocaleString("en-IN")}</span></div>}
               <div className="flex justify-between text-sm text-gray-600"><span>Delivery</span><span className="text-green-600 font-semibold">Free</span></div>
-              {codCharges > 0 && <div className="flex justify-between text-sm text-orange-600"><span>COD Charges</span><span>₹{codCharges}</span></div>}
+              {codCharges > 0 && <div className="flex justify-between text-sm text-[#6E3A1B]"><span>COD Charges</span><span>₹{codCharges}</span></div>}
               <div className="flex justify-between items-center pt-3 border-t border-gray-100">
                 <span className="text-sm font-bold text-gray-900 uppercase tracking-wide">Total</span>
                 <span className="text-xl font-black text-gray-900">₹{finalTotal.toLocaleString("en-IN")}</span>
@@ -496,49 +496,14 @@ export default function Checkout(): React.ReactElement {
           </div>
         </SectionCard>
 
-        {/* ── FREE GIFTS ── */}
-        <div className="bg-emerald-50 border-2 border-dashed border-emerald-300 rounded-2xl p-5">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-9 h-9 bg-emerald-500 rounded-xl flex items-center justify-center flex-shrink-0">
-              <Gift className="w-4 h-4 text-white" />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-emerald-700 uppercase tracking-wide">Free Premium Gifts</h3>
-              <p className="text-xs text-gray-500">Worth ₹250 — Automatically Included</p>
-            </div>
-            <span className="ml-auto text-[10px] font-bold bg-emerald-600 text-white px-2.5 py-1 rounded-full uppercase tracking-wide">Limited Time</span>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { src: "/sticky.webp", name: "Premium Sticky Pad", desc: "High-Quality & Reusable", worth: "₹125" },
-              { src: "/wire.webp", name: "Cable Protector", desc: "Durable & Long-lasting", worth: "₹125" },
-            ].map((gift, i) => (
-              <div key={i} className="flex items-center gap-3 bg-white rounded-xl p-3 border border-emerald-200 shadow-sm">
-                <div className="w-11 h-11 rounded-lg overflow-hidden border border-emerald-100 relative flex-shrink-0">
-                  <Image src={gift.src} alt={gift.name} fill className="object-contain p-1" sizes="44px" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-gray-900">{gift.name}</p>
-                  <p className="text-[10px] text-gray-400">{gift.desc}</p>
-                  <p className="text-[10px] text-emerald-600 font-bold mt-0.5">{gift.worth}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="flex items-center justify-center gap-2 mt-4 pt-3 border-t border-emerald-200">
-            <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
-            <p className="text-xs text-emerald-700 font-medium">Gifts will be packed with your order at no extra cost</p>
-          </div>
-        </div>
-
         {/* ── COUPON ── */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="bg-[#FF6B00] px-6 py-4 text-center">
+        <div className="bg-white rounded-sm border border-gray-100 shadow-sm overflow-hidden">
+          <div className="bg-[#8A4B24] px-6 py-4 text-center">
             <div className="flex items-center justify-center gap-2 mb-1">
               <Tag className="w-4 h-4 text-white" />
               <h3 className="text-white font-bold text-sm uppercase tracking-wide">Special Offer</h3>
             </div>
-            <p className="text-orange-100 text-xs leading-relaxed">
+            <p className="text-[#EADBC8] text-xs leading-relaxed">
               Use code <span className="font-bold bg-white/20 px-2 py-0.5 rounded mx-1">NEWBEGIN10</span> for{" "}
               <span className="font-bold text-yellow-200">Flat 10% OFF</span>
             </p>
@@ -565,10 +530,10 @@ export default function Checkout(): React.ReactElement {
                 type="button"
                 onClick={appliedCoupon ? handleRemoveCoupon : handleApplyCoupon}
                 disabled={isApplyingCoupon}
-                className={`px-5 py-3 rounded-xl text-sm font-bold uppercase tracking-wide transition-all disabled:opacity-60 flex items-center gap-2 ${
+                className={`px-5 py-3 rounded-sm text-sm font-bold uppercase tracking-wide transition-all disabled:opacity-60 flex items-center gap-2 ${
                   appliedCoupon
                     ? "bg-gray-100 hover:bg-gray-200 text-gray-700"
-                    : "bg-[#FF6B00] hover:bg-[#e55f00] text-white shadow-md"
+                    : "bg-[#8A4B24] hover:bg-[#6E3A1B] text-white shadow-md"
                 }`}
               >
                 {isApplyingCoupon ? (
@@ -589,23 +554,23 @@ export default function Checkout(): React.ReactElement {
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Name <span className="text-[#FF6B00]">*</span></label>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Name <span className="text-[#8A4B24]">*</span></label>
                   <input name="name" value={form.name} onChange={onChange} className={inputClass(errors.name)} placeholder="Full name" required />
                   <FieldError msg={errors.name} />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Email <span className="text-[#FF6B00]">*</span></label>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Email <span className="text-[#8A4B24]">*</span></label>
                   <input name="email" type="email" value={form.email} onChange={onChange} className={inputClass(errors.email)} placeholder="your@email.com" required readOnly={!!user} />
                   <FieldError msg={errors.email} />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Phone <span className="text-[#FF6B00]">*</span></label>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Phone <span className="text-[#8A4B24]">*</span></label>
                   <input name="phone" type="tel" value={form.phone} onChange={onChange} className={inputClass(errors.phone)} placeholder="10-digit number" required />
                   <FieldError msg={errors.phone} />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">
-                    WhatsApp <span className="text-[#FF6B00]">*</span>
+                    WhatsApp <span className="text-[#8A4B24]">*</span>
                     <button type="button" onClick={copyPhoneToWhatsApp} className="ml-2 text-[10px] bg-green-500 hover:bg-green-600 text-white px-2 py-0.5 rounded-full font-bold transition-colors normal-case tracking-normal">
                       Same as phone
                     </button>
@@ -616,24 +581,24 @@ export default function Checkout(): React.ReactElement {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Address <span className="text-[#FF6B00]">*</span></label>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Address <span className="text-[#8A4B24]">*</span></label>
                 <textarea name="address" rows={3} value={form.address} onChange={onChange} className={`${inputClass(errors.address)} resize-none`} placeholder="House no., Street, Landmark..." required />
                 <FieldError msg={errors.address} />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Pincode <span className="text-[#FF6B00]">*</span></label>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Pincode <span className="text-[#8A4B24]">*</span></label>
                   <input name="pincode" value={form.pincode} onChange={onChange} className={inputClass(errors.pincode)} placeholder="6-digit" required />
                   <FieldError msg={errors.pincode} />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">City <span className="text-[#FF6B00]">*</span></label>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">City <span className="text-[#8A4B24]">*</span></label>
                   <input name="city" value={form.city} onChange={onChange} className={inputClass(errors.city)} placeholder="City" required />
                   <FieldError msg={errors.city} />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">State <span className="text-[#FF6B00]">*</span></label>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">State <span className="text-[#8A4B24]">*</span></label>
                   <select name="state" value={form.state} onChange={onChange} className={inputClass(errors.state)} required>
                     <option value="">Select State</option>
                     {INDIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -650,7 +615,7 @@ export default function Checkout(): React.ReactElement {
           </SectionCard>
 
           {/* ── PAYMENT METHOD ── */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mt-5">
+          <div className="bg-white rounded-sm border border-gray-100 shadow-sm p-6 mt-5">
             <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Payment Method</h2>
             <div className="grid grid-cols-2 gap-3">
               {(["razorpay", "cod"] as const).map((m) => (
@@ -658,21 +623,21 @@ export default function Checkout(): React.ReactElement {
                   key={m}
                   type="button"
                   onClick={() => setPaymentMethod(m)}
-                  className={`p-3.5 rounded-xl border-2 text-sm font-bold transition-all ${
+                  className={`p-3.5 rounded-sm border-2 text-sm font-bold transition-all ${
                     paymentMethod === m
-                      ? "border-[#FF6B00] bg-orange-50 text-[#FF6B00]"
+                      ? "border-[#8A4B24] bg-[#F3EBE0] text-[#8A4B24]"
                       : "border-gray-100 bg-gray-50 text-gray-600 hover:border-gray-200"
                   }`}
                 >
                   {m === "razorpay" ? "💳 Online Payment" : "🏠 Cash on Delivery"}
-                  {m === "cod" && <span className="block text-[10px] font-normal text-orange-500 mt-0.5">+₹100 handling fee</span>}
+                  {m === "cod" && <span className="block text-[10px] font-normal text-[#8A4B24] mt-0.5">+₹100 handling fee</span>}
                 </button>
               ))}
             </div>
           </div>
 
           {/* ── SUBMIT ── */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mt-5 space-y-4">
+          <div className="bg-white rounded-sm border border-gray-100 shadow-sm p-6 mt-5 space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-sm font-bold text-gray-500 uppercase tracking-wide">Amount to Pay</span>
               <div className="text-right">
@@ -684,7 +649,7 @@ export default function Checkout(): React.ReactElement {
             <button
               type="submit"
               disabled={loading || step === "processing"}
-              className="w-full bg-[#FF6B00] hover:bg-[#e55f00] disabled:opacity-60 disabled:cursor-not-allowed text-white py-4 rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-orange-200 flex items-center justify-center gap-2"
+              className="w-full bg-[#8A4B24] hover:bg-[#6E3A1B] disabled:opacity-60 disabled:cursor-not-allowed text-white py-4 rounded-sm text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-[#E0D5C4] flex items-center justify-center gap-2"
             >
               ) : paymentMethod === cod ? (
   <>
@@ -701,7 +666,7 @@ export default function Checkout(): React.ReactElement {
 
             <div className="flex items-center justify-center gap-5 text-xs text-gray-400 pt-1">
               {["SSL Secured", "Encrypted Payments", "Free Delivery"].map((t) => (
-                <span key={t} className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-[#FF6B00]" />{t}</span>
+                <span key={t} className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-[#8A4B24]" />{t}</span>
               ))}
             </div>
           </div>

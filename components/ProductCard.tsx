@@ -1,125 +1,52 @@
-"use client";
+import Link from 'next/link';
+import type { Product } from '../lib/woocommerceApi';
+import { cleanName, formatINR, getConstruction, getPricing, uniqueImages } from '../lib/footwear';
 
-import Link from "next/link";
-import { productToSlug } from "../lib/slug";
-import { ArrowRight, ShoppingCart, Star } from 'lucide-react';
+type CardProduct = Pick<Product, 'id' | 'slug' | 'name' | 'price' | 'regular_price' | 'images'> &
+  Partial<Pick<Product, 'price_html' | 'categories'>>;
 
-interface Product {
-  id: number | string;
-  slug: string;
-  name: string;
-  price: string | number;
-  regular_price: string;
-  images?: { src: string }[];
-  category?: string;
-  average_rating?: string;
-  rating_count?: number;
-  badge?: "New" | "Sale" | "Hot";
-}
-
-export default function ProductCard({ product }: { product: Product }) {
-  const productUrl = `/product/${productToSlug(product)}`;
-  const rating = Number(product.average_rating);
-  const salePrice = Number(product.price);
-  const originalPrice = Number(product.regular_price);
-  const isOnSale = originalPrice > salePrice;
-  const discountPercent = isOnSale
-    ? Math.round(((originalPrice - salePrice) / originalPrice) * 100)
-    : 0;
+export default function ProductCard({ product, eager = false }: { product: CardProduct; eager?: boolean }) {
+  const [primary, secondary] = uniqueImages(product);
+  const { price, mrp } = getPricing(product);
+  const name = cleanName(product.name);
 
   return (
-    <Link href={productUrl} className="group block h-full bg-white border border-[#E8E6E1] hover:border-[#B86B52] transition-colors duration-500">
-      <div className="relative flex flex-col h-full overflow-hidden">
-
-        {/* ── IMAGE SECTION ── */}
-        <div className="relative aspect-square overflow-hidden bg-[#F7F5F0]">
+    <Link href={`/product/${product.slug}`} className="group block">
+      <div className="relative aspect-[4/5] overflow-hidden bg-parchment">
+        {primary ? (
           <img
-            src={product.images?.[0]?.src || "/placeholder.png"}
-            alt={product.name}
-            className="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+            src={primary.src}
+            alt={name}
+            loading={eager ? 'eager' : 'lazy'}
+            className={`absolute inset-0 h-full w-full object-cover transition-[transform,opacity] duration-[1100ms] ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:scale-[1.04] ${
+              secondary ? 'group-hover:opacity-0' : ''
+            }`}
           />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center font-display text-2xl text-stone/50">Tap2Buy</div>
+        )}
+        {secondary && (
+          <img
+            src={secondary.src}
+            alt=""
+            aria-hidden
+            loading="lazy"
+            className="absolute inset-0 h-full w-full scale-[1.04] object-cover opacity-0 transition-[transform,opacity] duration-[1100ms] ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:scale-100 group-hover:opacity-100"
+          />
+        )}
+        <span className="absolute inset-x-3 bottom-3 hidden translate-y-2 bg-espresso/90 py-3 text-center text-[10px] font-medium uppercase tracking-[0.26em] text-ivory opacity-0 backdrop-blur-sm transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 md:block">
+          Select Size
+        </span>
+      </div>
 
-          {/* Minimalist Labels */}
-          <div className="absolute top-0 left-0 flex flex-col items-start">
-            {product.badge === 'New' && (
-              <span className="bg-[#2A2825] text-white text-[9px] font-bold px-3 py-1.5 tracking-[0.2em] uppercase">
-                New Arrival
-              </span>
-            )}
-            {product.badge === 'Hot' && (
-              <span className="bg-[#B86B52] text-white text-[9px] font-bold px-3 py-1.5 tracking-[0.2em] uppercase">
-                Trending
-              </span>
-            )}
-            {isOnSale && (
-              <span className="bg-white text-[#B86B52] border-r border-b border-[#E8E6E1] text-[9px] font-bold px-3 py-1.5 tracking-[0.2em] uppercase">
-                {discountPercent}% OFF
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* ── CONTENT SECTION ── */}
-        <div className="flex flex-col flex-1 p-4 md:p-5 gap-3">
-
-          {/* Category - Delicate Terracotta */}
-          {product.category && (
-            <span className="text-[10px] text-[#B86B52] uppercase tracking-[0.2em] font-medium">
-              {product.category}
-            </span>
-          )}
-
-          {/* Product Name - Elegant Serif-like feel */}
-          <h3 className="text-sm font-medium text-[#2A2825] line-clamp-2 leading-relaxed min-h-[2.5rem] group-hover:text-[#B86B52] transition-colors duration-300">
-            {product.name}
-          </h3>
-
-          {/* Rating - Minimal Gold */}
-          {Number.isFinite(rating) && rating > 0 && (
-            <div className="flex items-center gap-1">
-              <div className="flex items-center">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`w-2.5 h-2.5 ${
-                      i < Math.round(rating)
-                        ? "text-[#A88C7D] fill-[#A88C7D]"
-                        : "text-[#E8E6E1] fill-[#E8E6E1]"
-                    }`}
-                  />
-                ))}
-              </div>
-              <span className="text-[10px] text-[#A3A09B] tracking-wider ml-1">
-                ({product.rating_count || 0})
-              </span>
-            </div>
-          )}
-
-          {/* Spacer */}
-          <div className="flex-1" />
-
-          {/* ── PRICE & ACTION ── */}
-          <div className="pt-4 border-t border-[#F0EFEA] flex flex-col gap-4">
-            <div className="flex items-baseline justify-between">
-              <div className="flex items-baseline gap-2">
-                <span className="text-lg font-light text-[#2A2825]">
-                  ₹{salePrice.toLocaleString('en-IN')}
-                </span>
-                {isOnSale && (
-                  <span className="text-xs text-[#A3A09B] line-through font-light">
-                    ₹{originalPrice.toLocaleString('en-IN')}
-                  </span>
-                )}
-              </div>
-              {/* Optional: Add a "Save" amount in subtle text if you want */}
-            </div>
-
-            {/* Premium CTA - Full Width Matte Button */}
-            <button className="w-full py-3 bg-[#2A2825] text-white text-[10px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:bg-[#403D39] transition-all duration-300 active:scale-[0.98]">
-              <ShoppingCart className="w-3.5 h-3.5 stroke-[1.5]" />
-              Add to Collection
-            </button>
-          </div>
+      <div className="pt-4">
+        <p className="text-[9.5px] font-medium uppercase tracking-[0.24em] text-stone">{getConstruction(product.name)}</p>
+        <h3 className="mt-1.5 line-clamp-2 font-display text-[18px] leading-[1.2] text-espresso transition-colors group-hover:text-cognac sm:text-[20px]">
+          {name}
+        </h3>
+        <div className="mt-2 flex items-baseline gap-2">
+          <span className="text-[13px] font-semibold tracking-wide text-espresso">{formatINR(price)}</span>
+          {mrp > 0 && <span className="text-[12px] text-stone line-through">{formatINR(mrp)}</span>}
         </div>
       </div>
     </Link>

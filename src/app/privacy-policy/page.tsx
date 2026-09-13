@@ -20,7 +20,7 @@ const sections = [
           'Social media interactions and customer support communications',
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            <span className="w-1.5 h-1.5 bg-[#8A4B24] rounded-full flex-shrink-0 mt-2" />
             {item}
           </li>
         ))}
@@ -42,7 +42,7 @@ const sections = [
           'Customer service interactions, return requests, and order support',
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            <span className="w-1.5 h-1.5 bg-[#8A4B24] rounded-full flex-shrink-0 mt-2" />
             {item}
           </li>
         ))}
@@ -65,7 +65,7 @@ const sections = [
           'Send order updates, shipment notifications, and delivery confirmations',
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            <span className="w-1.5 h-1.5 bg-[#8A4B24] rounded-full flex-shrink-0 mt-2" />
             {item}
           </li>
         ))}
@@ -81,7 +81,7 @@ const sections = [
         <p>
           We may share your data with trusted service providers including payment processors, logistics partners, and analytics platforms. We comply with legal requirements when necessary.
         </p>
-        <div className="flex items-center gap-2 bg-green-50 border border-green-100 rounded-xl p-3">
+        <div className="flex items-center gap-2 bg-green-50 border border-green-100 rounded-sm p-3">
           <Shield className="w-4 h-4 text-green-600 flex-shrink-0" />
           <p className="text-sm text-green-700 font-medium">
             We <span className="font-bold">never sell</span> your personal information to third parties. Your privacy is our priority.
@@ -125,7 +125,7 @@ const sections = [
           'Manage cookie preferences through your browser settings',
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            <span className="w-1.5 h-1.5 bg-[#8A4B24] rounded-full flex-shrink-0 mt-2" />
             {item}
           </li>
         ))}
@@ -159,17 +159,17 @@ export default function PrivacyPolicyPage() {
     <main className="min-h-screen bg-gray-50">
 
       {/* ── HERO ── */}
-      <section className="bg-[#1B2A4A] py-14 px-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="bg-[#1A1410] py-14 px-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#8A4B24]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
-            <Shield className="w-3.5 h-3.5 text-[#FF6B00]" />
-            <span className="text-xs font-semibold text-orange-200 uppercase tracking-wider">Your Privacy Matters</span>
+            <Shield className="w-3.5 h-3.5 text-[#8A4B24]" />
+            <span className="text-xs font-semibold text-[#E0D5C4] uppercase tracking-wider">Your Privacy Matters</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">Privacy Policy</h1>
-          <p className="text-blue-200 text-sm mb-1">Effective Date: November 14, 2025</p>
-          <p className="text-blue-200 text-sm leading-relaxed max-w-2xl">
+          <p className="text-[#CBBBA8] text-sm mb-1">Effective Date: November 14, 2025</p>
+          <p className="text-[#CBBBA8] text-sm leading-relaxed max-w-2xl">
             At Tap2Buy, we are committed to protecting your personal information and ensuring transparency about how we collect, use, and safeguard your data.
           </p>
         </div>
@@ -178,10 +178,10 @@ export default function PrivacyPolicyPage() {
       <div className="max-w-4xl mx-auto px-4 py-12 space-y-6">
 
         {/* Intro */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div className="bg-white rounded-sm border border-gray-100 shadow-sm p-6">
           <p className="text-sm text-gray-600 leading-relaxed mb-3">
-            <span className="font-semibold text-[#FF6B00]">Tap2Buy</span> (Company, we, our, or us) is committed to protecting your privacy as you shop across our wide range of Electronics, Fashion, Home & Living, Beauty, and more. This Privacy Policy outlines how we collect, use, disclose, and safeguard your Personal Information through our platform at{' '}
-            <a href="https://www.tap2buy.in" className="text-[#FF6B00] font-medium hover:underline">
+            <span className="font-semibold text-[#8A4B24]">Tap2Buy</span> (Company, we, our, or us) is committed to protecting your privacy as you shop our handcrafted leather footwear. This Privacy Policy outlines how we collect, use, disclose, and safeguard your Personal Information through our platform at{' '}
+            <a href="https://www.tap2buy.in" className="text-[#8A4B24] font-medium hover:underline">
               www.tap2buy.in
             </a>{' '}
             (the Platform).
@@ -195,17 +195,17 @@ export default function PrivacyPolicyPage() {
         {sections.map((section, i) => (
           <div
             key={i}
-            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+            className="bg-white rounded-sm border border-gray-100 shadow-sm p-6 hover:border-[#8A4B24]/20 hover:shadow-md transition-all duration-300"
           >
             <div className="flex items-start gap-4">
-              <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                <section.icon className="w-5 h-5 text-[#FF6B00]" />
+              <div className="w-11 h-11 bg-[#F3EBE0] rounded-sm flex items-center justify-center flex-shrink-0">
+                <section.icon className="w-5 h-5 text-[#8A4B24]" />
               </div>
               <div className="flex-1">
                 <h2 className="text-base font-bold text-gray-900 mb-3">
                   {section.number}. {section.title}
                 </h2>
-                <div className="bg-gray-50 rounded-xl border border-gray-100 p-4">
+                <div className="bg-gray-50 rounded-sm border border-gray-100 p-4">
                   {section.content}
                 </div>
               </div>
@@ -214,10 +214,10 @@ export default function PrivacyPolicyPage() {
         ))}
 
         {/* Contact — Section 10 */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div className="bg-white rounded-sm border border-gray-100 shadow-sm p-6">
           <div className="flex items-start gap-4 mb-5">
-            <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
-              <Mail className="w-5 h-5 text-[#FF6B00]" />
+            <div className="w-11 h-11 bg-[#F3EBE0] rounded-sm flex items-center justify-center flex-shrink-0">
+              <Mail className="w-5 h-5 text-[#8A4B24]" />
             </div>
             <div>
               <h2 className="text-base font-bold text-gray-900 mb-1">10. Contact & Customer Support</h2>
@@ -235,10 +235,10 @@ export default function PrivacyPolicyPage() {
               <a
                 key={i}
                 href={item.href}
-                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#FF6B00]/30 hover:bg-orange-50/30 transition-all duration-200 group"
+                className="flex items-center gap-3 p-4 bg-gray-50 rounded-sm border border-gray-100 hover:border-[#8A4B24]/30 hover:bg-[#F3EBE0]/30 transition-all duration-200 group"
               >
-                <div className="w-9 h-9 bg-orange-50 rounded-lg flex items-center justify-center group-hover:bg-[#FF6B00] transition-colors">
-                  <item.icon className="w-4 h-4 text-[#FF6B00] group-hover:text-white transition-colors" />
+                <div className="w-9 h-9 bg-[#F3EBE0] rounded-sm flex items-center justify-center group-hover:bg-[#8A4B24] transition-colors">
+                  <item.icon className="w-4 h-4 text-[#8A4B24] group-hover:text-white transition-colors" />
                 </div>
                 <div>
                   <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">{item.label}</p>
@@ -249,9 +249,9 @@ export default function PrivacyPolicyPage() {
           </div>
 
           {/* Address */}
-          <div className="mt-4 flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">
-            <div className="w-9 h-9 bg-orange-50 rounded-lg flex items-center justify-center flex-shrink-0">
-              <MapPin className="w-4 h-4 text-[#FF6B00]" />
+          <div className="mt-4 flex items-start gap-3 p-4 bg-gray-50 rounded-sm border border-gray-100">
+            <div className="w-9 h-9 bg-[#F3EBE0] rounded-sm flex items-center justify-center flex-shrink-0">
+              <MapPin className="w-4 h-4 text-[#8A4B24]" />
             </div>
             <div>
               <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Office Address</p>
@@ -270,19 +270,19 @@ export default function PrivacyPolicyPage() {
         </div>
 
         {/* CTA footer */}
-        <div className="bg-[#1B2A4A] rounded-2xl p-8 text-white text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="bg-[#1A1410] rounded-sm p-8 text-white text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-[#8A4B24]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10">
-            <div className="w-14 h-14 bg-[#FF6B00] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-orange-500/30">
+            <div className="w-14 h-14 bg-[#8A4B24] rounded-sm flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#8A4B24]/30">
               <Lock className="w-7 h-7 text-white" />
             </div>
             <h3 className="text-lg font-bold mb-2">Your Data, Protected</h3>
-            <p className="text-sm text-blue-200 max-w-xl mx-auto leading-relaxed mb-5">
+            <p className="text-sm text-[#CBBBA8] max-w-xl mx-auto leading-relaxed mb-5">
               At Tap2Buy, we safeguard your personal information with the highest standards of security and privacy — so you can shop with complete confidence.
             </p>
             <Link
-              href="/shop"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-lg hover:shadow-orange-500/30"
+              href="/collections"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#8A4B24] hover:bg-[#6E3A1B] text-white rounded-sm text-sm font-bold uppercase tracking-wide transition-all shadow-lg hover:shadow-[#8A4B24]/30"
             >
               <ShoppingBag className="w-4 h-4" />
               Shop Now
@@ -292,9 +292,9 @@ export default function PrivacyPolicyPage() {
 
         <p className="text-xs text-gray-400 text-center pb-4">
           © {new Date().getFullYear()} Tap2Buy. All rights reserved. &nbsp;·&nbsp;{' '}
-          <Link href="/disclaimer" className="text-[#FF6B00] hover:underline">Disclaimer</Link>
+          <Link href="/disclaimer" className="text-[#8A4B24] hover:underline">Disclaimer</Link>
           {' '}&nbsp;·&nbsp;{' '}
-          <Link href="/terms-and-conditions" className="text-[#FF6B00] hover:underline">Terms & Conditions</Link>
+          <Link href="/terms-and-conditions" className="text-[#8A4B24] hover:underline">Terms & Conditions</Link>
         </p>
       </div>
     </main>

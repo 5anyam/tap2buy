@@ -1,81 +1,139 @@
 @import "tailwindcss";
 @import 'slick-carousel/slick/slick.css';
 @import 'slick-carousel/slick/slick-theme.css';
-@import '@fontsource/fredoka';          /* Normal weight */
-@import '@fontsource/fredoka/600.css';  /* Bold weight */
 
+/* ── Design tokens — handcrafted leather atelier ───────────────────────────── */
+@theme {
+  --color-ivory: #F7F3EC;
+  --color-parchment: #EEE7DB;
+  --color-sand: #E0D5C4;
+  --color-espresso: #1A1410;
+  --color-umber: #3A2E26;
+  --color-stone: #7B6E63;
+  --color-cognac: #8A4B24;
+  --color-cognac-dark: #6E3A1B;
+  --color-brass: #C29B62;
 
+  --animate-fade-up: fade-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-marquee: marquee 45s linear infinite;
 
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-manrope), "Manrope", ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+html {
+  background: var(--color-ivory);
+  scroll-behavior: smooth;
 }
 
 body {
-  color: var(--foreground);
-  font-family: 'Inter', sans-serif;
-}
-@keyframes marquee {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+  background: var(--color-ivory);
+  color: var(--color-espresso);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+::selection {
+  background: var(--color-espresso);
+  color: var(--color-ivory);
+}
+
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Rich text coming from WooCommerce product descriptions */
+.product-copy {
+  color: var(--color-umber);
+  font-size: 0.9375rem;
+  line-height: 1.8;
+}
+.product-copy > * + * {
+  margin-top: 0.9em;
+}
+.product-copy h2,
+.product-copy h3,
+.product-copy h4 {
+  font-family: var(--font-display);
+  color: var(--color-espresso);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin-top: 1.4em;
+}
+.product-copy ul {
+  list-style: none;
+  padding: 0;
+}
+.product-copy li {
+  position: relative;
+  padding-left: 1.25rem;
+  margin-top: 0.45em;
+}
+.product-copy li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.8em;
+  width: 0.5rem;
+  height: 1px;
+  background: var(--color-cognac);
+}
+.product-copy strong,
+.product-copy b {
+  color: var(--color-espresso);
+  font-weight: 600;
+}
+
+/* Legacy utilities still used by some pages */
 .animate-marquee {
   animation: marquee 35s linear infinite;
 }
 
 @keyframes blob1 {
-  0%, 100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  50% {
-    transform: translate(20px, -30px) scale(1.1);
-  }
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(20px, -30px) scale(1.1); }
 }
-
 @keyframes blob2 {
-  0%, 100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  50% {
-    transform: translate(-25px, 20px) scale(1.05);
-  }
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(-25px, 20px) scale(1.05); }
 }
-
 @keyframes blob3 {
-  0%, 100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  50% {
-    transform: translate(15px, 10px) scale(1.1);
-  }
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(15px, 10px) scale(1.1); }
 }
+.animate-blob1 { animation: blob1 10s ease-in-out infinite; }
+.animate-blob2 { animation: blob2 12s ease-in-out infinite; }
+.animate-blob3 { animation: blob3 14s ease-in-out infinite; }
 
-.animate-blob1 {
-  animation: blob1 10s ease-in-out infinite;
-}
-.animate-blob2 {
-  animation: blob2 12s ease-in-out infinite;
-}
-.animate-blob3 {
-  animation: blob3 14s ease-in-out infinite;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

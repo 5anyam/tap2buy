@@ -1,297 +1,256 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import Link from 'next/link';
+import { Search, X, ChevronDown } from 'lucide-react';
 import ProductCard from '../../../components/ProductCard';
-import { Product } from './page';
-import { SlidersHorizontal, X, Search, ShoppingBag, Mail } from 'lucide-react';
+import type { Product } from '../../../lib/woocommerceApi';
+import { STYLES, cleanName, getConstruction, getPricing, getStyle, styleLabel, type StyleSlug } from '../../../lib/footwear';
+
+type StyleFilter = StyleSlug | 'all';
+type SortOption = 'newest' | 'price-asc' | 'price-desc';
+
+const PAGE_SIZE = 24;
+const CONSTRUCTIONS = ['Hand Welted', 'Goodyear Welted', 'Blake Stitched', 'Handcrafted'];
+
+const SORT_LABELS: Record<SortOption, string> = {
+  newest: 'Newest',
+  'price-asc': 'Price: Low to High',
+  'price-desc': 'Price: High to Low',
+};
 
 interface ShopPageClientProps {
   products: Product[];
+  initialStyle: StyleFilter;
 }
 
-type ProductWithSlug = Product & {
-  slug: string;
-  regular_price: string;
-};
-
-type SortOption = 'name' | 'price-low' | 'price-high';
-
-interface PriceRange {
-  min: string;
-  max: string;
+function SelectField<T extends string>({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: T;
+  onChange: (value: T) => void;
+  options: { value: T; label: string }[];
+}) {
+  return (
+    <label className="relative flex min-w-0 flex-1 items-center border border-sand bg-ivory sm:flex-none">
+      <span className="sr-only">{label}</span>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value as T)}
+        className="w-full cursor-pointer appearance-none bg-transparent py-2.5 pl-3.5 pr-9 text-xs text-espresso focus:outline-none sm:w-auto"
+      >
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+      <ChevronDown className="pointer-events-none absolute right-3 h-3.5 w-3.5 text-stone" strokeWidth={1.5} />
+    </label>
+  );
 }
 
-function parsePrice(price: string): number {
-  return parseFloat(price.replace(/[^\d.]/g, '')) || 0;
-}
+export default function ShopPageClient({ products, initialStyle }: ShopPageClientProps) {
+  const [style, setStyle] = useState<StyleFilter>(initialStyle);
+  const [construction, setConstruction] = useState('all');
+  const [sortBy, setSortBy] = useState<SortOption>('newest');
+  const [query, setQuery] = useState('');
+  const [visible, setVisible] = useState(PAGE_SIZE);
 
-export default function ShopPageClient({ products }: ShopPageClientProps) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [priceRange, setPriceRange] = useState<PriceRange>({ min: '', max: '' });
-  const [sortBy, setSortBy] = useState<SortOption>('name');
-  const [showFilters, setShowFilters] = useState(false);
+  const enriched = useMemo(
+    () =>
+      products.map((product) => ({
+        product,
+        style: getStyle(product),
+        construction: getConstruction(product.name),
+        price: getPricing(product).price,
+        haystack: cleanName(product.name).toLowerCase(),
+      })),
+    [products]
+  );
 
-  const categories = useMemo(() => {
-    const cats = new Set<string>();
-    products.forEach((p) => p.categories?.forEach((c) => cats.add(c.name)));
-    return Array.from(cats).sort();
-  }, [products]);
+  const styleCounts = useMemo(() => {
+    const counts: Record<string, number> = { all: enriched.length };
+    enriched.forEach((e) => (counts[e.style] = (counts[e.style] ?? 0) + 1));
+    return counts;
+  }, [enriched]);
 
-  const filteredProducts = useMemo(() => {
-    const filtered = products.filter((product) => {
-      if (searchTerm && !product.name.toLowerCase().includes(searchTerm.toLowerCase())) return false;
-      if (selectedCategory && !product.categories?.some((c) => c.name === selectedCategory)) return false;
-      if (priceRange.min || priceRange.max) {
-        const price = parsePrice(product.price);
-        if (priceRange.min && price < parseFloat(priceRange.min)) return false;
-        if (priceRange.max && price > parseFloat(priceRange.max)) return false;
-      }
-      return true;
-    });
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const list = enriched.filter(
+      (e) =>
+        (style === 'all' || e.style === style) &&
+        (construction === 'all' || e.construction === construction) &&
+        (!q || e.haystack.includes(q))
+    );
+    if (sortBy === 'price-asc') list.sort((a, b) => a.price - b.price);
+    if (sortBy === 'price-desc') list.sort((a, b) => b.price - a.price);
+    return list.map((e) => e.product);
+  }, [enriched, style, construction, query, sortBy]);
 
-    return [...filtered].sort((a, b) => {
-      switch (sortBy) {
-        case 'price-low': return parsePrice(a.price) - parsePrice(b.price);
-        case 'price-high': return parsePrice(b.price) - parsePrice(a.price);
-        default: return a.name.localeCompare(b.name);
-      }
-    });
-  }, [products, searchTerm, selectedCategory, priceRange, sortBy]);
-
-  const clearFilters = () => {
-    setSearchTerm('');
-    setSelectedCategory('');
-    setPriceRange({ min: '', max: '' });
-    setSortBy('name');
+  const selectStyle = (next: StyleFilter) => {
+    setStyle(next);
+    setVisible(PAGE_SIZE);
+    const url = next === 'all' ? '/collections' : `/collections?style=${next}`;
+    window.history.replaceState(null, '', url);
   };
 
-  const hasActiveFilters = !!(searchTerm || selectedCategory || priceRange.min || priceRange.max);
+  const resetFilters = () => {
+    selectStyle('all');
+    setConstruction('all');
+    setQuery('');
+    setSortBy('newest');
+  };
 
-  const inputClass =
-    'w-full px-4 py-2.5 border border-[#E8E6E1] bg-white text-sm text-[#2A2825] focus:outline-none focus:border-[#B86B52] transition-colors rounded-none font-light';
+  const activeStyle = STYLES.find((s) => s.slug === style);
+  const shown = filtered.slice(0, visible);
 
   return (
-    <main className="min-h-screen bg-[#FAFAF8] font-sans">
-
-      {/* ── HERO / HEADER ── */}
-      <div className="bg-[#F7F5F0] border-b border-[#E8E6E1]">
-        <div className="max-w-7xl mx-auto px-4 py-16 md:py-20 text-center">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <span className="w-8 h-[1px] bg-[#B86B52]" />
-            <span className="text-xs font-semibold text-[#B86B52] uppercase tracking-[0.2em]">Curation</span>
+    <div className="bg-ivory">
+      {/* ── Heading ── */}
+      <section className="border-b border-sand bg-parchment">
+        <div className="mx-auto max-w-[1440px] px-4 pb-12 pt-10 sm:px-6 lg:px-10 lg:pb-16 lg:pt-14">
+          <nav className="text-[10px] uppercase tracking-[0.24em] text-stone" aria-label="Breadcrumb">
+            <Link href="/" className="hover:text-espresso">Home</Link>
+            <span className="mx-2.5">/</span>
+            <span className="text-espresso">{activeStyle ? styleLabel(activeStyle.slug) : 'Shop All'}</span>
+          </nav>
+          <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <h1 className="font-display text-[48px] leading-[0.95] text-espresso sm:text-[64px] lg:text-[76px]">
+                {activeStyle ? activeStyle.label : (
+                  <>
+                    The <em>Collection</em>
+                  </>
+                )}
+              </h1>
+              <p className="mt-5 max-w-lg text-[15px] leading-7 text-umber">
+                {activeStyle
+                  ? activeStyle.blurb
+                  : 'Every pair, in one place — hand-welted and Goodyear-welted leather footwear, finished by hand.'}
+              </p>
+            </div>
+            <p className="text-[10.5px] uppercase tracking-[0.26em] text-stone">
+              {filtered.length} {filtered.length === 1 ? 'style' : 'styles'}
+            </p>
           </div>
-          <h1 className="text-3xl md:text-5xl font-serif font-light text-[#2A2825] mb-6">
-            The Shop <span className="italic">Collection</span>
-          </h1>
-          <p className="text-[#6B665E] text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-10 font-light">
-            Thoughtfully selected decor and gifts, designed to bring a sense of calm and beauty to your everyday living.
-          </p>
+        </div>
+      </section>
 
-          {/* Minimalist Search Bar */}
-          <div className="relative max-w-xl mx-auto">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A3A09B]" />
+      {/* ── Toolbar ── */}
+      <div className="sticky top-16 z-30 border-b border-sand bg-ivory/95 backdrop-blur-md lg:top-[124px]">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10">
+          <div className="-mx-4 flex gap-1 overflow-x-auto px-4 scrollbar-hide sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0">
+            {[{ slug: 'all' as StyleFilter, label: 'All' }, ...STYLES].map((s) => {
+              const active = style === s.slug;
+              const count = styleCounts[s.slug] ?? 0;
+              if (s.slug !== 'all' && !count) return null;
+              return (
+                <button
+                  key={s.slug}
+                  onClick={() => selectStyle(s.slug)}
+                  className={`relative shrink-0 whitespace-nowrap px-3.5 py-4 text-[10.5px] font-medium uppercase tracking-[0.2em] transition-colors ${
+                    active ? 'text-espresso' : 'text-stone hover:text-espresso'
+                  }`}
+                >
+                  {s.label}
+                  <span className="ml-1.5 text-[9.5px] text-stone/80">{count}</span>
+                  <span
+                    className={`absolute inset-x-3.5 bottom-0 h-px bg-espresso transition-transform duration-500 ${
+                      active ? 'scale-x-100' : 'scale-x-0'
+                    }`}
+                  />
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-[1440px] px-4 pb-24 pt-8 sm:px-6 lg:px-10">
+        <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <label className="relative flex items-center border-b border-sand focus-within:border-espresso sm:w-72">
+            <Search className="h-4 w-4 text-stone" strokeWidth={1.4} />
             <input
               type="text"
-              placeholder="Search the collection..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-12 py-4 bg-white border border-[#E8E6E1] text-sm text-[#2A2825] focus:outline-none focus:border-[#2A2825] transition-all placeholder:text-[#A3A09B] font-light shadow-sm"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setVisible(PAGE_SIZE);
+              }}
+              placeholder="Search this collection"
+              className="w-full bg-transparent px-3 py-2.5 text-sm text-espresso placeholder:text-stone/70 focus:outline-none"
             />
-            {searchTerm && (
-              <button
-                onClick={() => setSearchTerm('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#A3A09B] hover:text-[#B86B52]"
-              >
-                <X className="w-4 h-4" />
+            {query && (
+              <button onClick={() => setQuery('')} className="p-1 text-stone hover:text-espresso" aria-label="Clear search">
+                <X className="h-3.5 w-3.5" />
               </button>
             )}
+          </label>
+          <div className="flex gap-2">
+            <SelectField
+              label="Construction"
+              value={construction}
+              onChange={(v) => {
+                setConstruction(v);
+                setVisible(PAGE_SIZE);
+              }}
+              options={[
+                { value: 'all', label: 'All constructions' },
+                ...CONSTRUCTIONS.map((c) => ({ value: c, label: c })),
+              ]}
+            />
+            <SelectField
+              label="Sort"
+              value={sortBy}
+              onChange={setSortBy}
+              options={(Object.keys(SORT_LABELS) as SortOption[]).map((k) => ({ value: k, label: SORT_LABELS[k] }))}
+            />
           </div>
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-12">
-
-        {/* Mobile filter toggle */}
-        <div className="lg:hidden mb-8">
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-3 px-6 py-3 bg-[#2A2825] text-white text-xs font-medium uppercase tracking-widest transition-all"
-          >
-            <SlidersHorizontal className="w-4 h-4" />
-            {showFilters ? 'Hide Filters' : 'Filter Collection'}
-          </button>
-        </div>
-
-        <div className="flex flex-col lg:flex-row gap-12">
-
-          {/* ── SIDEBAR ── */}
-          <aside className={`lg:w-64 flex-shrink-0 ${showFilters ? 'block' : 'hidden lg:block'}`}>
-            <div className="sticky top-28 space-y-8">
-              
-              <div className="flex items-center justify-between border-b border-[#E8E6E1] pb-4">
-                <h2 className="text-[10px] font-bold text-[#2A2825] uppercase tracking-[0.2em]">Refine By</h2>
-                {hasActiveFilters && (
-                  <button
-                    onClick={clearFilters}
-                    className="text-[10px] text-[#B86B52] font-bold uppercase tracking-widest hover:underline"
-                  >
-                    Reset
-                  </button>
-                )}
-              </div>
-
-              {/* Category */}
-              <div>
-                <label className="block text-[10px] font-bold text-[#A3A09B] uppercase tracking-[0.2em] mb-4">
-                  Category
-                </label>
-                <div className="space-y-2">
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className={inputClass}
-                  >
-                    <option value="">All Categories</option>
-                    {categories.map((cat) => (
-                      <option key={cat} value={cat}>{cat}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Price Range */}
-              <div>
-                <label className="block text-[10px] font-bold text-[#A3A09B] uppercase tracking-[0.2em] mb-4">
-                  Price Range (₹)
-                </label>
-                <div className="flex flex-col gap-3">
-                  <input
-                    type="number"
-                    placeholder="Min Price"
-                    value={priceRange.min}
-                    onChange={(e) => setPriceRange((prev) => ({ ...prev, min: e.target.value }))}
-                    className={inputClass}
-                  />
-                  <input
-                    type="number"
-                    placeholder="Max Price"
-                    value={priceRange.max}
-                    onChange={(e) => setPriceRange((prev) => ({ ...prev, max: e.target.value }))}
-                    className={inputClass}
-                  />
-                </div>
-              </div>
-
-              {/* Sort */}
-              <div>
-                <label className="block text-[10px] font-bold text-[#A3A09B] uppercase tracking-[0.2em] mb-4">
-                  Sort Order
-                </label>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as SortOption)}
-                  className={inputClass}
-                >
-                  <option value="name">Alphabetical (A–Z)</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                </select>
-              </div>
-
-              {/* Active Filters Summary */}
-              {hasActiveFilters && (
-                <div className="pt-6 border-t border-[#E8E6E1] space-y-3">
-                  <p className="text-[10px] font-bold text-[#A3A09B] uppercase tracking-[0.2em]">Currently Applied</p>
-                  <div className="flex flex-wrap gap-2">
-                    {searchTerm && (
-                      <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#F7F5F0] border border-[#E8E6E1] text-[10px] text-[#2A2825] uppercase tracking-wider">
-                        "{searchTerm}" <X className="w-3 h-3 cursor-pointer" onClick={() => setSearchTerm('')} />
-                      </span>
-                    )}
-                    {selectedCategory && (
-                      <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#F7F5F0] border border-[#E8E6E1] text-[10px] text-[#2A2825] uppercase tracking-wider">
-                        {selectedCategory} <X className="w-3 h-3 cursor-pointer" onClick={() => setSelectedCategory('')} />
-                      </span>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          </aside>
-
-          {/* ── PRODUCTS ── */}
-          <div className="flex-1">
-            {/* Results bar */}
-            <div className="flex items-center justify-between mb-8 pb-4 border-b border-[#E8E6E1]">
-              <p className="text-xs text-[#6B665E] tracking-widest uppercase">
-                Showing <span className="text-[#2A2825] font-bold">{filteredProducts.length}</span> results
-              </p>
-              <div className="hidden sm:block h-[1px] flex-1 mx-8 bg-[#E8E6E1]" />
-              <p className="hidden sm:block text-[10px] text-[#A3A09B] uppercase tracking-[0.2em]">
-                {products.length} Items Total
-              </p>
+        {shown.length === 0 ? (
+          <div className="border border-sand px-6 py-24 text-center">
+            <p className="font-display text-3xl text-espresso">No pairs match these filters.</p>
+            <p className="mt-3 text-sm text-stone">Try a different style or construction.</p>
+            <button
+              onClick={resetFilters}
+              className="mt-8 bg-espresso px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-ivory transition-colors hover:bg-cognac"
+            >
+              Reset filters
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-12 sm:gap-x-6 md:grid-cols-3 xl:grid-cols-4">
+              {shown.map((product, i) => (
+                <ProductCard key={product.id} product={product} eager={i < 4} />
+              ))}
             </div>
 
-            {filteredProducts.length === 0 ? (
-              <div className="text-center py-24 bg-white border border-[#E8E6E1]">
-                <div className="w-12 h-12 bg-[#F7F5F0] flex items-center justify-center mx-auto mb-6">
-                  <Search className="w-5 h-5 text-[#A3A09B]" />
-                </div>
-                <h3 className="text-lg font-serif text-[#2A2825] mb-2 font-light">No matches found</h3>
-                <p className="text-xs text-[#6B665E] mb-8 font-light tracking-wide">
-                  Try adjusting your filters or search terms.
+            {filtered.length > visible && (
+              <div className="mt-16 flex flex-col items-center gap-5">
+                <p className="text-[10.5px] uppercase tracking-[0.24em] text-stone">
+                  Showing {shown.length} of {filtered.length}
                 </p>
+                <div className="h-px w-48 bg-sand">
+                  <div className="h-px bg-espresso" style={{ width: `${(shown.length / filtered.length) * 100}%` }} />
+                </div>
                 <button
-                  onClick={clearFilters}
-                  className="px-8 py-3 bg-[#2A2825] text-white text-[11px] font-medium uppercase tracking-widest hover:bg-[#403D39] transition-colors"
+                  onClick={() => setVisible((v) => v + PAGE_SIZE)}
+                  className="border border-espresso px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-espresso transition-colors hover:bg-espresso hover:text-ivory"
                 >
-                  Clear all filters
+                  Show more
                 </button>
               </div>
-            ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-12">
-                {filteredProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={{
-                      ...product,
-                      slug: product.slug || `product-${product.id}`,
-                    } as ProductWithSlug}
-                  />
-                ))}
-              </div>
             )}
-          </div>
-        </div>
+          </>
+        )}
       </div>
-
-      {/* ── CONTACT SECTION (Earthy Palette) ── */}
-      <div className="mt-20 bg-[#2A2825] py-20 relative overflow-hidden">
-        <div className="max-w-4xl mx-auto text-center px-4 relative z-10">
-          <p className="text-[#A88C7D] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">Customer Care</p>
-          <h2 className="text-2xl md:text-3xl font-serif font-light text-white mb-6">Need styling assistance?</h2>
-          <p className="text-[#D5D2CC] text-sm mb-10 max-w-md mx-auto leading-relaxed font-light">
-            Our interior experts are available to help you choose the perfect pieces for your unique space.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="mailto:support@tap2buy.in"
-              className="px-8 py-4 bg-[#B86B52] text-white text-[11px] font-semibold uppercase tracking-[0.2em] hover:bg-[#A35A44] transition-colors"
-            >
-              Email Consultant
-            </a>
-            <a
-              href="https://wa.me/919911636888"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-4 border border-white/20 text-white text-[11px] font-semibold uppercase tracking-[0.2em] hover:bg-white hover:text-[#2A2825] transition-colors"
-            >
-              WhatsApp Support
-            </a>
-          </div>
-        </div>
-      </div>
-    </main>
+    </div>
   );
 }

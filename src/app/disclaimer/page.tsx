@@ -18,7 +18,7 @@ const sections = [
           'Compatibility with specific devices is based on manufacturer guidelines, but we do not guarantee perfect fit for all variants or aftermarket modifications.',
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            <span className="w-1.5 h-1.5 bg-[#8A4B24] rounded-full flex-shrink-0 mt-2" />
             {item}
           </li>
         ))}
@@ -53,7 +53,7 @@ const sections = [
           'Users assume all risks associated with the use of products, including potential damage to devices or personal injury.',
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            <span className="w-1.5 h-1.5 bg-[#8A4B24] rounded-full flex-shrink-0 mt-2" />
             {item}
           </li>
         ))}
@@ -88,7 +88,7 @@ const sections = [
           'Product installation or application (e.g., screen protectors) is at your own risk; improper use may void warranties.',
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            <span className="w-1.5 h-1.5 bg-[#8A4B24] rounded-full flex-shrink-0 mt-2" />
             {item}
           </li>
         ))}
@@ -127,17 +127,17 @@ export default function DisclaimerPage() {
     <main className="min-h-screen bg-gray-50">
 
       {/* ── HERO ── */}
-      <section className="bg-[#1B2A4A] py-14 px-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="bg-[#1A1410] py-14 px-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#8A4B24]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
-            <Shield className="w-3.5 h-3.5 text-[#FF6B00]" />
-            <span className="text-xs font-semibold text-orange-200 uppercase tracking-wider">Legal Notice</span>
+            <Shield className="w-3.5 h-3.5 text-[#8A4B24]" />
+            <span className="text-xs font-semibold text-[#E0D5C4] uppercase tracking-wider">Legal Notice</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">Disclaimer</h1>
-          <p className="text-blue-200 text-sm mb-1">Effective Date: November 14, 2025</p>
-          <p className="text-blue-200 text-sm leading-relaxed max-w-2xl">
+          <p className="text-[#CBBBA8] text-sm mb-1">Effective Date: November 14, 2025</p>
+          <p className="text-[#CBBBA8] text-sm leading-relaxed max-w-2xl">
             Important legal information regarding the use of the Tap2Buy platform and products.
           </p>
         </div>
@@ -146,10 +146,10 @@ export default function DisclaimerPage() {
       <div className="max-w-4xl mx-auto px-4 py-12 space-y-6">
 
         {/* Intro card */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div className="bg-white rounded-sm border border-gray-100 shadow-sm p-6">
           <p className="text-sm text-gray-600 leading-relaxed">
-            Welcome to <span className="font-semibold text-[#FF6B00]">Tap2Buy</span>, India is growing online marketplace for Electronics, Fashion, Home & Living, and more. This Disclaimer outlines the limitations of our liability and the terms under which you may use our website at{' '}
-            <a href="https://www.tap2buy.in" className="text-[#FF6B00] font-medium hover:underline">
+            Welcome to <span className="font-semibold text-[#8A4B24]">Tap2Buy</span>, an online store for handcrafted leather footwear. This Disclaimer outlines the limitations of our liability and the terms under which you may use our website at{' '}
+            <a href="https://www.tap2buy.in" className="text-[#8A4B24] font-medium hover:underline">
               www.tap2buy.in
             </a>{' '}
             (the Platform). By accessing or using the Platform, you agree to be bound by this Disclaimer.
@@ -160,17 +160,17 @@ export default function DisclaimerPage() {
         {sections.map((section, i) => (
           <div
             key={i}
-            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+            className="bg-white rounded-sm border border-gray-100 shadow-sm p-6 hover:border-[#8A4B24]/20 hover:shadow-md transition-all duration-300"
           >
             <div className="flex items-start gap-4">
-              <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                <section.icon className="w-5 h-5 text-[#FF6B00]" />
+              <div className="w-11 h-11 bg-[#F3EBE0] rounded-sm flex items-center justify-center flex-shrink-0">
+                <section.icon className="w-5 h-5 text-[#8A4B24]" />
               </div>
               <div className="flex-1">
                 <h2 className="text-base font-bold text-gray-900 mb-3">
                   {section.number}. {section.title}
                 </h2>
-                <div className="bg-gray-50 rounded-xl border border-gray-100 p-4">
+                <div className="bg-gray-50 rounded-sm border border-gray-100 p-4">
                   {section.content}
                 </div>
               </div>
@@ -179,10 +179,10 @@ export default function DisclaimerPage() {
         ))}
 
         {/* Contact */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div className="bg-white rounded-sm border border-gray-100 shadow-sm p-6">
           <div className="flex items-start gap-4 mb-5">
-            <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
-              <Mail className="w-5 h-5 text-[#FF6B00]" />
+            <div className="w-11 h-11 bg-[#F3EBE0] rounded-sm flex items-center justify-center flex-shrink-0">
+              <Mail className="w-5 h-5 text-[#8A4B24]" />
             </div>
             <div>
               <h2 className="text-base font-bold text-gray-900 mb-1">Questions About This Disclaimer?</h2>
@@ -197,10 +197,10 @@ export default function DisclaimerPage() {
               <a
                 key={i}
                 href={item.href}
-                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#FF6B00]/30 hover:bg-orange-50/30 transition-all duration-200 group"
+                className="flex items-center gap-3 p-4 bg-gray-50 rounded-sm border border-gray-100 hover:border-[#8A4B24]/30 hover:bg-[#F3EBE0]/30 transition-all duration-200 group"
               >
-                <div className="w-9 h-9 bg-orange-50 rounded-lg flex items-center justify-center group-hover:bg-[#FF6B00] transition-colors">
-                  <item.icon className="w-4 h-4 text-[#FF6B00] group-hover:text-white transition-colors" />
+                <div className="w-9 h-9 bg-[#F3EBE0] rounded-sm flex items-center justify-center group-hover:bg-[#8A4B24] transition-colors">
+                  <item.icon className="w-4 h-4 text-[#8A4B24] group-hover:text-white transition-colors" />
                 </div>
                 <div>
                   <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">{item.label}</p>
@@ -215,19 +215,19 @@ export default function DisclaimerPage() {
         </div>
 
         {/* CTA footer */}
-        <div className="bg-[#1B2A4A] rounded-2xl p-8 text-white text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="bg-[#1A1410] rounded-sm p-8 text-white text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-[#8A4B24]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10">
-            <div className="w-14 h-14 bg-[#FF6B00] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-orange-500/30">
+            <div className="w-14 h-14 bg-[#8A4B24] rounded-sm flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#8A4B24]/30">
               <Shield className="w-7 h-7 text-white" />
             </div>
             <h3 className="text-lg font-bold mb-2">Protection Through Transparency</h3>
-            <p className="text-sm text-blue-200 max-w-xl mx-auto leading-relaxed mb-5">
+            <p className="text-sm text-[#CBBBA8] max-w-xl mx-auto leading-relaxed mb-5">
               At Tap2Buy, transparency builds trust. This Disclaimer ensures you understand the terms of using our Platform, so you can shop with complete confidence.
             </p>
             <Link
-              href="/shop"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-lg hover:shadow-orange-500/30"
+              href="/collections"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#8A4B24] hover:bg-[#6E3A1B] text-white rounded-sm text-sm font-bold uppercase tracking-wide transition-all shadow-lg hover:shadow-[#8A4B24]/30"
             >
               <ShoppingBag className="w-4 h-4" />
               Shop Now
@@ -237,9 +237,9 @@ export default function DisclaimerPage() {
 
         <p className="text-xs text-gray-400 text-center pb-4">
           © {new Date().getFullYear()} Tap2Buy. All rights reserved. &nbsp;·&nbsp;{' '}
-          <Link href="/privacy-policy" className="text-[#FF6B00] hover:underline">Privacy Policy</Link>
+          <Link href="/privacy-policy" className="text-[#8A4B24] hover:underline">Privacy Policy</Link>
           {' '}&nbsp;·&nbsp;{' '}
-          <Link href="/terms-and-conditions" className="text-[#FF6B00] hover:underline">Terms & Conditions</Link>
+          <Link href="/terms-and-conditions" className="text-[#8A4B24] hover:underline">Terms & Conditions</Link>
         </p>
       </div>
     </main>

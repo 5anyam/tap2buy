@@ -117,7 +117,7 @@ const Dashboard = () => {
       case 'completed':
         return 'bg-green-100 text-green-800 border-green-200';
       case 'processing':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
+        return 'bg-[#E0D5C4] text-blue-800 border-[#CBBBA8]';
       case 'pending':
         return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       case 'cancelled':
@@ -184,13 +184,13 @@ const Dashboard = () => {
             <div className="flex gap-3">
               <Link
                 href="/"
-                className="px-6 py-2 border-2 border-[#9e734d] text-[#2d2416] rounded-lg hover:bg-[#9e734d]/10 transition-all text-sm font-medium"
+                className="px-6 py-2 border-2 border-[#9e734d] text-[#2d2416] rounded-sm hover:bg-[#9e734d]/10 transition-all text-sm font-medium"
               >
                 Continue Shopping
               </Link>
               <button
                 onClick={logout}
-                className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all text-sm font-medium flex items-center gap-2"
+                className="px-6 py-2 bg-red-500 text-white rounded-sm hover:bg-red-600 transition-all text-sm font-medium flex items-center gap-2"
               >
                 <LogOut className="w-4 h-4" />
                 Logout
@@ -200,7 +200,7 @@ const Dashboard = () => {
         </div>
 
         {/* User Info Card */}
-        <div className="bg-[#fdf6e9] border border-[#9e734d]/20 rounded-2xl p-6 mb-8">
+        <div className="bg-[#fdf6e9] border border-[#9e734d]/20 rounded-sm p-6 mb-8">
           <h2 className="text-lg font-semibold text-[#2d2416] mb-4">Account Details</h2>
           <div className="grid md:grid-cols-3 gap-4">
             <div className="flex items-center gap-3">
@@ -236,7 +236,7 @@ const Dashboard = () => {
         </div>
 
         {/* Orders Section */}
-        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+        <div className="bg-white border border-gray-200 rounded-sm p-6 shadow-sm">
           <h2 className="text-xl font-semibold text-[#2d2416] mb-6">Your Orders</h2>
 
           {loading ? (
@@ -251,7 +251,7 @@ const Dashboard = () => {
               <p className="text-sm text-gray-500 mb-4">Check browser console for details</p>
               <button
                 onClick={() => window.location.reload()}
-                className="px-6 py-2 bg-[#9e734d] text-white rounded-lg hover:bg-[#8a6342] transition-all"
+                className="px-6 py-2 bg-[#9e734d] text-white rounded-sm hover:bg-[#8a6342] transition-all"
               >
                 Retry
               </button>
@@ -263,7 +263,7 @@ const Dashboard = () => {
               <p className="text-sm text-gray-500 mb-6">Start shopping to see your orders here</p>
               <Link
                 href="/"
-                className="inline-block px-6 py-2 bg-gradient-to-r from-[#9e734d] to-[#b8834f] text-white rounded-lg hover:shadow-lg transition-all"
+                className="inline-block px-6 py-2 bg-gradient-to-r from-[#9e734d] to-[#b8834f] text-white rounded-sm hover:shadow-lg transition-all"
               >
                 Start Shopping
               </Link>
@@ -273,7 +273,7 @@ const Dashboard = () => {
               {orders.map((order) => (
                 <div
                   key={order.id}
-                  className="border border-gray-200 rounded-xl p-6 hover:border-[#9e734d]/50 transition-all"
+                  className="border border-gray-200 rounded-sm p-6 hover:border-[#9e734d]/50 transition-all"
                 >
                   {/* Order Header */}
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 pb-4 border-b border-gray-100">
@@ -327,7 +327,7 @@ const Dashboard = () => {
                   <div className="pt-4 border-t border-gray-100">
                     <Link
                       href={`/order-confirmation?wcOrderId=${order.id}`}
-                      className="px-4 py-2 bg-[#9e734d] text-white rounded-lg hover:bg-[#8a6342] transition-all text-sm font-medium inline-block"
+                      className="px-4 py-2 bg-[#9e734d] text-white rounded-sm hover:bg-[#8a6342] transition-all text-sm font-medium inline-block"
                     >
                       View Details
                     </Link>

@@ -43,7 +43,7 @@ const warrantySections: WarrantySection[] = [
             'Extended warranty available on select premium products',
           ].map((item, i) => (
             <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-              <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+              <span className="w-1.5 h-1.5 bg-[#8A4B24] rounded-full flex-shrink-0 mt-2" />
               {item}
             </li>
           ))}
@@ -103,7 +103,7 @@ const warrantySections: WarrantySection[] = [
         <ol className="space-y-3">
           {replacementSteps.map((item, i) => (
             <li key={i} className="flex gap-4 items-start">
-              <div className="flex-shrink-0 w-9 h-9 bg-[#FF6B00] rounded-xl flex items-center justify-center text-xs font-bold text-white">
+              <div className="flex-shrink-0 w-9 h-9 bg-[#8A4B24] rounded-sm flex items-center justify-center text-xs font-bold text-white">
                 {item.step}
               </div>
               <div>
@@ -128,9 +128,9 @@ const warrantySections: WarrantySection[] = [
           { label: 'Replacement Dispatch', value: '1–2 Business Days' },
           { label: 'Delivery', value: '3–7 Business Days' },
         ].map((row, i) => (
-          <div key={i} className="text-center p-3 bg-gray-50 rounded-xl border border-gray-100">
+          <div key={i} className="text-center p-3 bg-gray-50 rounded-sm border border-gray-100">
             <p className="text-xs text-gray-500 mb-1">{row.label}</p>
-            <p className="text-sm font-bold text-[#FF6B00]">{row.value}</p>
+            <p className="text-sm font-bold text-[#8A4B24]">{row.value}</p>
           </div>
         ))}
       </div>
@@ -148,7 +148,7 @@ const warrantySections: WarrantySection[] = [
           'Final decision on warranty claims rests with the Tap2Buy quality team',
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            <span className="w-1.5 h-1.5 bg-[#8A4B24] rounded-full flex-shrink-0 mt-2" />
             {item}
           </li>
         ))}
@@ -189,18 +189,18 @@ export default function WarrantyPolicy() {
     <main className="min-h-screen bg-gray-50">
 
       {/* ── HERO ── */}
-      <section className="bg-[#1B2A4A] py-14 px-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="bg-[#1A1410] py-14 px-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#8A4B24]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
-            <Shield className="w-3.5 h-3.5 text-[#FF6B00]" />
-            <span className="text-xs font-semibold text-orange-200 uppercase tracking-wider">Protection Guarantee</span>
+            <Shield className="w-3.5 h-3.5 text-[#8A4B24]" />
+            <span className="text-xs font-semibold text-[#E0D5C4] uppercase tracking-wider">Protection Guarantee</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
             Warranty & Replacement Policy
           </h1>
-          <p className="text-blue-200 text-sm leading-relaxed max-w-2xl">
+          <p className="text-[#CBBBA8] text-sm leading-relaxed max-w-2xl">
             We stand behind the quality of every product with comprehensive warranty coverage and hassle-free replacement service.
           </p>
         </div>
@@ -209,9 +209,9 @@ export default function WarrantyPolicy() {
       <div className="max-w-4xl mx-auto px-4 py-12 space-y-6">
 
         {/* Intro */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div className="bg-white rounded-sm border border-gray-100 shadow-sm p-6">
           <p className="text-sm text-gray-600 leading-relaxed">
-            At <span className="font-semibold text-[#FF6B00]">Tap2Buy</span>, we believe in the quality and durability of every product on our platform. Our warranty and replacement policy ensures you receive the protection and support you deserve, backed by our commitment to customer satisfaction.
+            At <span className="font-semibold text-[#8A4B24]">Tap2Buy</span>, we believe in the quality and durability of every product on our platform. Our warranty and replacement policy ensures you receive the protection and support you deserve, backed by our commitment to customer satisfaction.
           </p>
         </div>
 
@@ -219,17 +219,17 @@ export default function WarrantyPolicy() {
         {warrantySections.map((section, index) => (
           <div
             key={index}
-            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+            className="bg-white rounded-sm border border-gray-100 shadow-sm p-6 hover:border-[#8A4B24]/20 hover:shadow-md transition-all duration-300"
           >
             <div className="flex items-start gap-4">
-              <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                <section.icon className="w-5 h-5 text-[#FF6B00]" />
+              <div className="w-11 h-11 bg-[#F3EBE0] rounded-sm flex items-center justify-center flex-shrink-0">
+                <section.icon className="w-5 h-5 text-[#8A4B24]" />
               </div>
               <div className="flex-1">
                 <h2 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wide">
                   {section.title}
                 </h2>
-                <div className="bg-gray-50 rounded-xl border border-gray-100 p-4">
+                <div className="bg-gray-50 rounded-sm border border-gray-100 p-4">
                   {section.content}
                 </div>
               </div>
@@ -238,7 +238,7 @@ export default function WarrantyPolicy() {
         ))}
 
         {/* Contact Support */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div className="bg-white rounded-sm border border-gray-100 shadow-sm p-6">
           <h3 className="text-base font-bold text-gray-900 mb-1">Need Warranty Support?</h3>
           <p className="text-sm text-gray-500 mb-5">
             Our team is available Mon–Sat, 10 AM–7 PM IST to help with your warranty claim.
@@ -246,7 +246,7 @@ export default function WarrantyPolicy() {
           <div className="flex flex-col sm:flex-row gap-3">
             <a
               href="mailto:support@tap2buy.in"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#8A4B24] hover:bg-[#6E3A1B] text-white rounded-sm text-sm font-bold uppercase tracking-wide transition-all shadow-md"
             >
               <Mail className="w-4 h-4" />
               Email Support
@@ -255,20 +255,20 @@ export default function WarrantyPolicy() {
               href="https://wa.me/919911636888"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-sm text-sm font-bold uppercase tracking-wide transition-all shadow-md"
             >
               💬 WhatsApp Us
             </a>
             <a
               href="tel:+919911636888"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1A1410] text-[#1A1410] hover:bg-[#1A1410] hover:text-white rounded-sm text-sm font-bold uppercase tracking-wide transition-all"
             >
               <Phone className="w-4 h-4" />
               Call Us
             </a>
             <Link
               href="/"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-sm text-sm font-bold uppercase tracking-wide transition-all"
             >
               Back to Home
             </Link>
@@ -276,10 +276,10 @@ export default function WarrantyPolicy() {
         </div>
 
         {/* Closing quote */}
-        <div className="bg-[#1B2A4A] rounded-2xl p-7 text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
-          <p className="relative z-10 text-sm text-blue-200 leading-relaxed italic max-w-2xl mx-auto">
-            At <span className="text-[#FF6B00] font-semibold not-italic">Tap2Buy</span>, we are committed to providing not just products, but peace of mind. Our warranty policy reflects our confidence in the quality we deliver and our dedication to your satisfaction.
+        <div className="bg-[#1A1410] rounded-sm p-7 text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-[#8A4B24]/10 rounded-full blur-3xl pointer-events-none" />
+          <p className="relative z-10 text-sm text-[#CBBBA8] leading-relaxed italic max-w-2xl mx-auto">
+            At <span className="text-[#8A4B24] font-semibold not-italic">Tap2Buy</span>, we are committed to providing not just products, but peace of mind. Our warranty policy reflects our confidence in the quality we deliver and our dedication to your satisfaction.
           </p>
         </div>
 
@@ -291,18 +291,18 @@ export default function WarrantyPolicy() {
               <Link
                 key={index}
                 href={policy.link}
-                className="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+                className="group bg-white rounded-sm border border-gray-100 shadow-sm p-5 hover:border-[#8A4B24]/20 hover:shadow-md transition-all duration-300"
               >
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#FF6B00] transition-colors duration-300">
-                    <policy.icon className="w-5 h-5 text-[#FF6B00] group-hover:text-white transition-colors duration-300" />
+                  <div className="w-10 h-10 bg-[#F3EBE0] rounded-sm flex items-center justify-center flex-shrink-0 group-hover:bg-[#8A4B24] transition-colors duration-300">
+                    <policy.icon className="w-5 h-5 text-[#8A4B24] group-hover:text-white transition-colors duration-300" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-[#FF6B00] transition-colors">
+                    <h3 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-[#8A4B24] transition-colors">
                       {policy.title}
                     </h3>
                     <p className="text-xs text-gray-500 leading-relaxed mb-2">{policy.description}</p>
-                    <div className="flex items-center gap-1 text-[#FF6B00] text-xs font-semibold">
+                    <div className="flex items-center gap-1 text-[#8A4B24] text-xs font-semibold">
                       Read More
                       <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -315,9 +315,9 @@ export default function WarrantyPolicy() {
 
         <p className="text-xs text-gray-400 text-center pb-4">
           © {new Date().getFullYear()} Tap2Buy. All rights reserved. &nbsp;·&nbsp;{' '}
-          <Link href="/terms-and-conditions" className="text-[#FF6B00] hover:underline">Terms & Conditions</Link>
+          <Link href="/terms-and-conditions" className="text-[#8A4B24] hover:underline">Terms & Conditions</Link>
           {' '}&nbsp;·&nbsp;{' '}
-          <Link href="/privacy-policy" className="text-[#FF6B00] hover:underline">Privacy Policy</Link>
+          <Link href="/privacy-policy" className="text-[#8A4B24] hover:underline">Privacy Policy</Link>
         </p>
       </div>
     </main>

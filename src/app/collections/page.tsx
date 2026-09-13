@@ -1,30 +1,24 @@
+import type { Metadata } from 'next';
+import ShopPageClient from './shopPageClient';
+import { getFootwear } from '../../../lib/footwear-server';
+import { isStyleSlug, styleLabel } from '../../../lib/footwear';
 
-import { fetchProducts } from "../../../lib/woocommerceApi";
-import ShopPageClient from "./shopPageClient";
+type Props = { searchParams: Promise<{ style?: string }> };
 
-export const dynamic = "force-dynamic";
-
-export interface Product {
-  id: number;
-  name: string;
-  price: string;
-  slug: string;
-  description?: string;
-  short_description?: string;
-  images?: { src: string }[];
-  attributes?: { option: string }[];
-  categories?: { name: string }[];
-  tags?: { name: string }[];
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const { style } = await searchParams;
+  const title = isStyleSlug(style) ? styleLabel(style) : 'Shop All Footwear';
+  return {
+    title,
+    description: 'Hand-welted and Goodyear-welted leather oxfords, loafers, monk straps, boots and sandals.',
+    alternates: { canonical: isStyleSlug(style) ? `/collections?style=${style}` : '/collections' },
+  };
 }
 
-export default async function ShopPage() {
-  let products: Product[] = [];
-  try {
-    const result = await fetchProducts();
-    products = result as Product[];
-  } catch {
-    products = [];
-  }
+export default async function CollectionsPage({ searchParams }: Props) {
+  const { style } = await searchParams;
+  const products = await getFootwear();
+  const initialStyle = isStyleSlug(style) ? style : 'all';
 
-  return <ShopPageClient products={products} />;
+  return <ShopPageClient key={initialStyle} products={products} initialStyle={initialStyle} />;
 }

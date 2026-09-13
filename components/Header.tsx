@@ -1,305 +1,306 @@
 'use client';
 
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import Link from "next/link";
-import CartIcon from "./CartIcon";
-import { useIsMobile } from "../hooks/use-mobile";
-import React, { useState, useRef, useEffect } from "react";
-import { FiSearch } from "react-icons/fi";
-import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
-import { BiChevronDown } from "react-icons/bi";
-import { Phone, UserCircle2 } from "lucide-react";
+import React, { useEffect, useRef, useState } from 'react';
+import { Menu, Search, User, X, ArrowRight, Phone } from 'lucide-react';
+import CartIcon from './CartIcon';
 import AnnouncementBar from './anouncement';
+import { STYLES } from '../lib/footwear';
 
-interface NavItem {
-  name: string;
-  to: string;
-  submenu?: { name: string; to: string }[];
-}
-
-const navItems: NavItem[] = [
-  { name: "HOME", to: "/" },
-  { name: "HOME DECOR", to: "/category/home-decor" },
-  { name: "FASHION", to: "/category/fashion" },
-  { name: "HOME & KITCHEN", to: "/category/home-kitchen" },
-  { name: "ELECTRONICS", to: "/category/mobile-electronics-accessories" },
-  {
-    name: "MORE",
-    to: "#",
-    submenu: [
-      { name: "Bike & Car Accessories",  to: "/category/bike-car-accessories" },
-      { name: "Sports & Outdoors",       to: "/category/sports-outdoors" },
-      { name: "Toys & Games",            to: "/category/toys-games" },
-      { name: "Office Products",         to: "/category/office-products" },
-    ],
-  },
-  { name: "DEALS", to: "/sale" },
+const NAV = [
+  { name: 'Shop All', href: '/collections' },
+  ...STYLES.map((s) => ({ name: s.label, href: `/collections?style=${s.slug}` })),
 ];
 
-const QUICK_SEARCH_CHIPS = ['Vases', 'Candles', 'Photo Frames', 'Wall Decor'];
+const QUICK_SEARCHES = ['Chelsea Boots', 'Penny Loafer', 'Brogue', 'Double Monk', 'Chukka', 'Sandals'];
 
 export default function Header() {
-  const location = usePathname();
-  const isMobile = useIsMobile();
-  const [search, setSearch] = useState("");
-  const [showDesktopSearch, setShowDesktopSearch] = useState(false);
-  const [showMobileSearch, setShowMobileSearch] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
-  const [mobileActiveSubmenu, setMobileActiveSubmenu] = useState<string | null>(null);
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [search, setSearch] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
+  const [userEmail, setUserEmail] = useState('');
   const [showUserMenu, setShowUserMenu] = useState(false);
 
-  const [announcementVisible, setAnnouncementVisible] = useState(() => {
-    if (typeof window === 'undefined') return true;
-    return localStorage.getItem('announcementBarClosed') !== 'true';
-  });
-
-  const router = useRouter();
-  const menuRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const auth = localStorage.getItem("isAuthenticated");
-    const email = localStorage.getItem("userEmail");
-    setIsAuthenticated(auth === "true");
-    setUserEmail(email || "");
-  }, [location]);
+    setIsAuthenticated(localStorage.getItem('isAuthenticated') === 'true');
+    setUserEmail(localStorage.getItem('userEmail') || '');
+    setMenuOpen(false);
+    setSearchOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node))
-        setActiveSubmenu(null);
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node))
-        setShowUserMenu(false);
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault();
-    const q = search.trim();
-    if (!q) return;
-    setShowDesktopSearch(false);
-    setShowMobileSearch(false);
-    router.push(`/search?q=${encodeURIComponent(q)}`);
-    setTimeout(() => setSearch(""), 100);
-  }
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSearchOpen(false);
+        setMenuOpen(false);
+      }
+    };
+    const onClick = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) setShowUserMenu(false);
+    };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('mousedown', onClick);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('mousedown', onClick);
+    };
+  }, []);
 
-  const handleLogout = async () => {
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("userEmail");
-    setIsAuthenticated(false);
-    router.push("/");
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (searchOpen) searchInputRef.current?.focus();
+  }, [searchOpen]);
+
+  const goToSearch = (q: string) => {
+    const query = q.trim();
+    if (!query) return;
+    setSearchOpen(false);
+    setSearch('');
+    router.push(`/search?q=${encodeURIComponent(query)}`);
   };
 
-  const headerTop = announcementVisible ? 'top-10 lg:top-11' : 'top-0';
-  const mobileDrawerTop = announcementVisible ? 'top-10' : 'top-0';
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('userEmail');
+    setIsAuthenticated(false);
+    setShowUserMenu(false);
+    router.push('/');
+  };
 
   return (
     <>
-      <AnnouncementBar onClose={() => setAnnouncementVisible(false)} />
-      {announcementVisible && <div className="h-10 lg:h-11" />}
+      <AnnouncementBar />
 
-      <header className={`sticky ${headerTop} z-40 bg-white border-b border-[#E8E6E1] transition-all duration-300 font-sans`}>
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16 md:h-20">
-
-            {/* LEFT - Search (Desktop) & Hamburger (Mobile) */}
-            <div className="flex items-center">
-              {isMobile ? (
-                <div className="flex items-center gap-1">
-                  <button onClick={() => setMobileMenuOpen(true)} className="p-2 text-[#2A2825]">
-                    <HiOutlineMenuAlt3 className="text-2xl" />
-                  </button>
-                  <button onClick={() => setShowMobileSearch(true)} className="p-2 text-[#2A2825]">
-                    <FiSearch className="w-5 h-5" />
-                  </button>
-                </div>
-              ) : (
-                <button onClick={() => setShowDesktopSearch(!showDesktopSearch)} className="p-2 text-[#2A2825] hover:text-[#B86B52] transition-colors">
-                  <FiSearch className="w-5 h-5" />
-                </button>
-              )}
+      <header
+        className={`sticky top-0 z-40 transition-[background-color,box-shadow] duration-500 ${
+          scrolled || searchOpen
+            ? 'bg-ivory/95 shadow-[0_1px_0_0_var(--color-sand)] backdrop-blur-md'
+            : 'bg-ivory shadow-[0_1px_0_0_rgba(224,213,196,0.6)]'
+        }`}
+      >
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10">
+          <div className="grid h-16 grid-cols-[1fr_auto_1fr] items-center lg:h-[76px]">
+            {/* Left */}
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setMenuOpen(true)}
+                className="-ml-2 p-2 text-espresso lg:hidden"
+                aria-label="Open menu"
+              >
+                <Menu className="h-5 w-5" strokeWidth={1.4} />
+              </button>
+              <button
+                onClick={() => setSearchOpen((v) => !v)}
+                className="flex items-center gap-2.5 p-2 text-espresso transition-colors hover:text-cognac lg:-ml-2"
+                aria-label="Search"
+              >
+                <Search className="h-[18px] w-[18px]" strokeWidth={1.4} />
+                <span className="hidden text-[10.5px] font-medium uppercase tracking-[0.24em] lg:inline">Search</span>
+              </button>
             </div>
 
-            {/* CENTER — Logo */}
-            <Link href="/" className="absolute left-1/2 -translate-x-1/2">
-              <img src="/logo.jpg" alt="Tap2Buy" className="h-10 md:h-12 w-auto" />
+            {/* Wordmark */}
+            <Link href="/" className="group text-center" aria-label="Tap2Buy home">
+              <span className="block font-display text-[25px] font-medium leading-none tracking-[0.2em] text-espresso lg:text-[31px]">
+                TAP2BUY
+              </span>
+              <span className="mt-1 block text-[7.5px] font-medium uppercase tracking-[0.46em] text-stone lg:text-[8.5px]">
+                Handcrafted Footwear
+              </span>
             </Link>
 
-            {/* RIGHT - Auth & Cart */}
-            <div className="flex items-center gap-1 md:gap-4">
-              {!isMobile && (
-                <div className="relative" ref={userMenuRef}>
-                  {isAuthenticated ? (
-                    <button onClick={() => setShowUserMenu(!showUserMenu)} className="p-2 text-[#2A2825] hover:text-[#B86B52]">
-                      <UserCircle2 className="w-5 h-5 stroke-[1.5]" />
-                    </button>
-                  ) : (
-                    <Link href="/login" className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#2A2825] hover:text-[#B86B52] transition-colors border-b border-transparent hover:border-[#B86B52] pb-0.5">
+            {/* Right */}
+            <div className="flex items-center justify-end gap-0.5 sm:gap-2">
+              <div className="relative hidden sm:block" ref={userMenuRef}>
+                {isAuthenticated ? (
+                  <button
+                    onClick={() => setShowUserMenu((v) => !v)}
+                    className="p-2 text-espresso transition-colors hover:text-cognac"
+                    aria-label="Account menu"
+                  >
+                    <User className="h-[18px] w-[18px]" strokeWidth={1.4} />
+                  </button>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="flex items-center gap-2 p-2 text-espresso transition-colors hover:text-cognac"
+                  >
+                    <User className="h-[18px] w-[18px]" strokeWidth={1.4} />
+                    <span className="hidden text-[10.5px] font-medium uppercase tracking-[0.24em] lg:inline">
                       Sign In
+                    </span>
+                  </Link>
+                )}
+                {showUserMenu && (
+                  <div className="absolute right-0 top-full z-50 mt-3 w-60 border border-sand bg-ivory py-2 shadow-[0_24px_60px_-20px_rgba(26,20,16,0.35)]">
+                    {userEmail && (
+                      <div className="border-b border-sand px-5 pb-3 pt-2">
+                        <p className="text-[10px] uppercase tracking-[0.2em] text-stone">Signed in as</p>
+                        <p className="mt-1 truncate text-xs text-espresso">{userEmail}</p>
+                      </div>
+                    )}
+                    <Link href="/dashboard" className="block px-5 py-2.5 text-xs text-espresso hover:bg-parchment">
+                      My Orders
                     </Link>
-                  )}
-                  {showUserMenu && (
-                    <div className="absolute right-0 top-full mt-2 w-52 bg-white border border-[#E8E6E1] shadow-xl py-2 z-50 rounded-none">
-                      {userEmail && (
-                        <div className="px-5 py-2 border-b border-[#E8E6E1] mb-1 bg-[#FAFAF8]">
-                          <p className="text-[10px] text-[#A3A09B] uppercase tracking-wider">Signed in as</p>
-                          <p className="text-xs font-medium text-[#2A2825] truncate">{userEmail}</p>
-                        </div>
-                      )}
-                      <Link href="/account" className="block px-5 py-2 text-xs text-[#2A2825] hover:bg-[#F7F5F0]">My Account</Link>
-                      <button onClick={handleLogout} className="w-full text-left px-5 py-2 text-xs text-red-600 hover:bg-red-50 border-t border-[#E8E6E1] mt-1">Logout</button>
-                    </div>
-                  )}
-                </div>
-              )}
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full px-5 py-2.5 text-left text-xs text-cognac hover:bg-parchment"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
               <CartIcon />
             </div>
           </div>
         </div>
 
-        {/* Desktop Search Bar (Flat Elegant) */}
-        {!isMobile && showDesktopSearch && (
-          <div className="bg-[#F7F5F0] border-t border-[#E8E6E1] px-4 py-4 animate-in slide-in-from-top duration-300">
-            <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex items-center">
+        {/* Desktop navigation */}
+        <nav className="hidden border-t border-sand/60 lg:block" aria-label="Primary">
+          <ul className="flex h-12 items-center justify-center gap-11">
+            {NAV.map((item) => {
+              const active = item.href === '/collections' && pathname === '/collections';
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`group relative py-2 text-[10.5px] font-medium uppercase tracking-[0.24em] transition-colors ${
+                      active ? 'text-espresso' : 'text-umber hover:text-espresso'
+                    }`}
+                  >
+                    {item.name}
+                    <span
+                      className={`absolute -bottom-0.5 left-0 h-px w-full origin-left bg-espresso transition-transform duration-500 ${
+                        active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                      }`}
+                    />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        {/* Search panel */}
+        <div
+          className={`absolute inset-x-0 top-full overflow-hidden border-sand bg-ivory transition-[max-height,opacity] duration-500 ${
+            searchOpen ? 'max-h-80 border-y opacity-100' : 'pointer-events-none max-h-0 opacity-0'
+          }`}
+        >
+          <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:py-10">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                goToSearch(search);
+              }}
+              className="flex items-center gap-4 border-b border-espresso pb-3"
+            >
+              <Search className="h-5 w-5 shrink-0 text-stone" strokeWidth={1.4} />
               <input
                 ref={searchInputRef}
                 type="text"
-                placeholder="Search for decor, candles, or gifts..."
-                className="w-full bg-transparent border-b border-[#2A2825] py-2 text-sm text-[#2A2825] focus:outline-none placeholder-[#A3A09B]"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                autoFocus
+                placeholder="Search oxfords, loafers, boots…"
+                className="w-full bg-transparent font-display text-2xl text-espresso placeholder:text-stone/60 focus:outline-none sm:text-3xl"
               />
-              <button type="submit" className="ml-4 text-xs font-semibold uppercase tracking-widest text-[#B86B52]">Search</button>
-              <button type="button" onClick={() => setShowDesktopSearch(false)} className="ml-6 text-gray-400 hover:text-[#2A2825]">
-                <HiOutlineX className="w-5 h-5" />
+              <button type="button" onClick={() => setSearchOpen(false)} className="p-1 text-stone hover:text-espresso" aria-label="Close search">
+                <X className="h-5 w-5" strokeWidth={1.4} />
               </button>
             </form>
-          </div>
-        )}
-
-        {/* Desktop Navigation (Serif-Sans Mix) */}
-        <nav className="hidden lg:block border-t border-[#E8E6E1]" ref={menuRef}>
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="flex items-center justify-center gap-2">
-              {navItems.map((item) => (
-                <div key={item.name} className="relative group" 
-                     onMouseEnter={() => setActiveSubmenu(item.name)} 
-                     onMouseLeave={() => setActiveSubmenu(null)}>
-                  
-                  <Link href={item.to} className={`block px-6 py-4 text-[11px] font-medium tracking-[0.2em] transition-all duration-300 ${
-                    item.name === "DEALS" ? "text-[#B86B52]" : "text-[#2A2825]"
-                  } hover:text-[#B86B52]`}>
-                    {item.name}
-                    {item.submenu && <BiChevronDown className="inline-block ml-1 text-sm group-hover:rotate-180 transition-transform" />}
-                  </Link>
-
-                  {item.submenu && activeSubmenu === item.name && (
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white border border-[#E8E6E1] min-w-[240px] shadow-2xl py-4 z-50">
-                      <div className="grid grid-cols-1">
-                        {item.submenu.map((sub) => (
-                          <Link key={sub.name} href={sub.to} className="px-6 py-2.5 text-[11px] tracking-wider text-[#6B665E] hover:text-[#B86B52] hover:bg-[#F7F5F0] transition-colors">
-                            {sub.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </nav>
-      </header>
-
-      {/* Mobile Menu Drawer (Redesigned) */}
-      {mobileMenuOpen && (
-        <>
-          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden" onClick={() => setMobileMenuOpen(false)} />
-          <div className={`fixed ${mobileDrawerTop} left-0 h-full w-full max-w-[320px] bg-white z-50 overflow-y-auto transition-all duration-300`}>
-            
-            <div className="p-6 bg-[#2A2825] flex items-center justify-between">
-              <span className="text-white font-serif text-xl tracking-wide">Tap2Buy</span>
-              <button onClick={() => setMobileMenuOpen(false)} className="p-1 border border-white/20">
-                <HiOutlineX className="text-xl text-white" />
-              </button>
-            </div>
-
-            <nav className="p-6">
-              {navItems.map((item) => (
-                <div key={item.name} className="mb-2">
-                  <div className="flex items-center justify-between border-b border-[#F0EFEA] py-4">
-                    <Link href={item.to} className="text-sm font-medium tracking-widest text-[#2A2825]" onClick={() => setMobileMenuOpen(false)}>
-                      {item.name}
-                    </Link>
-                    {item.submenu && (
-                      <button onClick={() => setMobileActiveSubmenu(mobileActiveSubmenu === item.name ? null : item.name)}>
-                        <BiChevronDown className={`text-xl transition-transform ${mobileActiveSubmenu === item.name ? 'rotate-180' : ''}`} />
-                      </button>
-                    )}
-                  </div>
-                  {item.submenu && mobileActiveSubmenu === item.name && (
-                    <div className="bg-[#F7F5F0] px-4 py-2 flex flex-col gap-3 animate-in fade-in duration-300">
-                      {item.submenu.map((sub) => (
-                        <Link key={sub.name} href={sub.to} className="text-xs text-[#6B665E] py-1 tracking-wide" onClick={() => setMobileMenuOpen(false)}>
-                          {sub.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-              
-              <div className="mt-12 space-y-6">
-                <Link href="/account" className="flex items-center gap-3 text-xs tracking-widest text-[#2A2825] uppercase">
-                  <UserCircle2 className="w-5 h-5 stroke-[1.5]" /> My Account
-                </Link>
-                <a href="tel:+919911636888" className="flex items-center gap-3 text-xs tracking-widest text-[#2A2825] uppercase">
-                  <Phone className="w-5 h-5 stroke-[1.5]" /> Help Center
-                </a>
-              </div>
-            </nav>
-          </div>
-        </>
-      )}
-
-      {/* Mobile Search Modal */}
-      {showMobileSearch && (
-        <div className="fixed inset-0 bg-white z-[60] p-6 animate-in slide-in-from-bottom duration-300">
-          <div className="flex items-center justify-between mb-8">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#B86B52]">Search</span>
-            <button onClick={() => setShowMobileSearch(false)}>
-              <HiOutlineX className="text-2xl text-[#2A2825]" />
-            </button>
-          </div>
-          <form onSubmit={handleSearch}>
-            <input
-              autoFocus
-              type="text"
-              placeholder="What are you looking for?"
-              className="w-full text-lg border-b border-[#2A2825] pb-4 focus:outline-none placeholder-[#A3A09B] font-light"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </form>
-          <div className="mt-8">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-[#A3A09B] mb-4">Trending Searches</p>
-            <div className="flex flex-wrap gap-2">
-              {QUICK_SEARCH_CHIPS.map(chip => (
-                <button key={chip} onClick={() => {router.push(`/search?q=${chip}`); setShowMobileSearch(false)}} className="px-4 py-2 border border-[#E8E6E1] text-xs font-medium text-[#2A2825]">
-                  {chip}
+            <div className="mt-6 flex flex-wrap items-center gap-2">
+              <span className="mr-2 text-[10px] uppercase tracking-[0.24em] text-stone">Popular</span>
+              {QUICK_SEARCHES.map((q) => (
+                <button
+                  key={q}
+                  onClick={() => goToSearch(q)}
+                  className="border border-sand px-3.5 py-1.5 text-xs text-umber transition-colors hover:border-espresso hover:text-espresso"
+                >
+                  {q}
                 </button>
               ))}
             </div>
           </div>
         </div>
-      )}
+      </header>
+
+      {/* Mobile drawer */}
+      <div className={`fixed inset-0 z-[60] lg:hidden ${menuOpen ? '' : 'pointer-events-none'}`} aria-hidden={!menuOpen}>
+        <div
+          className={`absolute inset-0 bg-espresso/40 backdrop-blur-[2px] transition-opacity duration-500 ${menuOpen ? 'opacity-100' : 'opacity-0'}`}
+          onClick={() => setMenuOpen(false)}
+        />
+        <div
+          className={`absolute inset-y-0 left-0 flex w-[86%] max-w-sm flex-col bg-ivory transition-transform duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] ${
+            menuOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+        >
+          <div className="flex h-16 items-center justify-between border-b border-sand px-5">
+            <span className="font-display text-xl tracking-[0.2em]">TAP2BUY</span>
+            <button onClick={() => setMenuOpen(false)} className="-mr-2 p-2" aria-label="Close menu">
+              <X className="h-5 w-5" strokeWidth={1.4} />
+            </button>
+          </div>
+
+          <nav className="flex-1 overflow-y-auto px-5 py-6" aria-label="Mobile">
+            <ul>
+              {NAV.map((item) => (
+                <li key={item.href} className="border-b border-sand/70">
+                  <Link
+                    href={item.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center justify-between py-4 font-display text-[26px] leading-none text-espresso"
+                  >
+                    {item.name}
+                    <ArrowRight className="h-4 w-4 text-stone" strokeWidth={1.4} />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="space-y-4 border-t border-sand bg-parchment px-5 py-6">
+            <Link
+              href={isAuthenticated ? '/dashboard' : '/login'}
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-3 text-[11px] uppercase tracking-[0.22em] text-espresso"
+            >
+              <User className="h-4 w-4" strokeWidth={1.4} /> {isAuthenticated ? 'My Orders' : 'Sign In'}
+            </Link>
+            <a
+              href="https://wa.me/919911636888"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 text-[11px] uppercase tracking-[0.22em] text-espresso"
+            >
+              <Phone className="h-4 w-4" strokeWidth={1.4} /> Sizing help on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

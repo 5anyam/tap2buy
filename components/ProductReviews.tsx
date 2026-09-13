@@ -190,9 +190,9 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
             disabled={!interactive}
           >
             {star <= rating ? (
-              <StarIcon className={`${sizeClass} text-[#FF6B00]`} />
+              <StarIcon className={`${sizeClass} text-[#8A4B24]`} />
             ) : (
-              <StarOutlineIcon className={`${sizeClass} text-gray-300 ${interactive ? 'hover:text-[#FF6B00]/50' : ''} transition-colors`} />
+              <StarOutlineIcon className={`${sizeClass} text-gray-300 ${interactive ? 'hover:text-[#8A4B24]/50' : ''} transition-colors`} />
             )}
           </button>
         ))}
@@ -208,7 +208,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
   const distribution = getRatingDistribution(reviews);
 
   return (
-    <section className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <section className="bg-white rounded-sm border border-gray-100 shadow-sm overflow-hidden">
 
       {/* ── HEADER ── */}
       <div className="px-6 md:px-10 pt-10 pb-8 border-b border-gray-100">
@@ -217,7 +217,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
           {/* Left — Title + Average */}
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <MessageSquare className="w-5 h-5 text-[#FF6B00]" />
+              <MessageSquare className="w-5 h-5 text-[#8A4B24]" />
               <h2 className="text-xl font-bold text-gray-900">Customer Reviews</h2>
             </div>
             <p className="text-sm text-gray-500">
@@ -244,10 +244,10 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
                 return (
                   <div key={star} className="flex items-center gap-2">
                     <span className="text-xs text-gray-500 w-3">{star}</span>
-                    <StarIcon className="w-3 h-3 text-[#FF6B00] flex-shrink-0" />
+                    <StarIcon className="w-3 h-3 text-[#8A4B24] flex-shrink-0" />
                     <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-[#FF6B00] rounded-full transition-all duration-500"
+                        className="h-full bg-[#8A4B24] rounded-full transition-all duration-500"
                         style={{ width: `${pct}%` }}
                       />
                     </div>
@@ -266,10 +266,10 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
         <div className="mb-8 flex justify-center">
           <button
             onClick={() => setShowForm((s) => !s)}
-            className={`inline-flex items-center gap-2 px-7 py-3 rounded-xl font-semibold text-sm transition-all duration-300 ${
+            className={`inline-flex items-center gap-2 px-7 py-3 rounded-sm font-semibold text-sm transition-all duration-300 ${
               showForm
                 ? 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                : 'bg-[#FF6B00] text-white hover:bg-[#e55f00] shadow-md hover:shadow-lg hover:shadow-orange-200 hover:-translate-y-0.5 active:translate-y-0'
+                : 'bg-[#8A4B24] text-white hover:bg-[#6E3A1B] shadow-md hover:shadow-lg hover:shadow-[#E0D5C4] hover:-translate-y-0.5 active:translate-y-0'
             }`}
           >
             {showForm ? (
@@ -284,24 +284,24 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
         {showForm && (
           <form
             onSubmit={submitReview}
-            className="mb-10 p-6 md:p-8 bg-gray-50 rounded-2xl border border-gray-100 space-y-6"
+            className="mb-10 p-6 md:p-8 bg-gray-50 rounded-sm border border-gray-100 space-y-6"
           >
             <div className="flex items-center gap-2 mb-2">
-              <Sparkles className="w-4 h-4 text-[#FF6B00]" />
+              <Sparkles className="w-4 h-4 text-[#8A4B24]" />
               <h3 className="text-base font-bold text-gray-900">Share Your Experience</h3>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wider">
-                  Name <span className="text-[#FF6B00]">*</span>
+                  Name <span className="text-[#8A4B24]">*</span>
                 </label>
                 <input
                   type="text"
                   required
                   value={formData.reviewer}
                   onChange={(e) => setFormData((s) => ({ ...s, reviewer: e.target.value }))}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#FF6B00] focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/10 text-sm transition-all"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-sm focus:border-[#8A4B24] focus:outline-none focus:ring-2 focus:ring-[#8A4B24]/10 text-sm transition-all"
                   placeholder="Your name"
                 />
               </div>
@@ -313,7 +313,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
                   type="email"
                   value={formData.reviewer_email}
                   onChange={(e) => setFormData((s) => ({ ...s, reviewer_email: e.target.value }))}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#FF6B00] focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/10 text-sm transition-all"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-sm focus:border-[#8A4B24] focus:outline-none focus:ring-2 focus:ring-[#8A4B24]/10 text-sm transition-all"
                   placeholder="your@email.com"
                 />
               </div>
@@ -321,7 +321,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
 
             <div>
               <label className="block text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">
-                Rating <span className="text-[#FF6B00]">*</span>
+                Rating <span className="text-[#8A4B24]">*</span>
               </label>
               <div className="flex items-center gap-3">
                 <StarRating
@@ -340,14 +340,14 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
 
             <div>
               <label className="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wider">
-                Your Review <span className="text-[#FF6B00]">*</span>
+                Your Review <span className="text-[#8A4B24]">*</span>
               </label>
               <textarea
                 required
                 value={formData.review}
                 onChange={(e) => setFormData((s) => ({ ...s, review: e.target.value }))}
                 rows={4}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#FF6B00] focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/10 text-sm resize-none transition-all"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-sm focus:border-[#8A4B24] focus:outline-none focus:ring-2 focus:ring-[#8A4B24]/10 text-sm resize-none transition-all"
                 placeholder="Tell others about your experience with this product..."
               />
               <p className="text-xs text-gray-400 mt-1">{formData.review.length} characters</p>
@@ -356,10 +356,10 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
             <button
               type="submit"
               disabled={submitting}
-              className={`w-full py-3.5 rounded-xl text-sm font-bold uppercase tracking-wide transition-all duration-300 flex items-center justify-center gap-2 ${
+              className={`w-full py-3.5 rounded-sm text-sm font-bold uppercase tracking-wide transition-all duration-300 flex items-center justify-center gap-2 ${
                 submitting
                   ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                  : 'bg-[#FF6B00] text-white hover:bg-[#e55f00] shadow-md hover:shadow-lg hover:shadow-orange-200'
+                  : 'bg-[#8A4B24] text-white hover:bg-[#6E3A1B] shadow-md hover:shadow-lg hover:shadow-[#E0D5C4]'
               }`}
             >
               {submitting ? (
@@ -375,20 +375,20 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
         {loading ? (
           <div className="py-16 text-center">
             <div className="relative w-12 h-12 mx-auto mb-4">
-              <div className="absolute inset-0 rounded-full border-2 border-[#FF6B00] border-t-transparent animate-spin" />
-              <ShoppingBag className="absolute inset-0 m-auto w-5 h-5 text-[#FF6B00]" />
+              <div className="absolute inset-0 rounded-full border-2 border-[#8A4B24] border-t-transparent animate-spin" />
+              <ShoppingBag className="absolute inset-0 m-auto w-5 h-5 text-[#8A4B24]" />
             </div>
             <p className="text-gray-500 text-sm">Loading reviews...</p>
           </div>
         ) : reviews.length === 0 ? (
-          <div className="py-16 text-center border-2 border-dashed border-gray-100 rounded-2xl">
-            <div className="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <MessageSquare className="w-8 h-8 text-[#FF6B00]/40" />
+          <div className="py-16 text-center border-2 border-dashed border-gray-100 rounded-sm">
+            <div className="w-16 h-16 bg-[#F3EBE0] rounded-full flex items-center justify-center mx-auto mb-4">
+              <MessageSquare className="w-8 h-8 text-[#8A4B24]/40" />
             </div>
             <p className="text-gray-900 font-semibold mb-1">No Reviews Yet</p>
             <p className="text-gray-500 text-sm">
               Be the first to review{' '}
-              <span className="text-[#FF6B00] font-medium">{productName}</span>
+              <span className="text-[#8A4B24] font-medium">{productName}</span>
             </p>
           </div>
         ) : (
@@ -396,11 +396,11 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
             {reviews.map((r) => (
               <div
                 key={r.id}
-                className="p-5 md:p-6 bg-white border border-gray-100 rounded-2xl hover:border-[#FF6B00]/20 hover:shadow-sm transition-all duration-300"
+                className="p-5 md:p-6 bg-white border border-gray-100 rounded-sm hover:border-[#8A4B24]/20 hover:shadow-sm transition-all duration-300"
               >
                 {/* Reviewer info */}
                 <div className="flex items-start gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#FF6B00] to-[#ff8c00] flex items-center justify-center flex-shrink-0 shadow-md shadow-orange-200">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#8A4B24] to-[#A8653A] flex items-center justify-center flex-shrink-0 shadow-md shadow-[#E0D5C4]">
                     <span className="text-white font-bold text-sm">
                       {(r.reviewer || 'A')[0].toUpperCase()}
                     </span>
@@ -439,7 +439,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
                         key={`${r.id}-${i}`}
                         type="button"
                         onClick={() => setLightboxSrc(src)}
-                        className="relative group/img overflow-hidden rounded-xl border-2 border-gray-100 hover:border-[#FF6B00]/40 transition-all"
+                        className="relative group/img overflow-hidden rounded-sm border-2 border-gray-100 hover:border-[#8A4B24]/40 transition-all"
                       >
                         <img
                           src={src}
@@ -473,7 +473,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
           <img
             src={lightboxSrc}
             alt="Review"
-            className="max-w-full max-h-[85vh] rounded-xl object-contain shadow-2xl"
+            className="max-w-full max-h-[85vh] rounded-sm object-contain shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           />
         </div>

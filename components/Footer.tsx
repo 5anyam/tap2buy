@@ -1,144 +1,108 @@
 // components/Footer.tsx
-import Link from "next/link";
-import { Phone, Mail, MapPin, Instagram, Youtube, Facebook } from "lucide-react";
+import Link from 'next/link';
+import { Instagram, Youtube, Facebook } from 'lucide-react';
+import { STYLES } from '../lib/footwear';
 
-const shopCategories = [
-  { name: "Home Decor",                     to: "/category/home-decor" },
-  { name: "Fashion",                         to: "/category/fashion" },
-  { name: "Home & Kitchen",                  to: "/category/home-kitchen" },
-  { name: "Mobile & Electronics",            to: "/category/mobile-electronics-accessories" },
-  { name: "Bike & Car Accessories",          to: "/category/bike-car-accessories" },
-  { name: "Sports & Outdoors",               to: "/category/sports-outdoors" },
-  { name: "Toys & Games",                    to: "/category/toys-games" },
-  { name: "Office Products",                 to: "/category/office-products" },
+const shopLinks = [
+  { name: 'Shop All', to: '/collections' },
+  ...STYLES.map((s) => ({ name: s.label, to: `/collections?style=${s.slug}` })),
 ];
 
-const helpLinks = [
-  { name: "My Account",      to: "/account" },
-  { name: "Track My Order",  to: "/track-order" },
-  { name: "Returns & Refunds", to: "/returns" },
-  { name: "Shipping Policy", to: "/shipping" },
-  { name: "Privacy Policy",  to: "/privacy" },
-  { name: "Terms of Service", to: "/terms" },
-  { name: "Contact Us",      to: "/contact" },
+const careLinks = [
+  { name: 'Contact Us', to: '/contact' },
+  { name: 'Shipping Policy', to: '/shipping-policy' },
+  { name: 'Returns & Refunds', to: '/returns-and-refunds-policy' },
+  { name: 'Cancellations', to: '/cancellation-policy' },
+  { name: 'Warranty & Replacement', to: '/warranty-replacement-policy' },
 ];
+
+const companyLinks = [
+  { name: 'Our Craft', to: '/about' },
+  { name: 'My Orders', to: '/dashboard' },
+  { name: 'Privacy Policy', to: '/privacy-policy' },
+  { name: 'Terms & Conditions', to: '/terms-and-conditions' },
+  { name: 'Disclaimer', to: '/disclaimer' },
+];
+
+function LinkColumn({ title, links }: { title: string; links: { name: string; to: string }[] }) {
+  return (
+    <div>
+      <h4 className="mb-6 text-[10px] font-semibold uppercase tracking-[0.28em] text-brass">{title}</h4>
+      <ul className="space-y-3.5">
+        {links.map((link) => (
+          <li key={link.to}>
+            <Link href={link.to} className="text-[13px] text-ivory/65 transition-colors hover:text-ivory">
+              {link.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export default function Footer() {
   return (
-    <footer className="bg-[#2A2825] text-[#A3A09B] font-sans">
+    <footer className="relative overflow-hidden bg-espresso text-ivory">
+      <div className="mx-auto max-w-[1440px] px-4 pb-10 pt-20 sm:px-6 lg:px-10 lg:pt-24">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-14 lg:grid-cols-12">
+          {/* Brand */}
+          <div className="col-span-2 lg:col-span-4">
+            <Link href="/" className="inline-block">
+              <span className="block font-display text-4xl tracking-[0.2em]">TAP2BUY</span>
+              <span className="mt-2 block text-[9px] uppercase tracking-[0.46em] text-ivory/50">Handcrafted Footwear</span>
+            </Link>
+            <p className="mt-8 max-w-sm text-sm leading-7 text-ivory/60">
+              Hand-welted and Goodyear-welted leather footwear, finished by hand and delivered to your door across India.
+            </p>
+            <div className="mt-8 space-y-2 text-[13px] text-ivory/65">
+              <a href="tel:+919911636888" className="block transition-colors hover:text-ivory">+91 99116 36888</a>
+              <a href="mailto:support@tap2buy.in" className="block transition-colors hover:text-ivory">support@tap2buy.in</a>
+            </div>
+            <div className="mt-8 flex gap-3">
+              {[
+                { href: 'https://www.instagram.com/tap2buyin', Icon: Instagram, label: 'Instagram' },
+                { href: 'https://www.facebook.com/tap2buyin', Icon: Facebook, label: 'Facebook' },
+                { href: 'https://www.youtube.com/@tap2buyin', Icon: Youtube, label: 'YouTube' },
+              ].map(({ href, Icon, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex h-10 w-10 items-center justify-center border border-ivory/15 text-ivory/70 transition-colors hover:border-ivory/60 hover:text-ivory"
+                >
+                  <Icon className="h-4 w-4" strokeWidth={1.4} />
+                </a>
+              ))}
+            </div>
+          </div>
 
-      {/* Main Footer Grid */}
-      <div className="max-w-7xl mx-auto px-4 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-
-        {/* Brand Column */}
-        <div className="flex flex-col gap-5">
-          <Link href="/">
-            <img src="/logo.jpg" alt="Tap2Buy" className="h-10 w-auto" />
-          </Link>
-          <p className="text-[12px] leading-relaxed tracking-wide text-[#6B665E]">
-            Your one-stop destination for quality products across every category — delivered fast, priced right.
-          </p>
-          <div className="flex gap-4 mt-1">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
-               className="text-[#6B665E] hover:text-[#B86B52] transition-colors">
-              <Instagram className="w-4 h-4" />
-            </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"
-               className="text-[#6B665E] hover:text-[#B86B52] transition-colors">
-              <Youtube className="w-4 h-4" />
-            </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
-               className="text-[#6B665E] hover:text-[#B86B52] transition-colors">
-              <Facebook className="w-4 h-4" />
-            </a>
+          <div className="lg:col-span-2 lg:col-start-6">
+            <LinkColumn title="Shop" links={shopLinks} />
+          </div>
+          <div className="lg:col-span-3">
+            <LinkColumn title="Client Care" links={careLinks} />
+          </div>
+          <div className="lg:col-span-2">
+            <LinkColumn title="Company" links={companyLinks} />
           </div>
         </div>
 
-        {/* Shop by Category */}
-        <div>
-          <h4 className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white mb-5">
-            Shop by Category
-          </h4>
-          <ul className="flex flex-col gap-3">
-            {shopCategories.map((cat) => (
-              <li key={cat.to}>
-                <Link
-                  href={cat.to}
-                  className="text-[12px] tracking-wide text-[#6B665E] hover:text-[#B86B52] transition-colors"
-                >
-                  {cat.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        {/* Oversized wordmark */}
+        <div
+          aria-hidden
+          className="pointer-events-none mt-20 select-none text-center font-display text-[22vw] leading-[0.8] tracking-[0.06em] text-ivory/[0.045] lg:text-[16vw]"
+        >
+          TAP2BUY
         </div>
 
-        {/* Help & Info */}
-        <div>
-          <h4 className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white mb-5">
-            Help & Info
-          </h4>
-          <ul className="flex flex-col gap-3">
-            {helpLinks.map((link) => (
-              <li key={link.to}>
-                <Link
-                  href={link.to}
-                  className="text-[12px] tracking-wide text-[#6B665E] hover:text-[#B86B52] transition-colors"
-                >
-                  {link.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Contact */}
-        <div>
-          <h4 className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white mb-5">
-            Contact Us
-          </h4>
-          <ul className="flex flex-col gap-4">
-            <li>
-              <a href="tel:+919911636888"
-                 className="flex items-start gap-3 text-[12px] tracking-wide text-[#6B665E] hover:text-[#B86B52] transition-colors">
-                <Phone className="w-4 h-4 mt-0.5 shrink-0" />
-                +91 99116 36888
-              </a>
-            </li>
-            <li>
-              <a href="mailto:support@tap2buy.in"
-                 className="flex items-start gap-3 text-[12px] tracking-wide text-[#6B665E] hover:text-[#B86B52] transition-colors">
-                <Mail className="w-4 h-4 mt-0.5 shrink-0" />
-                support@tap2buy.in
-              </a>
-            </li>
-            <li className="flex items-start gap-3 text-[12px] tracking-wide text-[#6B665E]">
-              <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
-              India
-            </li>
-          </ul>
-        </div>
-
-      </div>
-
-      {/* Divider */}
-      <div className="border-t border-[#3A3835]" />
-
-      {/* Bottom Bar */}
-      <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p className="text-[11px] tracking-widest text-[#6B665E]">
-          © {new Date().getFullYear()} Tap2Buy. All rights reserved.
-        </p>
-        <div className="flex items-center gap-4">
-          {["Visa", "Mastercard", "UPI", "Razorpay"].map((method) => (
-            <span key={method}
-              className="text-[10px] uppercase tracking-widest text-[#4A4845] border border-[#3A3835] px-2 py-1">
-              {method}
-            </span>
-          ))}
+        <div className="mt-6 flex flex-col items-center justify-between gap-4 border-t border-ivory/10 pt-8 text-[11px] tracking-[0.14em] text-ivory/45 sm:flex-row">
+          <p>© {new Date().getFullYear()} Tap2Buy. All rights reserved.</p>
+          <p className="uppercase">UPI · Cards · Net Banking — Secured by Razorpay</p>
         </div>
       </div>
-
     </footer>
   );
 }
