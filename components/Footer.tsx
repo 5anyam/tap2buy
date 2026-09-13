@@ -56,9 +56,8 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-x-8 gap-y-14 lg:grid-cols-12">
           {/* Brand */}
           <div className="col-span-2 lg:col-span-4">
-            <Link href="/" className="inline-block">
-              <span className="block font-display text-4xl tracking-[0.2em]">TAP2BUY</span>
-              <span className="mt-2 block text-[9px] uppercase tracking-[0.46em] text-ivory/50">Curated Essentials</span>
+            <Link href="/" className="inline-block bg-ivory px-5 py-4" aria-label="Tap2Buy home">
+              <img src="/logo.jpg" alt="Tap2Buy" className="h-10 w-auto mix-blend-multiply" />
             </Link>
             <p className="mt-8 max-w-sm text-sm leading-7 text-ivory/60">
               A curated online store for things made well. Our handcrafted footwear collection is live now — with more
@@ -102,14 +101,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div
-          aria-hidden
-          className="pointer-events-none mt-20 select-none text-center font-display text-[22vw] leading-[0.8] tracking-[0.06em] text-ivory/[0.045] lg:text-[16vw]"
-        >
-          TAP2BUY
-        </div>
-
-        <div className="mt-6 flex flex-col items-center justify-between gap-4 border-t border-ivory/10 pt-8 text-[11px] tracking-[0.14em] text-ivory/45 sm:flex-row">
+        <div className="mt-20 flex flex-col items-center justify-between gap-4 border-t border-ivory/10 pt-8 text-[11px] tracking-[0.14em] text-ivory/45 sm:flex-row">
           <p>© {new Date().getFullYear()} Tap2Buy. All rights reserved.</p>
           <p className="uppercase">UPI · Cards · Net Banking — Secured by Razorpay</p>
         </div>

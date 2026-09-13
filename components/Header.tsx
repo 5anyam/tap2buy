@@ -149,13 +149,8 @@ export default function Header() {
             </div>
 
             {/* Wordmark */}
-            <Link href="/" className="text-center" aria-label="Tap2Buy home">
-              <span className="block font-display text-[25px] font-medium leading-none tracking-[0.2em] text-espresso lg:text-[31px]">
-                TAP2BUY
-              </span>
-              <span className="mt-1 block text-[7.5px] font-medium uppercase tracking-[0.46em] text-stone lg:text-[8.5px]">
-                Curated Essentials
-              </span>
+            <Link href="/" className="flex justify-center" aria-label="Tap2Buy home">
+              <img src="/logo.jpg" alt="Tap2Buy" className="h-9 w-auto mix-blend-multiply lg:h-11" />
             </Link>
 
             {/* Right */}
@@ -354,7 +349,7 @@ export default function Header() {
           }`}
         >
           <div className="flex h-16 shrink-0 items-center justify-between border-b border-sand px-5">
-            <span className="font-display text-xl tracking-[0.2em]">TAP2BUY</span>
+            <img src="/logo.jpg" alt="Tap2Buy" className="h-8 w-auto mix-blend-multiply" />
             <button onClick={() => setMenuOpen(false)} className="-mr-2 p-2" aria-label="Close menu">
               <X className="h-5 w-5" strokeWidth={1.4} />
             </button>
