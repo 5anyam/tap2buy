@@ -2,8 +2,10 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import ProductClient from './product-client'
-import { getFootwear, getFootwearBySlug } from '../../../../lib/footwear-server'
-import { cleanName, decodeEntities, getConstruction, getPricing, getStyle, uniqueImages } from '../../../../lib/footwear'
+import { getLiveProductBySlug, getLiveProducts } from '../../../../lib/catalog-server'
+import { cleanName, decodeEntities, getConstruction, getPricing, getStyle, isFootwear, uniqueImages } from '../../../../lib/footwear'
+import { categoryForProduct } from '../../../../lib/categories'
+import type { Product } from '../../../../lib/woocommerceApi'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -12,18 +14,21 @@ type Props = {
 const toPlainText = (html = '') =>
   decodeEntities(html.replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim()
 
+const displayName = (product: Product) => (isFootwear(product) ? cleanName(product.name) : product.name)
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const product = await getFootwearBySlug(slug)
+  const product = await getLiveProductBySlug(slug)
 
   if (!product) {
     return { title: 'Product not found', robots: { index: false, follow: false } }
   }
 
-  const name = cleanName(product.name)
-  const description =
-    toPlainText(product.short_description).slice(0, 160) ||
-    `${name} — ${getConstruction(product.name).toLowerCase()} leather footwear, finished by hand.`
+  const name = displayName(product)
+  const fallback = isFootwear(product)
+    ? `${name} — ${getConstruction(product.name).toLowerCase()} leather footwear, finished by hand.`
+    : `${name} — shop on Tap2Buy.`
+  const description = toPlainText(product.short_description).slice(0, 160) || fallback
   const image = uniqueImages(product)[0]?.src
 
   return {
@@ -48,20 +53,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Page({ params }: Props) {
   const { slug } = await params
-  const [product, all] = await Promise.all([getFootwearBySlug(slug), getFootwear()])
+  const [product, live] = await Promise.all([getLiveProductBySlug(slug), getLiveProducts()])
   if (!product) notFound()
 
-  const style = getStyle(product)
-  const others = all.filter((p) => p.id !== product.id)
-  const related = [
-    ...others.filter((p) => getStyle(p) === style),
-    ...others.filter((p) => getStyle(p) !== style),
-  ].slice(0, 4)
+  const footwear = isFootwear(product)
+  const category = categoryForProduct(product)
+  const sameGroup = (p: Product) =>
+    footwear ? isFootwear(p) && getStyle(p) === getStyle(product) : categoryForProduct(p)?.slug === category?.slug
+
+  const others = live.filter((p) => p.id !== product.id)
+  const related = [...others.filter(sameGroup), ...others.filter((p) => !sameGroup(p))].slice(0, 4)
 
   const productSchema = {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: cleanName(product.name),
+    name: displayName(product),
     image: uniqueImages(product).map((img) => img.src),
     description: toPlainText(product.short_description || product.description),
     brand: { '@type': 'Brand', name: 'Tap2Buy' },

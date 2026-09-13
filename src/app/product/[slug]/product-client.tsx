@@ -14,6 +14,7 @@ import { useCart, type Product as CartProduct } from '../../../../lib/cart'
 import { useFacebookPixel } from '../../../../hooks/useFacebookPixel'
 import ImageGallery from '../../../../components/ImageGallery'
 import ProductCard from '../../../../components/ProductCard'
+import PincodeChecker from '../../../../components/PincodeChecker'
 import ProductFAQ from '../../../../components/ProductFaq'
 import ProductReviews from '../../../../components/ProductReviews'
 import {
@@ -22,9 +23,11 @@ import {
   getConstruction,
   getPricing,
   getStyle,
+  isFootwear,
   styleLabel,
   uniqueImages,
 } from '../../../../lib/footwear'
+import { categoryForProduct, categoryHref } from '../../../../lib/categories'
 
 const WHATSAPP_URL = 'https://wa.me/919911636888'
 
@@ -91,7 +94,9 @@ export default function ProductClient({ product, related }: { product: Product; 
   const { trackViewContent, trackAddToCart, trackInitiateCheckout } = useFacebookPixel()
 
   const variable = isVariableProduct(product)
-  const name = cleanName(product.name)
+  const footwear = isFootwear(product)
+  const category = categoryForProduct(product)
+  const name = footwear ? cleanName(product.name) : product.name
   const style = getStyle(product)
   const construction = getConstruction(product.name)
 
@@ -212,7 +217,7 @@ export default function ProductClient({ product, related }: { product: Product; 
   const validate = (): boolean => {
     if (variable) {
       if (variationsLoading) {
-        setError('Sizes are still loading — one moment.')
+        setError('Options are still loading — one moment.')
         return false
       }
       const missing = variationAttributes.find((a) => !selectedAttributes[attrKey(a.name)])
@@ -225,7 +230,7 @@ export default function ProductClient({ product, related }: { product: Product; 
         return false
       }
       if (!isPurchasable(selectedVariation)) {
-        setError('This size is currently out of stock.')
+        setError('This option is currently out of stock.')
         return false
       }
     }
@@ -268,7 +273,9 @@ export default function ProductClient({ product, related }: { product: Product; 
     router.push('/checkout')
   }
 
-  const addLabel = variationsLoading ? 'Loading sizes…' : justAdded ? 'Added to Bag' : 'Add to Bag'
+  const addLabel = variationsLoading ? 'Loading options…' : justAdded ? 'Added to Bag' : 'Add to Bag'
+  const groupHref = footwear ? `/collections?style=${style}` : category ? categoryHref(category) : '/'
+  const groupLabel = footwear ? styleLabel(style) : category?.name ?? 'Shop'
 
   return (
     <div className="bg-ivory pb-28 lg:pb-0">
@@ -279,7 +286,13 @@ export default function ProductClient({ product, related }: { product: Product; 
       >
         <Link href="/" className="hover:text-espresso">Home</Link>
         <span className="mx-2.5">/</span>
-        <Link href={`/collections?style=${style}`} className="hover:text-espresso">{styleLabel(style)}</Link>
+        {footwear && (
+          <>
+            <Link href="/collections" className="hover:text-espresso">Footwear</Link>
+            <span className="mx-2.5">/</span>
+          </>
+        )}
+        <Link href={groupHref} className="hover:text-espresso">{groupLabel}</Link>
         <span className="mx-2.5">/</span>
         <span className="text-espresso">{name}</span>
       </nav>
@@ -292,7 +305,13 @@ export default function ProductClient({ product, related }: { product: Product; 
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-[148px]">
             <p className="text-[10px] font-medium uppercase tracking-[0.26em] text-cognac">
-              {construction} <span className="mx-1.5 text-sand">|</span> {styleLabel(style)}
+              {footwear ? (
+                <>
+                  {construction} <span className="mx-1.5 text-sand">|</span> {styleLabel(style)}
+                </>
+              ) : (
+                category?.name
+              )}
             </p>
             <h1 className="mt-4 font-display text-[40px] leading-[1] text-espresso sm:text-5xl lg:text-[52px]">{name}</h1>
 
@@ -361,10 +380,7 @@ export default function ProductClient({ product, related }: { product: Product; 
                               }`}
                             >
                               {!size && swatch && (
-                                <span
-                                  className="h-3.5 w-3.5 rounded-full ring-1 ring-ivory/40"
-                                  style={{ backgroundColor: swatch }}
-                                />
+                                <span className="h-3.5 w-3.5 rounded-full ring-1 ring-ivory/40" style={{ backgroundColor: swatch }} />
                               )}
                               {option}
                             </button>
@@ -417,6 +433,8 @@ export default function ProductClient({ product, related }: { product: Product; 
               </p>
             )}
 
+            <PincodeChecker className="mt-8 border-t border-sand pt-8" />
+
             <ul className="mt-8 space-y-3 border-y border-sand py-6 text-[13px] text-umber">
               <li className="flex items-center gap-3">
                 <Truck className="h-4 w-4 shrink-0 text-cognac" strokeWidth={1.4} /> Complimentary shipping on orders above ₹499
@@ -441,19 +459,21 @@ export default function ProductClient({ product, related }: { product: Product; 
                   <div className="product-copy" dangerouslySetInnerHTML={{ __html: product.description }} />
                 </Accordion>
               )}
-              <Accordion title="Construction & Care">
-                <div className="space-y-4 text-sm leading-7 text-umber">
-                  <p>
-                    <strong className="font-semibold text-espresso">{construction}.</strong> {CONSTRUCTION_NOTES[construction]}
-                  </p>
-                  <ul className="list-disc space-y-1.5 pl-5 marker:text-cognac">
-                    <li>Wipe clean with a soft, dry cloth after wear.</li>
-                    <li>Rest your shoes a day between wears and use shoe trees to hold their shape.</li>
-                    <li>Condition and polish regularly with a cream suited to the leather.</li>
-                    <li>Keep suede dry and refresh it with a suede brush.</li>
-                  </ul>
-                </div>
-              </Accordion>
+              {footwear && (
+                <Accordion title="Construction & Care">
+                  <div className="space-y-4 text-sm leading-7 text-umber">
+                    <p>
+                      <strong className="font-semibold text-espresso">{construction}.</strong> {CONSTRUCTION_NOTES[construction]}
+                    </p>
+                    <ul className="list-disc space-y-1.5 pl-5 marker:text-cognac">
+                      <li>Wipe clean with a soft, dry cloth after wear.</li>
+                      <li>Rest your shoes a day between wears and use shoe trees to hold their shape.</li>
+                      <li>Condition and polish regularly with a cream suited to the leather.</li>
+                      <li>Keep suede dry and refresh it with a suede brush.</li>
+                    </ul>
+                  </div>
+                </Accordion>
+              )}
               <Accordion title="Shipping & Returns">
                 <div className="space-y-3 text-sm leading-7 text-umber">
                   <p>Shipping is complimentary on orders above ₹499. You&apos;ll receive tracking details once your order is dispatched.</p>
@@ -485,10 +505,10 @@ export default function ProductClient({ product, related }: { product: Product; 
               You may <em>also like</em>
             </h2>
             <Link
-              href={`/collections?style=${style}`}
+              href={groupHref}
               className="hidden border-b border-espresso pb-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-espresso sm:inline-block"
             >
-              More {styleLabel(style)}
+              More {groupLabel}
             </Link>
           </div>
           <div className="grid grid-cols-2 gap-x-4 gap-y-12 sm:gap-x-6 lg:grid-cols-4">
@@ -503,7 +523,7 @@ export default function ProductClient({ product, related }: { product: Product; 
         <ProductReviews productId={product.id} productName={name} />
       </section>
       <section className="mx-auto max-w-[1440px] px-4 py-24 sm:px-6 lg:px-10 lg:py-32">
-        <ProductFAQ productSlug={product.slug} productName={name} />
+        <ProductFAQ productSlug={product.slug} productName={name} footwear={footwear} />
       </section>
 
       {/* Mobile purchase bar */}
@@ -516,7 +536,7 @@ export default function ProductClient({ product, related }: { product: Product; 
           <div className="min-w-0">
             <p className="text-sm font-medium text-espresso">{formatINR(pricing.price * quantity)}</p>
             <p className="truncate text-[10px] uppercase tracking-[0.2em] text-stone">
-              {variable ? (selectedSize ? `Size ${selectedSize}` : 'Select a size') : name}
+              {sizeAttribute ? (selectedSize ? `Size ${selectedSize}` : 'Select a size') : name}
             </p>
           </div>
           <button

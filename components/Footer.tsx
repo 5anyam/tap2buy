@@ -2,11 +2,18 @@
 import Link from 'next/link';
 import { Instagram, Youtube, Facebook } from 'lucide-react';
 import { STYLES } from '../lib/footwear';
+import { CATEGORIES, categoryHref, isLiveCategory } from '../lib/categories';
 
-const shopLinks = [
-  { name: 'Shop All', to: '/collections' },
+const footwearLinks = [
+  { name: 'Shop All Footwear', to: '/collections' },
   ...STYLES.map((s) => ({ name: s.label, to: `/collections?style=${s.slug}` })),
 ];
+
+const categoryLinks = CATEGORIES.filter((c) => c.slug !== 'footwear').map((c) => ({
+  name: c.name,
+  to: categoryHref(c),
+  tag: isLiveCategory(c) ? undefined : 'Soon',
+}));
 
 const careLinks = [
   { name: 'Contact Us', to: '/contact' },
@@ -17,22 +24,23 @@ const careLinks = [
 ];
 
 const companyLinks = [
-  { name: 'Our Craft', to: '/about' },
+  { name: 'Our Story', to: '/about' },
   { name: 'My Orders', to: '/dashboard' },
   { name: 'Privacy Policy', to: '/privacy-policy' },
   { name: 'Terms & Conditions', to: '/terms-and-conditions' },
   { name: 'Disclaimer', to: '/disclaimer' },
 ];
 
-function LinkColumn({ title, links }: { title: string; links: { name: string; to: string }[] }) {
+function LinkColumn({ title, links }: { title: string; links: { name: string; to: string; tag?: string }[] }) {
   return (
     <div>
       <h4 className="mb-6 text-[10px] font-semibold uppercase tracking-[0.28em] text-brass">{title}</h4>
       <ul className="space-y-3.5">
         {links.map((link) => (
           <li key={link.to}>
-            <Link href={link.to} className="text-[13px] text-ivory/65 transition-colors hover:text-ivory">
+            <Link href={link.to} className="group inline-flex items-baseline gap-2 text-[13px] text-ivory/65 transition-colors hover:text-ivory">
               {link.name}
+              {link.tag && <span className="text-[8.5px] uppercase tracking-[0.2em] text-ivory/35">{link.tag}</span>}
             </Link>
           </li>
         ))}
@@ -50,10 +58,11 @@ export default function Footer() {
           <div className="col-span-2 lg:col-span-4">
             <Link href="/" className="inline-block">
               <span className="block font-display text-4xl tracking-[0.2em]">TAP2BUY</span>
-              <span className="mt-2 block text-[9px] uppercase tracking-[0.46em] text-ivory/50">Handcrafted Footwear</span>
+              <span className="mt-2 block text-[9px] uppercase tracking-[0.46em] text-ivory/50">Curated Essentials</span>
             </Link>
             <p className="mt-8 max-w-sm text-sm leading-7 text-ivory/60">
-              Hand-welted and Goodyear-welted leather footwear, finished by hand and delivered to your door across India.
+              A curated online store for things made well. Our handcrafted footwear collection is live now — with more
+              categories on the way.
             </p>
             <div className="mt-8 space-y-2 text-[13px] text-ivory/65">
               <a href="tel:+919911636888" className="block transition-colors hover:text-ivory">+91 99116 36888</a>
@@ -79,10 +88,13 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="lg:col-span-2 lg:col-start-6">
-            <LinkColumn title="Shop" links={shopLinks} />
+          <div className="lg:col-span-2">
+            <LinkColumn title="Footwear" links={footwearLinks} />
           </div>
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-2">
+            <LinkColumn title="Categories" links={categoryLinks} />
+          </div>
+          <div className="lg:col-span-2">
             <LinkColumn title="Client Care" links={careLinks} />
           </div>
           <div className="lg:col-span-2">
@@ -90,7 +102,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Oversized wordmark */}
         <div
           aria-hidden
           className="pointer-events-none mt-20 select-none text-center font-display text-[22vw] leading-[0.8] tracking-[0.06em] text-ivory/[0.045] lg:text-[16vw]"

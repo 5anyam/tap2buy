@@ -12,17 +12,17 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
 
-  // The store currently sells footwear only. Old multi-category URLs land on the collection.
-  // Temporary (307) so these paths can be reused if more categories return later.
+  // Temporary (307) so these paths stay free to reuse as the catalogue grows.
   async redirects() {
     return [
       { source: "/shop", destination: "/collections", permanent: false },
       { source: "/sale", destination: "/collections", permanent: false },
-      ...["category", "shop"].flatMap((base) => [
-        { source: `/${base}/sleeper`, destination: "/collections?style=sandals", permanent: false },
-        { source: `/${base}/:style(${STYLE_SLUGS})`, destination: "/collections?style=:style", permanent: false },
-        { source: `/${base}/:slug`, destination: "/collections", permanent: false },
-      ]),
+      { source: "/shop/:slug", destination: "/category/:slug", permanent: false },
+      { source: "/category/footwear", destination: "/collections", permanent: false },
+      { source: "/category/shoes", destination: "/collections", permanent: false },
+      { source: "/category/sleeper", destination: "/collections?style=sandals", permanent: false },
+      { source: "/category/cup", destination: "/category/home-kitchen", permanent: false },
+      { source: `/category/:style(${STYLE_SLUGS})`, destination: "/collections?style=:style", permanent: false },
     ];
   },
 };

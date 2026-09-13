@@ -6,11 +6,13 @@ import { MessageCircle, Mail } from 'lucide-react';
 interface FAQ {
   question: string;
   answer: string;
+  footwearOnly?: boolean;
 }
 
 interface ProductFAQProps {
   productSlug: string;
   productName: string;
+  footwear?: boolean;
 }
 
 const FAQS: FAQ[] = [
@@ -18,21 +20,24 @@ const FAQS: FAQ[] = [
     question: 'How do I choose the right size?',
     answer:
       'Our footwear is offered in sizes 5 to 10. If you are unsure, message us on WhatsApp with the size you usually wear in formal shoes and we will help you choose before you order.',
+    footwearOnly: true,
   },
   {
     question: 'What does hand welted or Goodyear welted mean?',
     answer:
       'Both are welted constructions: a strip of leather (the welt) is stitched to the upper and insole, and the sole is then stitched to the welt. Hand-welted pairs have the welt sewn by hand; Goodyear-welted pairs are stitched with precision on a welting machine. Welted shoes are sturdy, hold their shape and can be resoled.',
+    footwearOnly: true,
   },
   {
     question: 'How should I care for my leather shoes?',
     answer:
       'Wipe them with a soft, dry cloth after wear, rest them a day between wears and use shoe trees to hold their shape. Condition and polish regularly with a cream suited to the leather. Keep suede dry and refresh it with a suede brush.',
+    footwearOnly: true,
   },
   {
     question: 'How long does delivery take?',
     answer:
-      'We deliver across India. Metro cities usually receive orders in 2–3 business days, tier 2 cities in 3–5 business days and remote areas in 5–7 business days. You will receive tracking details once your order is dispatched.',
+      'We deliver across India. Metro cities usually receive orders in 2–3 business days, tier 2 cities in 3–5 business days and remote areas in 5–7 business days. Enter your pincode above for an estimate, and you will receive tracking details once your order is dispatched.',
   },
   {
     question: 'Is shipping free?',
@@ -41,7 +46,7 @@ const FAQS: FAQ[] = [
   {
     question: 'What is your return policy?',
     answer:
-      'Returns can be raised within 7 days of delivery. Pairs must be unworn and in their original condition and packaging. Once your return is received and inspected, refunds are processed within 5–7 business days. See our returns & refunds policy for full details.',
+      'Returns can be raised within 7 days of delivery. Items must be unused and in their original condition and packaging. Once your return is received and inspected, refunds are processed within 5–7 business days. See our returns & refunds policy for full details.',
   },
   {
     question: 'Which payment methods do you accept?',
@@ -50,8 +55,9 @@ const FAQS: FAQ[] = [
   },
 ];
 
-const ProductFAQ: React.FC<ProductFAQProps> = ({ productName }) => {
+const ProductFAQ: React.FC<ProductFAQProps> = ({ productName, footwear = true }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const faqs = FAQS.filter((faq) => footwear || !faq.footwearOnly);
 
   return (
     <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
@@ -82,7 +88,7 @@ const ProductFAQ: React.FC<ProductFAQProps> = ({ productName }) => {
       </div>
 
       <div className="border-t border-sand lg:col-span-8">
-        {FAQS.map((faq, index) => {
+        {faqs.map((faq, index) => {
           const open = openIndex === index;
           return (
             <div key={faq.question} className="border-b border-sand">

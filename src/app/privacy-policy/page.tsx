@@ -180,7 +180,7 @@ export default function PrivacyPolicyPage() {
         {/* Intro */}
         <div className="bg-white rounded-sm border border-gray-100 shadow-sm p-6">
           <p className="text-sm text-gray-600 leading-relaxed mb-3">
-            <span className="font-semibold text-[#8A4B24]">Tap2Buy</span> (Company, we, our, or us) is committed to protecting your privacy as you shop our handcrafted leather footwear. This Privacy Policy outlines how we collect, use, disclose, and safeguard your Personal Information through our platform at{' '}
+            <span className="font-semibold text-[#8A4B24]">Tap2Buy</span> (Company, we, our, or us) is committed to protecting your privacy as you shop with us. This Privacy Policy outlines how we collect, use, disclose, and safeguard your Personal Information through our platform at{' '}
             <a href="https://www.tap2buy.in" className="text-[#8A4B24] font-medium hover:underline">
               www.tap2buy.in
             </a>{' '}

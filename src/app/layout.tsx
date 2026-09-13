@@ -24,29 +24,29 @@ const sans = Manrope({
   display: 'swap',
 });
 
+const SITE_TITLE = 'Tap2Buy — Curated Essentials, Starting with Handcrafted Footwear';
 const SITE_DESCRIPTION =
-  'Handcrafted leather footwear — hand-welted and Goodyear-welted oxfords, loafers, monk straps, boots and sandals. Delivered across India.';
+  'Tap2Buy is a curated online store. Our handcrafted leather footwear collection — hand-welted oxfords, loafers, boots and sandals — is live now, with fashion, home, electronics and more coming soon.';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://tap2buy.in'),
   title: {
-    default: 'Tap2Buy — Handcrafted Leather Footwear',
+    default: SITE_TITLE,
     template: '%s | Tap2Buy',
   },
   description: SITE_DESCRIPTION,
   keywords: [
+    'tap2buy',
+    'online shopping india',
     'handmade leather shoes',
     'hand welted shoes india',
     'goodyear welted shoes',
-    'leather oxfords',
     'leather loafers',
     'chelsea boots india',
-    'monk strap shoes',
     'leather sandals',
-    'tap2buy',
   ],
   openGraph: {
-    title: 'Tap2Buy — Handcrafted Leather Footwear',
+    title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     url: 'https://tap2buy.in',
     siteName: 'Tap2Buy',
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tap2Buy — Handcrafted Leather Footwear',
+    title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     images: ['/logo.jpg'],
     creator: '@tap2buyin',

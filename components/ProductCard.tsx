@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Product } from '../lib/woocommerceApi';
-import { cleanName, formatINR, getConstruction, getPricing, uniqueImages } from '../lib/footwear';
+import { cleanName, formatINR, getConstruction, getPricing, isFootwear, uniqueImages } from '../lib/footwear';
+import { categoryForProduct } from '../lib/categories';
 
 type CardProduct = Pick<Product, 'id' | 'slug' | 'name' | 'price' | 'regular_price' | 'images'> &
   Partial<Pick<Product, 'price_html' | 'categories'>>;
@@ -8,7 +9,9 @@ type CardProduct = Pick<Product, 'id' | 'slug' | 'name' | 'price' | 'regular_pri
 export default function ProductCard({ product, eager = false }: { product: CardProduct; eager?: boolean }) {
   const [primary, secondary] = uniqueImages(product);
   const { price, mrp } = getPricing(product);
-  const name = cleanName(product.name);
+  const footwear = isFootwear(product);
+  const name = footwear ? cleanName(product.name) : product.name;
+  const eyebrow = footwear ? getConstruction(product.name) : categoryForProduct(product)?.name;
 
   return (
     <Link href={`/product/${product.slug}`} className="group block">
@@ -35,12 +38,12 @@ export default function ProductCard({ product, eager = false }: { product: CardP
           />
         )}
         <span className="absolute inset-x-3 bottom-3 hidden translate-y-2 bg-espresso/90 py-3 text-center text-[10px] font-medium uppercase tracking-[0.26em] text-ivory opacity-0 backdrop-blur-sm transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 md:block">
-          Select Size
+          {footwear ? 'Select Size' : 'View Details'}
         </span>
       </div>
 
       <div className="pt-4">
-        <p className="text-[9.5px] font-medium uppercase tracking-[0.24em] text-stone">{getConstruction(product.name)}</p>
+        {eyebrow && <p className="text-[9.5px] font-medium uppercase tracking-[0.24em] text-stone">{eyebrow}</p>}
         <h3 className="mt-1.5 line-clamp-2 font-display text-[18px] leading-[1.2] text-espresso transition-colors group-hover:text-cognac sm:text-[20px]">
           {name}
         </h3>

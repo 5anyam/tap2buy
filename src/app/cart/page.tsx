@@ -5,6 +5,7 @@ import { Minus, Plus, ArrowRight } from 'lucide-react';
 import { useCart } from '../../../lib/cart';
 import { formatINR } from '../../../lib/footwear';
 import { describeAttributes } from '../../../components/CartIcon';
+import PincodeChecker from '../../../components/PincodeChecker';
 
 const FREE_SHIPPING_THRESHOLD = 499;
 const SHIPPING_FEE = 49;
@@ -41,12 +42,12 @@ export default function CartPage() {
         {items.length === 0 ? (
           <div className="py-16 text-center">
             <p className="font-display text-4xl text-espresso">Your bag is empty.</p>
-            <p className="mt-3 text-sm text-stone">Find a pair made to last.</p>
+            <p className="mt-3 text-sm text-stone">Our footwear collection is live — find a pair made to last.</p>
             <Link
               href="/collections"
               className="mt-10 inline-flex items-center gap-3 bg-espresso px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-ivory transition-colors hover:bg-cognac"
             >
-              Shop the Collection <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
+              Shop Footwear <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
             </Link>
           </div>
         ) : (
@@ -138,6 +139,7 @@ export default function CartPage() {
                   <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-espresso">Total</span>
                   <span className="text-2xl text-espresso">{formatINR(total + shipping)}</span>
                 </div>
+                <PincodeChecker className="mt-7 border-t border-sand pt-7" />
                 <Link
                   href="/checkout"
                   className="mt-8 flex h-14 items-center justify-center gap-3 bg-espresso text-[11px] font-semibold uppercase tracking-[0.26em] text-ivory transition-colors hover:bg-cognac"

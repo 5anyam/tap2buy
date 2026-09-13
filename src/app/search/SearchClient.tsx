@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { Search, X, ArrowRight } from 'lucide-react';
 import ProductCard from '../../../components/ProductCard';
 import type { Product } from '../../../lib/woocommerceApi';
-import { STYLES, cleanName, getConstruction, getStyle, styleLabel } from '../../../lib/footwear';
+import { STYLES, cleanName, getConstruction, getStyle, isFootwear, styleLabel } from '../../../lib/footwear';
+import { categoryForProduct } from '../../../lib/categories';
 
 // "boots" should match "Chelsea Boot", "loafers" should match "Penny Loafer"
 const normalizeToken = (token: string) => (token.length > 3 && token.endsWith('s') ? token.slice(0, -1) : token);
@@ -17,7 +18,11 @@ export default function SearchClient({ products, initialQuery }: { products: Pro
     () =>
       products.map((product) => ({
         product,
-        haystack: [cleanName(product.name), styleLabel(getStyle(product)), getConstruction(product.name)]
+        haystack: [
+          cleanName(product.name),
+          categoryForProduct(product)?.name ?? '',
+          ...(isFootwear(product) ? [styleLabel(getStyle(product)), getConstruction(product.name)] : []),
+        ]
           .join(' ')
           .toLowerCase(),
       })),

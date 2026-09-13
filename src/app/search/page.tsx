@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import SearchClient from './SearchClient';
-import { getFootwear } from '../../../lib/footwear-server';
+import { getLiveProducts } from '../../../lib/catalog-server';
 
 export const metadata: Metadata = {
   title: 'Search',
@@ -9,6 +9,6 @@ export const metadata: Metadata = {
 
 export default async function SearchPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   const { q = '' } = await searchParams;
-  const products = await getFootwear();
+  const products = await getLiveProducts();
   return <SearchClient key={q} products={products} initialQuery={q} />;
 }

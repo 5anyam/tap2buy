@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight, Truck, ShieldCheck, RotateCcw, MessageCircle } from 'lucide-react';
 import ProductCard from '../../components/ProductCard';
-import { getFootwear } from '../../lib/footwear-server';
+import CategoryShowcase from '../../components/CategoryShowcase';
+import PincodeChecker from '../../components/PincodeChecker';
+import { LiveDot } from '../../components/CategoryStatus';
+import { getFootwear } from '../../lib/catalog-server';
 import { STYLES, cleanName, getConstruction, getStyle, uniqueImages, type StyleSlug } from '../../lib/footwear';
 import type { Product } from '../../lib/woocommerceApi';
 
@@ -12,10 +15,11 @@ const WHATSAPP_URL = 'https://wa.me/919911636888';
 // Hand-picked imagery; each falls back to the first matching product if the slug disappears.
 const HERO_MAIN = 'premium-handcrafted-textured-leather-lace-up-derby-shoes';
 const HERO_ACCENT = 'goodyear-welted-tan-belgian-tassel-loafer';
+const FOOTWEAR_CATEGORY_IMAGE = 'premium-wingtip-brogue-oxford-shoes';
 const BOOTS_FEATURE = 'goodyear-welted-cognac-wholecut-chelsea-boot';
 const CRAFT_IMAGE = 'handwelted-oil-pull-up-leather-engineer-boots';
 const STYLE_COVERS: Record<StyleSlug, string> = {
-  'oxfords-derbies': 'premium-wingtip-brogue-oxford-shoes',
+  'oxfords-derbies': 'hand-welted-brown-wingtip-oxfords',
   loafers: 'hand-welted-unlined-black-milled-leather-penny-loafer',
   'monk-straps': 'goodyear-welted-cognac-double-strap-monk-shoe',
   boots: 'hand-welted-black-full-grain-jodhpur-boot',
@@ -37,7 +41,7 @@ const CONSTRUCTIONS = [
   },
 ];
 
-const MARQUEE = ['Hand Welted', 'Goodyear Welted', 'Finished by Hand', 'Sizes 5 to 10', 'Pan-India Delivery', 'Secure Checkout'];
+const MARQUEE = ['Footwear Now Live', 'Hand Welted', 'Goodyear Welted', 'More Categories Coming Soon', 'Pan-India Delivery', 'Secure Checkout'];
 
 const btnLight =
   'inline-flex items-center justify-center gap-3 bg-ivory px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-espresso transition-colors duration-300 hover:bg-brass';
@@ -114,9 +118,8 @@ export default async function Homepage() {
         />
         <div className="relative mx-auto grid max-w-[1440px] items-center gap-16 px-4 pb-24 pt-14 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-10 lg:pb-32 lg:pt-20">
           <div className="animate-fade-up lg:col-span-5">
-            <p className="flex items-center gap-3 text-[10.5px] font-medium uppercase tracking-[0.32em] text-brass">
-              <span className="h-px w-10 bg-brass" />
-              The Welted Collection
+            <p className="inline-flex items-center gap-2.5 border border-ivory/15 px-3.5 py-2 text-[10px] font-medium uppercase tracking-[0.28em] text-ivory/80">
+              <LiveDot /> Now live — The Footwear Collection
             </p>
             <h1 className="mt-8 font-display text-[54px] font-normal leading-[0.92] sm:text-[76px] lg:text-[92px]">
               Made by hand.
@@ -124,16 +127,16 @@ export default async function Homepage() {
               <em className="text-brass">Built</em> to last.
             </h1>
             <p className="mt-8 max-w-md text-[15px] leading-7 text-ivory/65">
-              Hand-welted and Goodyear-welted leather footwear — oxfords, loafers, monk straps, boots and sandals, each pair
-              finished by hand.
+              Our first collection is here: hand-welted and Goodyear-welted leather footwear, finished by hand. Fashion,
+              home, electronics and more are coming soon.
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
               <Link href="/collections" className={btnLight}>
-                Shop the Collection <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
+                Shop Footwear <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
               </Link>
-              <Link href="/collections?style=boots" className={btnGhostLight}>
-                Explore Boots
-              </Link>
+              <a href="#categories" className={btnGhostLight}>
+                All Categories
+              </a>
             </div>
             <dl className="mt-14 grid max-w-md grid-cols-3 gap-6 border-t border-ivory/10 pt-8">
               {[
@@ -177,9 +180,7 @@ export default async function Homepage() {
                     />
                   </div>
                   <p className="mt-3 text-[8.5px] uppercase tracking-[0.26em] text-stone sm:text-[9.5px]">Featured</p>
-                  <p className="mt-1 line-clamp-1 font-display text-[15px] leading-tight sm:text-lg">
-                    {cleanName(heroAccent.name)}
-                  </p>
+                  <p className="mt-1 line-clamp-1 font-display text-[15px] leading-tight sm:text-lg">{cleanName(heroAccent.name)}</p>
                 </Link>
               )}
             </div>
@@ -188,7 +189,7 @@ export default async function Homepage() {
       </section>
 
       {/* ── MARQUEE ──────────────────────────────────────────────────────── */}
-      <div className="overflow-hidden border-b border-sand bg-parchment py-5">
+      <div className="overflow-hidden border-b border-sand bg-ivory py-5">
         <div className="flex w-max animate-marquee">
           {[0, 1].map((copy) => (
             <div key={copy} className="flex shrink-0 items-center" aria-hidden={copy === 1}>
@@ -203,9 +204,15 @@ export default async function Homepage() {
         </div>
       </div>
 
+      {/* ── CATEGORIES ───────────────────────────────────────────────────── */}
+      <CategoryShowcase
+        liveCounts={{ footwear: products.length }}
+        liveImages={{ footwear: firstImage(bySlug(FOOTWEAR_CATEGORY_IMAGE) ?? heroMain) }}
+      />
+
       {/* ── SHOP BY STYLE ────────────────────────────────────────────────── */}
       <section className="mx-auto max-w-[1440px] px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
-        <SectionHeading eyebrow="Find your pair" title="Shop by Style" href="/collections" linkLabel="View all" />
+        <SectionHeading eyebrow="Footwear" title="Shop by Style" href="/collections" linkLabel="View all" />
         <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scrollbar-hide sm:-mx-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-5 lg:gap-4 lg:overflow-visible lg:px-0">
           {STYLES.map((style) => {
             const list = ofStyle(style.slug);
@@ -304,9 +311,7 @@ export default async function Homepage() {
                     <div className="flex flex-wrap items-baseline justify-between gap-2">
                       <h3 className="font-display text-[26px] leading-none">{c.name}</h3>
                       {constructionCount(c.name) > 0 && (
-                        <span className="text-[10px] uppercase tracking-[0.22em] text-stone">
-                          {constructionCount(c.name)} styles
-                        </span>
+                        <span className="text-[10px] uppercase tracking-[0.22em] text-stone">{constructionCount(c.name)} styles</span>
                       )}
                     </div>
                     <p className="mt-3 text-sm leading-6 text-umber">{c.copy}</p>
@@ -398,8 +403,26 @@ export default async function Homepage() {
         </section>
       )}
 
+      {/* ── DELIVERY CHECK ───────────────────────────────────────────────── */}
+      <section className="bg-espresso text-ivory">
+        <div className="mx-auto grid max-w-[1440px] items-center gap-10 px-4 py-20 sm:px-6 lg:grid-cols-12 lg:px-10 lg:py-24">
+          <div className="lg:col-span-6">
+            <p className="text-[10.5px] font-medium uppercase tracking-[0.3em] text-brass">Delivering across India</p>
+            <h2 className="mt-5 font-display text-[40px] leading-[1] sm:text-5xl lg:text-[56px]">
+              Check delivery <em className="text-brass">to your door.</em>
+            </h2>
+            <p className="mt-6 max-w-md text-[15px] leading-7 text-ivory/65">
+              Enter your pincode to see where we deliver and when your order is likely to arrive.
+            </p>
+          </div>
+          <div className="bg-ivory p-6 text-espresso sm:p-9 lg:col-span-5 lg:col-start-8">
+            <PincodeChecker />
+          </div>
+        </div>
+      </section>
+
       {/* ── SERVICE ──────────────────────────────────────────────────────── */}
-      <section className="border-y border-sand">
+      <section className="border-b border-sand">
         <div className="mx-auto grid max-w-[1440px] grid-cols-2 lg:grid-cols-4">
           {[
             { Icon: Truck, title: 'Complimentary Shipping', copy: 'On every order above ₹499, delivered across India.' },
@@ -453,7 +476,7 @@ export default async function Homepage() {
               href="/collections"
               className="inline-flex items-center justify-center gap-3 border border-espresso px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-espresso transition-colors hover:bg-espresso hover:text-ivory"
             >
-              Browse the Collection
+              Browse Footwear
             </Link>
           </div>
         </div>

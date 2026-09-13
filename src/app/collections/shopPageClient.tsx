@@ -117,14 +117,24 @@ export default function ShopPageClient({ products, initialStyle }: ShopPageClien
           <nav className="text-[10px] uppercase tracking-[0.24em] text-stone" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-espresso">Home</Link>
             <span className="mx-2.5">/</span>
-            <span className="text-espresso">{activeStyle ? styleLabel(activeStyle.slug) : 'Shop All'}</span>
+            {activeStyle ? (
+              <>
+                <button onClick={() => selectStyle('all')} className="uppercase hover:text-espresso">
+                  Footwear
+                </button>
+                <span className="mx-2.5">/</span>
+                <span className="text-espresso">{styleLabel(activeStyle.slug)}</span>
+              </>
+            ) : (
+              <span className="text-espresso">Footwear</span>
+            )}
           </nav>
           <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <h1 className="font-display text-[48px] leading-[0.95] text-espresso sm:text-[64px] lg:text-[76px]">
                 {activeStyle ? activeStyle.label : (
                   <>
-                    The <em>Collection</em>
+                    The Footwear <em>Collection</em>
                   </>
                 )}
               </h1>

@@ -148,7 +148,7 @@ export default function DisclaimerPage() {
         {/* Intro card */}
         <div className="bg-white rounded-sm border border-gray-100 shadow-sm p-6">
           <p className="text-sm text-gray-600 leading-relaxed">
-            Welcome to <span className="font-semibold text-[#8A4B24]">Tap2Buy</span>, an online store for handcrafted leather footwear. This Disclaimer outlines the limitations of our liability and the terms under which you may use our website at{' '}
+            Welcome to <span className="font-semibold text-[#8A4B24]">Tap2Buy</span>, a curated online store, launching with handcrafted leather footwear. This Disclaimer outlines the limitations of our liability and the terms under which you may use our website at{' '}
             <a href="https://www.tap2buy.in" className="text-[#8A4B24] font-medium hover:underline">
               www.tap2buy.in
             </a>{' '}

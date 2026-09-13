@@ -8,9 +8,9 @@ interface AnnouncementBarProps {
 }
 
 const MESSAGES = [
+  'Now live: the Footwear Collection — more categories coming soon',
   'Complimentary shipping on orders above ₹499',
   'Use code NEWBEGIN10 for 10% off your first order',
-  'Hand-welted & Goodyear-welted leather footwear',
 ];
 
 const STORAGE_KEY = 'announcementBarClosed';
