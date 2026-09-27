@@ -22,7 +22,8 @@ const WOOCOMMERCE_CONFIG = {
 };
 
 const RAZORPAY_CONFIG = {
-  KEY_ID: "rzp_live_RkoPyn44Fu0nOg",
+  // Publishable key id only — the secret must never reach the browser.
+  KEY_ID: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_TgwSBeVHqdS3Lc",
   COMPANY_NAME: "Tap2Buy",
   THEME_COLOR: "#1A1410",
 };
