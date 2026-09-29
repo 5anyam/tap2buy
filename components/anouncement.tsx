@@ -2,13 +2,18 @@
 
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
+import { CATEGORIES, isLiveCategory } from '../lib/categories';
 
 interface AnnouncementBarProps {
   onClose?: () => void;
 }
 
+// Names come from lib/categories.ts, so launching a category updates this line automatically.
+const LIVE_NAMES = CATEGORIES.filter(isLiveCategory).map((c) => c.name);
 const MESSAGES = [
-  'Now live: the Footwear Collection — more categories coming soon',
+  LIVE_NAMES.length
+    ? `Now live: ${LIVE_NAMES.join(' & ')} — more categories coming soon`
+    : 'New categories launching soon',
   'Complimentary shipping on orders above ₹499',
   'Use code NEWBEGIN10 for 10% off your first order',
 ];

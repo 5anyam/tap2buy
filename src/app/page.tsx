@@ -6,15 +6,20 @@ import PincodeChecker from '../../components/PincodeChecker';
 import { CategoryIcon, LiveDot } from '../../components/CategoryStatus';
 import { getFootwear, getLiveProducts } from '../../lib/catalog-server';
 import { STYLES, getStyle, uniqueImages, type StyleSlug } from '../../lib/footwear';
-import { CATEGORIES, categoryHref, isLiveCategory } from '../../lib/categories';
+import { CATEGORIES, categoryForProduct, categoryHref, isLiveCategory, type StoreCategory } from '../../lib/categories';
 import type { Product } from '../../lib/woocommerceApi';
 
 export const revalidate = 300;
 
 const WHATSAPP_URL = 'https://wa.me/919911636888';
 
-// Hand-picked imagery; each falls back to the first matching product if the slug disappears.
-const LIVE_CATEGORY_IMAGE = 'premium-wingtip-brogue-oxford-shoes';
+// Preferred cover product per category; falls back to the first product in that category.
+const CATEGORY_COVERS: Record<string, string> = {
+  footwear: 'premium-wingtip-brogue-oxford-shoes',
+  'home-decor':
+    'golden-leaf-tealight-candle-holder-set-elegant-oak-ginkgo-metal-votive-stands-for-home-decor-set-of-2-with-candle-13x14-cm',
+};
+
 const STYLE_COVERS: Record<StyleSlug, string> = {
   'oxfords-derbies': 'hand-welted-brown-wingtip-oxfords',
   loafers: 'goodyear-welted-tan-belgian-tassel-loafer',
@@ -77,9 +82,21 @@ export default async function Homepage() {
 
   const liveCategories = CATEGORIES.filter(isLiveCategory);
   const upcoming = CATEGORIES.filter((c) => !isLiveCategory(c));
-  const heroUpcoming = upcoming.slice(0, 4);
-  const liveImage = firstImage(bySlug(LIVE_CATEGORY_IMAGE) ?? liveProducts[0]);
   const newArrivals = liveProducts.slice(0, 8);
+
+  // Counts and cover images are derived per live category, so launching one needs no edits here.
+  const productsIn = (category: StoreCategory) =>
+    liveProducts.filter((p) => categoryForProduct(p)?.slug === category.slug);
+  const coverFor = (category: StoreCategory) => {
+    const inCategory = productsIn(category);
+    const preferred = CATEGORY_COVERS[category.slug];
+    return firstImage((preferred && inCategory.find((p) => p.slug === preferred)) || inCategory[0]);
+  };
+  const liveCounts = Object.fromEntries(liveCategories.map((c) => [c.slug, productsIn(c).length]));
+  const liveImages = Object.fromEntries(liveCategories.map((c) => [c.slug, coverFor(c)]));
+
+  const heroCategory = liveCategories[0];
+  const heroTiles = [...liveCategories.slice(1), ...upcoming].slice(0, 4);
 
   return (
     <div className="bg-ivory text-espresso">
@@ -100,11 +117,11 @@ export default async function Homepage() {
               <em className="text-brass">in one place.</em>
             </h1>
             <p className="mt-8 max-w-md text-[15px] leading-7 text-ivory/65">
-              A curated store for footwear, fashion, home, electronics and more — thoughtfully chosen, securely delivered
+              A curated store for footwear, home, fashion, electronics and more — thoughtfully chosen, securely delivered
               across India.
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
-              <Link href={liveCategories[0] ? categoryHref(liveCategories[0]) : '/collections'} className={btnLight}>
+              <Link href={heroCategory ? categoryHref(heroCategory) : '/collections'} className={btnLight}>
                 Shop Now <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
               </Link>
               <a href="#categories" className={btnGhostLight}>
@@ -126,17 +143,16 @@ export default async function Homepage() {
           </div>
 
           {/* Category mosaic */}
-          <div className="grid grid-cols-2 gap-3 lg:col-span-7 lg:grid-rows-2">
-            {liveCategories.slice(0, 1).map((category) => (
+          <div className="grid grid-cols-2 gap-3 lg:col-span-7">
+            {heroCategory && (
               <Link
-                key={category.slug}
-                href={categoryHref(category)}
-                className="group relative row-span-2 block min-h-[340px] overflow-hidden bg-umber sm:min-h-[460px]"
+                href={categoryHref(heroCategory)}
+                className="group relative col-span-2 block min-h-[300px] overflow-hidden bg-umber sm:col-span-1 sm:min-h-[460px]"
               >
-                {liveImage && (
+                {liveImages[heroCategory.slug] && (
                   <img
-                    src={liveImage}
-                    alt={category.name}
+                    src={liveImages[heroCategory.slug]}
+                    alt={heroCategory.name}
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1600ms] ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:scale-[1.04]"
                   />
                 )}
@@ -145,33 +161,52 @@ export default async function Homepage() {
                   <LiveDot /> Live now
                 </span>
                 <div className="absolute inset-x-0 bottom-0 p-5 sm:p-7">
-                  <p className="font-display text-[34px] leading-none sm:text-[44px]">{category.name}</p>
+                  <p className="font-display text-[34px] leading-none sm:text-[44px]">{heroCategory.name}</p>
                   <span className="mt-3 inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-ivory/80">
                     Shop now <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" strokeWidth={1.5} />
                   </span>
                 </div>
               </Link>
-            ))}
-            <div className="row-span-2 grid grid-rows-2 gap-3">
-              {[0, 2].map((start) => (
-                <div key={start} className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  {heroUpcoming.slice(start, start + 2).map((category, i) => (
-                    <Link
-                      key={category.slug}
-                      href={categoryHref(category)}
-                      className={`group flex flex-col justify-between border border-ivory/10 bg-ivory/[0.04] p-4 transition-colors hover:border-ivory/40 sm:p-5 ${
-                        i === 1 ? 'hidden sm:flex' : 'flex'
-                      }`}
-                    >
-                      <CategoryIcon icon={category.icon} className="h-7 w-7 text-brass" />
-                      <div>
-                        <p className="text-[8.5px] font-semibold uppercase tracking-[0.22em] text-ivory/45">Coming soon</p>
-                        <p className="mt-1.5 font-display text-[20px] leading-tight sm:text-[22px]">{category.name}</p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              ))}
+            )}
+
+            <div className="col-span-2 grid grid-cols-2 gap-3 sm:col-span-1 sm:grid-rows-2">
+              {heroTiles.map((category) => {
+                const live = isLiveCategory(category);
+                const cover = liveImages[category.slug];
+                return (
+                  <Link
+                    key={category.slug}
+                    href={categoryHref(category)}
+                    className={`group relative flex min-h-[150px] flex-col justify-between overflow-hidden p-4 transition-colors sm:min-h-0 sm:p-5 ${
+                      live ? 'bg-umber' : 'border border-ivory/10 bg-ivory/[0.04] hover:border-ivory/40'
+                    }`}
+                  >
+                    {live && cover && (
+                      <>
+                        <img
+                          src={cover}
+                          alt={category.name}
+                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1600ms] group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-espresso/90 via-espresso/25 to-espresso/10" />
+                      </>
+                    )}
+                    <div className="relative">
+                      {live ? (
+                        <span className="inline-flex items-center gap-2 bg-ivory px-2 py-1 text-[8px] font-semibold uppercase tracking-[0.2em] text-espresso">
+                          <LiveDot /> Live
+                        </span>
+                      ) : (
+                        <CategoryIcon icon={category.icon} className="h-7 w-7 text-brass" />
+                      )}
+                    </div>
+                    <div className="relative">
+                      {!live && <p className="text-[8.5px] font-semibold uppercase tracking-[0.22em] text-ivory/45">Coming soon</p>}
+                      <p className="mt-1.5 font-display text-[20px] leading-tight sm:text-[22px]">{category.name}</p>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -194,7 +229,7 @@ export default async function Homepage() {
       </div>
 
       {/* ── CATEGORIES ───────────────────────────────────────────────────── */}
-      <CategoryShowcase liveCounts={{ footwear: footwear.length }} liveImages={{ footwear: liveImage }} />
+      <CategoryShowcase liveCounts={liveCounts} liveImages={liveImages} />
 
       {/* ── NEW ARRIVALS ─────────────────────────────────────────────────── */}
       <section className="mx-auto max-w-[1440px] px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
@@ -225,9 +260,46 @@ export default async function Homepage() {
         )}
       </section>
 
+      {/* ── LIVE CATEGORY RAILS ──────────────────────────────────────────── */}
+      {liveCategories
+        .filter((c) => c.slug !== 'footwear')
+        .map((category) => {
+          // Don't repeat what New Arrivals already showed above.
+          const shownAbove = new Set(newArrivals.map((p) => p.id));
+          const items = productsIn(category)
+            .filter((p) => !shownAbove.has(p.id))
+            .slice(0, 4);
+          if (!items.length) return null;
+          return (
+            <section key={category.slug} className="border-t border-sand bg-parchment">
+              <div className="mx-auto max-w-[1440px] px-4 py-20 sm:px-6 lg:px-10 lg:py-24">
+                <SectionHeading
+                  eyebrow={
+                    <>
+                      <LiveDot /> {category.name}
+                    </>
+                  }
+                  title={
+                    <>
+                      Fresh in <em>{category.name}</em>
+                    </>
+                  }
+                  href={categoryHref(category)}
+                  linkLabel={`All ${productsIn(category).length} products`}
+                />
+                <div className="grid grid-cols-2 gap-x-4 gap-y-12 sm:gap-x-6 lg:grid-cols-4">
+                  {items.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+              </div>
+            </section>
+          );
+        })}
+
       {/* ── FOOTWEAR BY STYLE ────────────────────────────────────────────── */}
       {footwear.length > 0 && (
-        <section className="border-t border-sand bg-parchment">
+        <section className="border-t border-sand">
           <div className="mx-auto max-w-[1440px] px-4 py-20 sm:px-6 lg:px-10 lg:py-24">
             <SectionHeading
               eyebrow={

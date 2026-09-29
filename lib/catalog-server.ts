@@ -2,7 +2,7 @@
 // Data loaders for server components. WooCommerce responses are cached by Next for 5 minutes.
 
 import { fetchAllProductsLean, fetchProduct, fetchProductBySlug, type Product } from './woocommerceApi';
-import { isFootwear } from './footwear';
+import { isFootwear, isSellable } from './footwear';
 import { isLiveProduct, type StoreCategory } from './categories';
 
 async function getAllProducts(): Promise<Product[]> {
@@ -14,9 +14,9 @@ async function getAllProducts(): Promise<Product[]> {
   }
 }
 
-/** Products from every live category. */
+/** Products from every live category that are ready to sell. */
 export async function getLiveProducts(): Promise<Product[]> {
-  return (await getAllProducts()).filter(isLiveProduct);
+  return (await getAllProducts()).filter((p) => isLiveProduct(p) && isSellable(p));
 }
 
 export async function getFootwear(): Promise<Product[]> {
@@ -24,8 +24,8 @@ export async function getFootwear(): Promise<Product[]> {
 }
 
 export async function getCategoryProducts(category: StoreCategory): Promise<Product[]> {
-  return (await getAllProducts()).filter((p) =>
-    (p.categories ?? []).some((c) => category.wcSlugs.includes(c.slug ?? ''))
+  return (await getAllProducts()).filter(
+    (p) => isSellable(p) && (p.categories ?? []).some((c) => category.wcSlugs.includes(c.slug ?? ''))
   );
 }
 
@@ -35,7 +35,7 @@ export async function getLiveProductBySlug(slug: string): Promise<Product | null
     const product = /^\d+$/.test(slug)
       ? await fetchProduct(slug).catch(() => null)
       : await fetchProductBySlug(slug);
-    return product && isLiveProduct(product) ? product : null;
+    return product && isLiveProduct(product) && isSellable(product) ? product : null;
   } catch (error) {
     console.error('Failed to load product:', error);
     return null;

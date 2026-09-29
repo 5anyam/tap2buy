@@ -53,7 +53,9 @@ export default function CategoryShowcase({
               </span>
               <div className="absolute inset-x-0 bottom-0 p-7 sm:p-10">
                 {liveCounts[category.slug] > 0 && (
-                  <p className="text-[10px] uppercase tracking-[0.28em] text-ivory/60">{liveCounts[category.slug]} styles</p>
+                  <p className="text-[10px] uppercase tracking-[0.28em] text-ivory/60">
+                    {liveCounts[category.slug]} {category.unit ?? 'products'}
+                  </p>
                 )}
                 <h3 className="mt-2 font-display text-[52px] leading-none sm:text-[68px]">{category.name}</h3>
                 <p className="mt-3 max-w-sm text-sm leading-6 text-ivory/70">{category.tagline}.</p>

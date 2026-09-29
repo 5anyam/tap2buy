@@ -6,7 +6,7 @@ import { Search, X, ArrowRight } from 'lucide-react';
 import ProductCard from '../../../components/ProductCard';
 import type { Product } from '../../../lib/woocommerceApi';
 import { STYLES, cleanName, getConstruction, getStyle, isFootwear, styleLabel } from '../../../lib/footwear';
-import { categoryForProduct } from '../../../lib/categories';
+import { CATEGORIES, categoryForProduct, categoryHref, isLiveCategory } from '../../../lib/categories';
 
 // "boots" should match "Chelsea Boot", "loafers" should match "Penny Loafer"
 const normalizeToken = (token: string) => (token.length > 3 && token.endsWith('s') ? token.slice(0, -1) : token);
@@ -101,15 +101,25 @@ export default function SearchClient({ products, initialQuery }: { products: Pro
               </>
             )}
             <div className={`${query ? 'mt-12' : ''} border-t border-sand`}>
+              {CATEGORIES.filter(isLiveCategory).map((category) => (
+                <Link
+                  key={category.slug}
+                  href={categoryHref(category)}
+                  className="group flex items-center justify-between border-b border-sand py-5 text-left"
+                >
+                  <span className="font-display text-[28px] leading-none text-espresso transition-colors group-hover:text-cognac">
+                    {category.name}
+                  </span>
+                  <ArrowRight className="h-4 w-4 text-stone transition-transform group-hover:translate-x-1" strokeWidth={1.4} />
+                </Link>
+              ))}
               {STYLES.map((s) => (
                 <Link
                   key={s.slug}
                   href={`/collections?style=${s.slug}`}
-                  className="group flex items-center justify-between border-b border-sand py-5 text-left"
+                  className="group flex items-center justify-between border-b border-sand py-4 text-left"
                 >
-                  <span className="font-display text-[28px] leading-none text-espresso transition-colors group-hover:text-cognac">
-                    {s.label}
-                  </span>
+                  <span className="text-[15px] text-umber transition-colors group-hover:text-cognac">{s.label}</span>
                   <ArrowRight className="h-4 w-4 text-stone transition-transform group-hover:translate-x-1" strokeWidth={1.4} />
                 </Link>
               ))}

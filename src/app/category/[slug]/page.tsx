@@ -42,16 +42,36 @@ export default async function CategoryPage({ params }: Props) {
               <span className="mx-2.5">/</span>
               <span className="text-espresso">{category.name}</span>
             </nav>
-            <h1 className="mt-8 font-display text-[48px] leading-[0.95] text-espresso sm:text-[64px] lg:text-[76px]">{category.name}</h1>
-            <p className="mt-5 max-w-lg text-[15px] leading-7 text-umber">{category.tagline}.</p>
+            <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <h1 className="font-display text-[48px] leading-[0.95] text-espresso sm:text-[64px] lg:text-[76px]">{category.name}</h1>
+                <p className="mt-5 max-w-lg text-[15px] leading-7 text-umber">{category.tagline}.</p>
+              </div>
+              <p className="text-[10.5px] uppercase tracking-[0.26em] text-stone">
+                {products.length} {products.length === 1 ? 'product' : 'products'}
+              </p>
+            </div>
           </div>
         </section>
         <div className="mx-auto max-w-[1440px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
-          <div className="grid grid-cols-2 gap-x-4 gap-y-12 sm:gap-x-6 md:grid-cols-3 xl:grid-cols-4">
-            {products.map((product, i) => (
-              <ProductCard key={product.id} product={product} eager={i < 4} />
-            ))}
-          </div>
+          {products.length ? (
+            <div className="grid grid-cols-2 gap-x-4 gap-y-12 sm:gap-x-6 md:grid-cols-3 xl:grid-cols-4">
+              {products.map((product, i) => (
+                <ProductCard key={product.id} product={product} eager={i < 4} />
+              ))}
+            </div>
+          ) : (
+            <div className="border border-sand px-6 py-24 text-center">
+              <p className="font-display text-3xl text-espresso">This collection is being stocked.</p>
+              <p className="mt-3 text-sm text-stone">Please check back shortly.</p>
+              <Link
+                href="/collections"
+                className="mt-8 inline-block bg-espresso px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-ivory transition-colors hover:bg-cognac"
+              >
+                Shop Footwear
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     );

@@ -25,6 +25,8 @@ export interface StoreCategory {
   wcSlugs: string[];
   status: CategoryStatus;
   icon: CategoryIconKey;
+  /** Word used when counting items, e.g. "101 styles" vs "12 products". Defaults to "products". */
+  unit?: string;
 }
 
 export const CATEGORIES: StoreCategory[] = [
@@ -35,9 +37,10 @@ export const CATEGORIES: StoreCategory[] = [
     wcSlugs: ['shoes', 'sleeper'],
     status: 'live',
     icon: 'footwear',
+    unit: 'styles',
   },
   { slug: 'fashion', name: 'Fashion', tagline: 'Everyday wardrobe staples', wcSlugs: ['fashion'], status: 'coming-soon', icon: 'fashion' },
-  { slug: 'home-decor', name: 'Home Decor', tagline: 'Pieces that make a house a home', wcSlugs: ['home-decor'], status: 'coming-soon', icon: 'home-decor' },
+  { slug: 'home-decor', name: 'Home Decor', tagline: 'Lighting, candle holders and pieces that make a house a home', wcSlugs: ['home-decor'], status: 'live', icon: 'home-decor' },
   { slug: 'home-kitchen', name: 'Home & Kitchen', tagline: 'Drinkware and kitchen essentials', wcSlugs: ['home-kitchen', 'cup'], status: 'coming-soon', icon: 'kitchen' },
   {
     slug: 'mobile-electronics-accessories',

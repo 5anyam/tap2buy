@@ -83,6 +83,10 @@ export function getPricing(p: Pick<Product, 'price' | 'regular_price' | 'price_h
 
 export const formatINR = (n: number): string => `₹${Math.round(n).toLocaleString('en-IN')}`;
 
+/** A product with no price in WooCommerce isn't ready to sell, so it stays out of the storefront. */
+export const isSellable = (p: Pick<Product, 'price' | 'regular_price' | 'price_html'>): boolean =>
+  getPricing(p).price > 0;
+
 export function uniqueImages(p: Pick<Product, 'images'>): { src: string; alt?: string }[] {
   const seen = new Set<string>();
   return (p.images ?? []).filter((img) => {
